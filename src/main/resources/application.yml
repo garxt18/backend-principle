@@ -1,0 +1,126 @@
+# =====================================================================
+# Backend Playground configuration
+# Every value that differs between laptops and servers comes from an
+# environment variable (12-factor style), with a safe local default.
+# =====================================================================
+spring:
+  application:
+    name: backend-playground
+  threads:
+    virtual:
+      enabled: true            # Java 21 virtual threads for request handling
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/playground}
+    username: ${DB_USERNAME:playground}
+    password: ${DB_PASSWORD:playground}
+    hikari:
+      maximum-pool-size: ${DB_POOL_SIZE:10}
+  jpa:
+    open-in-view: false        # no lazy loading from controllers - keeps queries visible
+    hibernate:
+      ddl-auto: validate       # Flyway owns the schema; Hibernate only checks it
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 50
+        order_inserts: true
+  flyway:
+    enabled: true
+  jackson:
+    deserialization:
+      # Jackson 3 rejects missing primitives by default; treat an absent boolean/int as false/0.
+      fail-on-null-for-primitives: false
+  servlet:
+    multipart:
+      max-file-size: ${LAB_MAX_UPLOAD:5MB}
+      max-request-size: ${LAB_MAX_UPLOAD:5MB}
+  cache:
+    type: caffeine
+    caffeine:
+      spec: maximumSize=500,expireAfterWrite=10m
+  ai:
+    model:
+      # Pick the chat provider: none | openai | anthropic | ollama
+      chat: ${AI_PROVIDER:none}
+      embedding: none
+      image: none
+      moderation: none
+      audio:
+        speech: none
+        transcription: none
+    openai:
+      api-key: ${OPENAI_API_KEY:not-set}
+    anthropic:
+      api-key: ${ANTHROPIC_API_KEY:not-set}
+      chat:
+        options:
+          model: ${ANTHROPIC_MODEL:claude-sonnet-5}
+          max-tokens: 1500
+    ollama:
+      base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
+      chat:
+        options:
+          model: ${OLLAMA_MODEL:llama3.2}
+
+server:
+  port: ${PORT:8080}
+  shutdown: graceful
+  error:
+    include-stacktrace: never
+  # native = Tomcat's RemoteIpValve: X-Forwarded-For is only honoured when the request comes from a
+  # private-network proxy (load balancer / ingress), so clients cannot spoof their IP.
+  forward-headers-strategy: ${FORWARD_HEADERS_STRATEGY:native}
+
+app:
+  jwt:
+    # HS256 signing key - at least 32 characters. MUST be overridden outside local dev.
+    secret: ${APP_JWT_SECRET:local-dev-only-secret-change-me-please-0123456789}
+    issuer: backend-playground
+    access-token-ttl: ${APP_ACCESS_TTL:15m}
+    refresh-token-ttl: ${APP_REFRESH_TTL:14d}
+    secure-cookie: ${APP_SECURE_COOKIE:false}
+  admin:
+    email: ${APP_ADMIN_EMAIL:}
+    password: ${APP_ADMIN_PASSWORD:}
+  cors:
+    allowed-origins: ${APP_CORS_ORIGINS:}
+  rate-limit:
+    auth-per-minute: ${APP_AUTH_RATE:10}
+    api-per-minute: ${APP_API_RATE:300}
+  ai:
+    daily-quota: ${APP_AI_DAILY_QUOTA:40}
+    per-minute: ${APP_AI_PER_MINUTE:6}
+  lab:
+    max-projects-per-user: ${LAB_MAX_PROJECTS:15}
+    max-files-per-project: ${LAB_MAX_FILES:400}
+    max-file-bytes: ${LAB_MAX_FILE_BYTES:200000}
+    max-total-bytes: ${LAB_MAX_TOTAL_BYTES:8000000}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  endpoint:
+    health:
+      probes:
+        enabled: true          # /actuator/health/liveness and /readiness for Kubernetes
+      show-details: when-authorized
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+logging:
+  structured:
+    format:
+      console: ${LOG_FORMAT:}  # set LOG_FORMAT=ecs in production for JSON logs
+  pattern:
+    correlation: "[%X{correlationId:-}] "
+  level:
+    com.backendprinciple: INFO
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
