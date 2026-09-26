@@ -1,6 +1,4 @@
-# Local stack: PostgreSQL + the playground. Optional: a local LLM via Ollama.
-#   docker compose up --build                     -> app on http://localhost:8080
-#   docker compose --profile ai up --build        -> also starts Ollama (then: docker compose exec ollama ollama pull llama3.2)
+# Local stack: PostgreSQL + the app.  Run:  docker compose up --build   ->  http://localhost:8080
 services:
   db:
     image: postgres:16-alpine
@@ -9,9 +7,9 @@ services:
       POSTGRES_USER: playground
       POSTGRES_PASSWORD: ${DB_PASSWORD:-playground}
     ports:
-      - "5432:5432"
+      - "5432:5432"          # so IntelliJ / DBeaver / psql on your laptop can connect too
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data   # data survives 'docker compose down'
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U playground -d playground"]
       interval: 5s
@@ -22,30 +20,17 @@ services:
     build: .
     depends_on:
       db:
-        condition: service_healthy
+        condition: service_healthy   # wait until Postgres accepts connections
     ports:
       - "8080:8080"
     environment:
-      DB_URL: jdbc:postgresql://db:5432/playground
+      DB_URL: jdbc:postgresql://db:5432/playground   # 'db' = the service name above (Docker's internal DNS)
       DB_USERNAME: playground
       DB_PASSWORD: ${DB_PASSWORD:-playground}
       APP_JWT_SECRET: ${APP_JWT_SECRET:-change-me-to-a-long-random-string-of-32+-chars}
       APP_ADMIN_EMAIL: ${APP_ADMIN_EMAIL:-}
       APP_ADMIN_PASSWORD: ${APP_ADMIN_PASSWORD:-}
-      AI_PROVIDER: ${AI_PROVIDER:-none}
-      OPENAI_API_KEY: ${OPENAI_API_KEY:-not-set}
-      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-not-set}
-      OLLAMA_BASE_URL: http://ollama:11434
       LOG_FORMAT: ${LOG_FORMAT:-}
-
-  ollama:
-    image: ollama/ollama
-    profiles: ["ai"]
-    ports:
-      - "11434:11434"
-    volumes:
-      - ollama:/root/.ollama
 
 volumes:
   pgdata:
-  ollama:

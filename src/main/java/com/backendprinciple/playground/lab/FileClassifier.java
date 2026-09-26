@@ -13,7 +13,7 @@ public final class FileClassifier {
             Map.entry("sql", "sql"), Map.entry("gradle", "groovy"), Map.entry("kts", "kotlin"),
             Map.entry("md", "markdown"), Map.entry("json", "json"), Map.entry("http", "http"),
             Map.entry("html", "html"), Map.entry("css", "css"), Map.entry("js", "javascript"),
-            Map.entry("ts", "typescript"), Map.entry("sh", "shell"), Map.entry("env", "properties"),
+            Map.entry("ts", "typescript"), Map.entry("tsx", "typescript"), Map.entry("jsx", "javascript"), Map.entry("sh", "shell"), Map.entry("env", "properties"),
             Map.entry("txt", "text"), Map.entry("conf", "text"), Map.entry("toml", "text"));
 
     private static final Pattern ENTITY = Pattern.compile("@(Entity|Embeddable|MappedSuperclass|Document)\\b");
@@ -73,8 +73,9 @@ public final class FileClassifier {
                 || lowerName.endsWith(".properties")) || lowerName.equals(".env.example")) {
             return FileLayer.CONFIG;
         }
-        if (p.contains("/static/") || p.contains("/templates/") || lowerName.endsWith(".html")
-                || lowerName.endsWith(".css") || lowerName.endsWith(".js")) {
+        if (p.startsWith("frontend/") || p.contains("/static/") || p.contains("/templates/")
+                || lowerName.endsWith(".html") || lowerName.endsWith(".css") || lowerName.endsWith(".js")
+                || lowerName.endsWith(".jsx") || lowerName.endsWith(".ts") || lowerName.endsWith(".tsx")) {
             return FileLayer.FRONTEND;
         }
         if (!lowerName.endsWith(".java") && !lowerName.endsWith(".kt")) {

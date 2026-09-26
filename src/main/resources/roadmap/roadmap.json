@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "levels": [
     {
       "slug": "programming-fundamentals",
@@ -11,25 +11,132 @@
       "projectDescription": "A command-line task manager: add/list/complete/delete tasks, save them to a file. Learn loops, file I/O, collections and basic object design without worrying about web layers.",
       "month": 1,
       "topics": [
-        {"slug": "java-syntax-control-flow", "title": "Variables, data types, conditions & loops", "hours": 6, "description": "Primitive vs reference types, operators, if/switch (incl. switch expressions), for/while loops.", "practice": "Write FizzBuzz, a number guessing game and a simple calculator."},
-        {"slug": "java-methods-arrays-strings", "title": "Methods, arrays & strings", "hours": 6, "description": "Method signatures, overloading, pass-by-value, arrays, String/StringBuilder APIs.", "practice": "Reverse words in a sentence, check palindromes, count character frequency."},
-        {"slug": "java-oop-basics", "title": "Object-Oriented Programming", "hours": 8, "description": "Classes, objects, constructors, encapsulation, inheritance, polymorphism, abstraction.", "practice": "Model a Library (Book, Member, Loan) with proper encapsulation."},
-        {"slug": "java-exceptions-basics", "title": "Exception handling", "hours": 3, "description": "try/catch/finally, try-with-resources, checked vs unchecked exceptions, custom exceptions.", "practice": "Read a file safely and handle missing-file and bad-number errors with clear messages."},
-        {"slug": "java-collections-generics-intro", "title": "Collections & generics (intro)", "hours": 6, "description": "List, Set, Map, Queue; choosing the right one; generic types and methods.", "practice": "Build a word-frequency counter with HashMap and sort results by count."},
-        {"slug": "algorithms-big-o", "title": "Basic algorithms & Big O", "hours": 8, "description": "Linear/binary search, bubble/insertion/merge sort, time and space complexity.", "practice": "Implement binary search and merge sort; state the Big O of each."},
-        {"slug": "jvm-memory-gc", "title": "JVM basics: JDK vs JRE, stack vs heap, GC", "hours": 4, "description": "How javac and the JVM run your code, where objects live, what garbage collection does.", "practice": "Explain with a diagram what happens in memory when you call a method that creates an object."},
-        {"slug": "java-core-contracts", "title": "Interfaces vs abstract classes, String pool, equals/hashCode, immutability", "hours": 5, "description": "Contracts every Java developer is interviewed on.", "practice": "Write an immutable Money class with correct equals/hashCode and use it as a HashMap key."},
-        {"slug": "java-streams-lambdas", "title": "Streams API & lambda expressions", "hours": 6, "description": "Functional interfaces, lambdas, method references, map/filter/reduce/collect.", "practice": "Rewrite 5 loop-based methods using streams."},
-        {"slug": "java-multithreading-basics", "title": "Multithreading, ExecutorService & CompletableFuture", "hours": 8, "description": "Threads, race conditions, synchronized, thread pools, async composition.", "practice": "Download/process 20 items in parallel with an ExecutorService and compare timings."},
-        {"slug": "debugging-techniques", "title": "Debugging techniques", "hours": 2, "description": "Breakpoints, stepping, watches, reading stack traces, logging.", "practice": "Deliberately break your CLI app and find the bug with the IntelliJ debugger."},
-        {"slug": "project-cli-task-manager", "title": "Project: CLI Task Manager", "hours": 8, "description": "Build the level project end to end.", "practice": "Add priorities, due dates and persistence to a JSON/CSV file."}
+        {
+          "slug": "java-syntax-control-flow",
+          "title": "Variables, data types, conditions & loops",
+          "hours": 6,
+          "description": "Primitive vs reference types, operators, if/switch (incl. switch expressions), for/while loops.",
+          "practice": "Write FizzBuzz, a number guessing game and a simple calculator."
+        },
+        {
+          "slug": "java-methods-arrays-strings",
+          "title": "Methods, arrays & strings",
+          "hours": 6,
+          "description": "Method signatures, overloading, pass-by-value, arrays, String/StringBuilder APIs.",
+          "practice": "Reverse words in a sentence, check palindromes, count character frequency."
+        },
+        {
+          "slug": "java-oop-basics",
+          "title": "Object-Oriented Programming",
+          "hours": 8,
+          "description": "Classes, objects, constructors, encapsulation, inheritance, polymorphism, abstraction.",
+          "practice": "Model a Library (Book, Member, Loan) with proper encapsulation."
+        },
+        {
+          "slug": "java-exceptions-basics",
+          "title": "Exception handling",
+          "hours": 3,
+          "description": "try/catch/finally, try-with-resources, checked vs unchecked exceptions, custom exceptions.",
+          "practice": "Read a file safely and handle missing-file and bad-number errors with clear messages."
+        },
+        {
+          "slug": "java-collections-generics-intro",
+          "title": "Collections & generics (intro)",
+          "hours": 6,
+          "description": "List, Set, Map, Queue; choosing the right one; generic types and methods.",
+          "practice": "Build a word-frequency counter with HashMap and sort results by count."
+        },
+        {
+          "slug": "algorithms-big-o",
+          "title": "Basic algorithms & Big O",
+          "hours": 8,
+          "description": "Linear/binary search, bubble/insertion/merge sort, time and space complexity.",
+          "practice": "Implement binary search and merge sort; state the Big O of each."
+        },
+        {
+          "slug": "jvm-memory-gc",
+          "title": "JVM basics: JDK vs JRE, stack vs heap, GC",
+          "hours": 4,
+          "description": "How javac and the JVM run your code, where objects live, what garbage collection does.",
+          "practice": "Explain with a diagram what happens in memory when you call a method that creates an object."
+        },
+        {
+          "slug": "java-core-contracts",
+          "title": "Interfaces vs abstract classes, String pool, equals/hashCode, immutability",
+          "hours": 5,
+          "description": "Contracts every Java developer is interviewed on.",
+          "practice": "Write an immutable Money class with correct equals/hashCode and use it as a HashMap key."
+        },
+        {
+          "slug": "java-streams-lambdas",
+          "title": "Streams API & lambda expressions",
+          "hours": 6,
+          "description": "Functional interfaces, lambdas, method references, map/filter/reduce/collect.",
+          "practice": "Rewrite 5 loop-based methods using streams."
+        },
+        {
+          "slug": "java-multithreading-basics",
+          "title": "Multithreading, ExecutorService & CompletableFuture",
+          "hours": 8,
+          "description": "Threads, race conditions, synchronized, thread pools, async composition.",
+          "practice": "Download/process 20 items in parallel with an ExecutorService and compare timings."
+        },
+        {
+          "slug": "debugging-techniques",
+          "title": "Debugging techniques",
+          "hours": 2,
+          "description": "Breakpoints, stepping, watches, reading stack traces, logging.",
+          "practice": "Deliberately break your CLI app and find the bug with the IntelliJ debugger."
+        },
+        {
+          "slug": "project-cli-task-manager",
+          "title": "Project: CLI Task Manager",
+          "hours": 8,
+          "description": "Build the level project end to end.",
+          "practice": "Add priorities, due dates and persistence to a JSON/CSV file."
+        }
       ],
       "resources": [
-        {"title": "Java Full Course 2026 (your main Java playlist)", "url": "https://www.youtube.com/playlist?list=PLQEaRBV9gAFsR15tNo2QLF9d2qc-c018p", "channel": "Coder Army", "language": "HI", "kind": "PLAYLIST", "primary": true, "note": "Follow in order; code along in IntelliJ, don't just watch."},
-        {"title": "Java Basics to Advanced", "url": "https://www.youtube.com/playlist?list=PL6W8uoQQ2c63f469AyV78np0rbxRFppkx", "channel": "Concept && Coding (Shrayansh Jain)", "language": "HI", "kind": "PLAYLIST", "note": "Great for 'under the hood' topics: JVM memory, collections, multithreading."},
-        {"title": "Striver's A2Z DSA Course", "url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz", "channel": "take U forward", "language": "EN", "kind": "PLAYLIST", "note": "Use for Big O, sorting and searching. Keep solving 1-2 problems a day for interview prep."},
-        {"title": "Telusko (Java in English)", "url": "https://www.youtube.com/@Telusko", "channel": "Telusko", "language": "EN", "kind": "CHANNEL", "note": "Short, clear English explanations of individual Java concepts."},
-        {"title": "Dev.java - official Java learning path", "url": "https://dev.java/learn/", "channel": "Oracle", "language": "EN", "kind": "DOCS"}
+        {
+          "title": "Java Full Course 2026 (your main Java playlist)",
+          "url": "https://www.youtube.com/playlist?list=PLQEaRBV9gAFsR15tNo2QLF9d2qc-c018p",
+          "channel": "Coder Army",
+          "language": "HI",
+          "kind": "PLAYLIST",
+          "primary": true,
+          "note": "Follow in order; code along in IntelliJ, don't just watch."
+        },
+        {
+          "title": "Java Basics to Advanced",
+          "url": "https://www.youtube.com/playlist?list=PL6W8uoQQ2c63f469AyV78np0rbxRFppkx",
+          "channel": "Concept && Coding (Shrayansh Jain)",
+          "language": "HI",
+          "kind": "PLAYLIST",
+          "note": "Great for 'under the hood' topics: JVM memory, collections, multithreading."
+        },
+        {
+          "title": "Striver's A2Z DSA Course",
+          "url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
+          "channel": "take U forward",
+          "language": "EN",
+          "kind": "PLAYLIST",
+          "note": "Use for Big O, sorting and searching. Keep solving 1-2 problems a day for interview prep."
+        },
+        {
+          "title": "Telusko (Java in English)",
+          "url": "https://www.youtube.com/@Telusko",
+          "channel": "Telusko",
+          "language": "EN",
+          "kind": "CHANNEL",
+          "note": "Short, clear English explanations of individual Java concepts."
+        },
+        {
+          "title": "Dev.java - official Java learning path",
+          "url": "https://dev.java/learn/",
+          "channel": "Oracle",
+          "language": "EN",
+          "kind": "DOCS"
+        }
       ]
     },
     {
@@ -42,18 +149,81 @@
       "projectDescription": "Create a repo with a README and .gitignore, work on feature branches, open PRs to yourself and merge them.",
       "month": 1,
       "topics": [
-        {"slug": "git-basics", "title": "Git basics: init, add, commit, log, status", "hours": 4, "description": "The working tree, staging area and commit history.", "practice": "Make 10 small, well-named commits on your CLI project."},
-        {"slug": "git-branching-merge-rebase", "title": "Branching, merge vs rebase, merge conflicts", "hours": 4, "description": "Feature branches, fast-forward vs merge commits, rebasing, resolving conflicts.", "practice": "Create a conflict on purpose between two branches and resolve it."},
-        {"slug": "github-prs-code-review", "title": "GitHub: pull requests, code review, .gitignore", "hours": 2, "description": "Forks, PRs, review comments, protecting main.", "practice": "Open a PR, review your own diff, then merge."},
-        {"slug": "linux-terminal", "title": "Terminal & basic Linux commands", "hours": 4, "description": "cd, ls, cat, grep, find, chmod, pipes, processes, ssh.", "practice": "Find every TODO in a project using grep and count them with wc."},
-        {"slug": "env-vars-secrets", "title": "Environment variables & config outside code", "hours": 1, "description": "Why secrets never go into Git; .env files; 12-factor config.", "practice": "Move a hard-coded password into an environment variable."}
+        {
+          "slug": "git-basics",
+          "title": "Git basics: init, add, commit, log, status",
+          "hours": 4,
+          "description": "The working tree, staging area and commit history.",
+          "practice": "Make 10 small, well-named commits on your CLI project."
+        },
+        {
+          "slug": "git-branching-merge-rebase",
+          "title": "Branching, merge vs rebase, merge conflicts",
+          "hours": 4,
+          "description": "Feature branches, fast-forward vs merge commits, rebasing, resolving conflicts.",
+          "practice": "Create a conflict on purpose between two branches and resolve it."
+        },
+        {
+          "slug": "github-prs-code-review",
+          "title": "GitHub: pull requests, code review, .gitignore",
+          "hours": 2,
+          "description": "Forks, PRs, review comments, protecting main.",
+          "practice": "Open a PR, review your own diff, then merge."
+        },
+        {
+          "slug": "linux-terminal",
+          "title": "Terminal & basic Linux commands",
+          "hours": 4,
+          "description": "cd, ls, cat, grep, find, chmod, pipes, processes, ssh.",
+          "practice": "Find every TODO in a project using grep and count them with wc."
+        },
+        {
+          "slug": "env-vars-secrets",
+          "title": "Environment variables & config outside code",
+          "hours": 1,
+          "description": "Why secrets never go into Git; .env files; 12-factor config.",
+          "practice": "Move a hard-coded password into an environment variable."
+        }
       ],
       "resources": [
-        {"title": "Complete Git and GitHub Tutorial", "url": "https://www.youtube.com/watch?v=apGV9Kg7ics", "channel": "Kunal Kushwaha", "language": "EN", "kind": "VIDEO", "primary": true, "note": "~1h13m, covers branching, PRs, conflicts, squashing."},
-        {"title": "Complete Git Tutorials for Beginners in Hindi", "url": "https://www.youtube.com/playlist?list=PLu0W_9lII9agwhy658ZPA0MTStKUJTWPi", "channel": "CodeWithHarry", "language": "HI", "kind": "PLAYLIST", "primary": true},
-        {"title": "Linux command line for beginners (Hindi search)", "url": "https://www.youtube.com/results?search_query=linux+commands+for+beginners+hindi", "channel": null, "language": "HI", "kind": "SEARCH"},
-        {"title": "Linux command line full course (English search)", "url": "https://www.youtube.com/results?search_query=linux+command+line+full+course+beginners", "channel": null, "language": "EN", "kind": "SEARCH"},
-        {"title": "Pro Git book (free)", "url": "https://git-scm.com/book/en/v2", "channel": "git-scm.com", "language": "EN", "kind": "DOCS"}
+        {
+          "title": "Complete Git and GitHub Tutorial",
+          "url": "https://www.youtube.com/watch?v=apGV9Kg7ics",
+          "channel": "Kunal Kushwaha",
+          "language": "EN",
+          "kind": "VIDEO",
+          "primary": true,
+          "note": "~1h13m, covers branching, PRs, conflicts, squashing."
+        },
+        {
+          "title": "Complete Git Tutorials for Beginners in Hindi",
+          "url": "https://www.youtube.com/playlist?list=PLu0W_9lII9agwhy658ZPA0MTStKUJTWPi",
+          "channel": "CodeWithHarry",
+          "language": "HI",
+          "kind": "PLAYLIST",
+          "primary": true
+        },
+        {
+          "title": "Linux command line for beginners (Hindi search)",
+          "url": "https://www.youtube.com/results?search_query=linux+commands+for+beginners+hindi",
+          "channel": null,
+          "language": "HI",
+          "kind": "SEARCH"
+        },
+        {
+          "title": "Linux command line full course (English search)",
+          "url": "https://www.youtube.com/results?search_query=linux+command+line+full+course+beginners",
+          "channel": null,
+          "language": "EN",
+          "kind": "SEARCH"
+        },
+        {
+          "title": "Pro Git book (free)",
+          "url": "https://git-scm.com/book/en/v2",
+          "channel": "git-scm.com",
+          "language": "EN",
+          "kind": "DOCS"
+        }
       ]
     },
     {
@@ -66,19 +236,86 @@
       "projectDescription": "Read a large log file, parse lines in parallel with an ExecutorService, aggregate stats with ConcurrentHashMap and print a report.",
       "month": 1,
       "topics": [
-        {"slug": "oop-deep-dive", "title": "OOP deep dive: composition, SOLID preview", "hours": 5, "description": "Composition over inheritance, interfaces as contracts, polymorphism in real code.", "practice": "Refactor an inheritance-heavy design to composition."},
-        {"slug": "collections-internals", "title": "Collections under the hood", "hours": 6, "description": "How HashMap hashing/buckets/resizing work, ArrayList vs LinkedList, TreeMap, ConcurrentHashMap.", "practice": "Implement a tiny HashMap yourself with separate chaining."},
-        {"slug": "generics-deep-dive", "title": "Generics deep dive", "hours": 3, "description": "Bounded types, wildcards (? extends / ? super), type erasure.", "practice": "Write a generic Result<T> type and a generic cache."},
-        {"slug": "functional-java", "title": "Streams & functional programming in practice", "hours": 5, "description": "Collectors.groupingBy, flatMap, Optional done right, records.", "practice": "Refactor old loop code to streams and records."},
-        {"slug": "exception-architecture", "title": "Exception handling architecture", "hours": 3, "description": "Where to catch, where to throw, custom exception hierarchies, never swallow exceptions.", "practice": "Design an exception hierarchy for a banking app."},
-        {"slug": "concurrency-deep-dive", "title": "Concurrency: locks, atomics, concurrent collections, virtual threads", "hours": 10, "description": "Visibility, volatile, ReentrantLock, AtomicInteger, BlockingQueue, deadlocks, Java 21 virtual threads.", "practice": "Build a producer-consumer pipeline with BlockingQueue."},
-        {"slug": "project-log-processor", "title": "Project: multithreaded log processor", "hours": 6, "description": "Build the level project.", "practice": "Measure single-thread vs multi-thread speed and explain the difference."}
+        {
+          "slug": "oop-deep-dive",
+          "title": "OOP deep dive: composition, SOLID preview",
+          "hours": 5,
+          "description": "Composition over inheritance, interfaces as contracts, polymorphism in real code.",
+          "practice": "Refactor an inheritance-heavy design to composition."
+        },
+        {
+          "slug": "collections-internals",
+          "title": "Collections under the hood",
+          "hours": 6,
+          "description": "How HashMap hashing/buckets/resizing work, ArrayList vs LinkedList, TreeMap, ConcurrentHashMap.",
+          "practice": "Implement a tiny HashMap yourself with separate chaining."
+        },
+        {
+          "slug": "generics-deep-dive",
+          "title": "Generics deep dive",
+          "hours": 3,
+          "description": "Bounded types, wildcards (? extends / ? super), type erasure.",
+          "practice": "Write a generic Result<T> type and a generic cache."
+        },
+        {
+          "slug": "functional-java",
+          "title": "Streams & functional programming in practice",
+          "hours": 5,
+          "description": "Collectors.groupingBy, flatMap, Optional done right, records.",
+          "practice": "Refactor old loop code to streams and records."
+        },
+        {
+          "slug": "exception-architecture",
+          "title": "Exception handling architecture",
+          "hours": 3,
+          "description": "Where to catch, where to throw, custom exception hierarchies, never swallow exceptions.",
+          "practice": "Design an exception hierarchy for a banking app."
+        },
+        {
+          "slug": "concurrency-deep-dive",
+          "title": "Concurrency: locks, atomics, concurrent collections, virtual threads",
+          "hours": 10,
+          "description": "Visibility, volatile, ReentrantLock, AtomicInteger, BlockingQueue, deadlocks, Java 21 virtual threads.",
+          "practice": "Build a producer-consumer pipeline with BlockingQueue."
+        },
+        {
+          "slug": "project-log-processor",
+          "title": "Project: multithreaded log processor",
+          "hours": 6,
+          "description": "Build the level project.",
+          "practice": "Measure single-thread vs multi-thread speed and explain the difference."
+        }
       ],
       "resources": [
-        {"title": "Java Full Course 2026 (advanced sections)", "url": "https://www.youtube.com/playlist?list=PLQEaRBV9gAFsR15tNo2QLF9d2qc-c018p", "channel": "Coder Army", "language": "HI", "kind": "PLAYLIST", "primary": true},
-        {"title": "Java Basics to Advanced (multithreading, collections internals)", "url": "https://www.youtube.com/playlist?list=PL6W8uoQQ2c63f469AyV78np0rbxRFppkx", "channel": "Concept && Coding (Shrayansh Jain)", "language": "HI", "kind": "PLAYLIST"},
-        {"title": "Java concurrency & multithreading (English search)", "url": "https://www.youtube.com/results?search_query=java+concurrency+multithreading+executorservice+completablefuture+tutorial", "channel": null, "language": "EN", "kind": "SEARCH"},
-        {"title": "Java virtual threads (JEP 444)", "url": "https://openjdk.org/jeps/444", "channel": "OpenJDK", "language": "EN", "kind": "DOCS"}
+        {
+          "title": "Java Full Course 2026 (advanced sections)",
+          "url": "https://www.youtube.com/playlist?list=PLQEaRBV9gAFsR15tNo2QLF9d2qc-c018p",
+          "channel": "Coder Army",
+          "language": "HI",
+          "kind": "PLAYLIST",
+          "primary": true
+        },
+        {
+          "title": "Java Basics to Advanced (multithreading, collections internals)",
+          "url": "https://www.youtube.com/playlist?list=PL6W8uoQQ2c63f469AyV78np0rbxRFppkx",
+          "channel": "Concept && Coding (Shrayansh Jain)",
+          "language": "HI",
+          "kind": "PLAYLIST"
+        },
+        {
+          "title": "Java concurrency & multithreading (English search)",
+          "url": "https://www.youtube.com/results?search_query=java+concurrency+multithreading+executorservice+completablefuture+tutorial",
+          "channel": null,
+          "language": "EN",
+          "kind": "SEARCH"
+        },
+        {
+          "title": "Java virtual threads (JEP 444)",
+          "url": "https://openjdk.org/jeps/444",
+          "channel": "OpenJDK",
+          "language": "EN",
+          "kind": "DOCS"
+        }
       ]
     },
     {
@@ -91,26 +328,138 @@
       "projectDescription": "User registration, login (JWT), product CRUD, cart, orders. Stack: Java, Spring Boot, PostgreSQL. Rebuild your own project in the Rebuild Lab while you learn.",
       "month": 2,
       "topics": [
-        {"slug": "spring-ioc-di", "title": "Spring basics: IoC & Dependency Injection", "hours": 5, "description": "Why a container creates your objects; constructor injection; @Component/@Service/@Repository.", "practice": "Wire 3 classes by hand, then let Spring wire them - compare."},
-        {"slug": "spring-beans-context", "title": "Beans, ApplicationContext & bean lifecycle", "hours": 4, "description": "@Configuration + @Bean, scopes, @PostConstruct, how auto-configuration decides what to create.", "practice": "Run with --debug and read the auto-configuration report."},
-        {"slug": "spring-config-profiles", "title": "Configuration & profiles", "hours": 3, "description": "application.yml, @Value, @ConfigurationProperties, profiles (dev/prod), env overrides.", "practice": "Add a 'prod' profile that changes the DB URL and log format."},
-        {"slug": "spring-rest-controllers", "title": "REST controllers & services", "hours": 6, "description": "@RestController, @GetMapping/@PostMapping, @PathVariable, @RequestParam, @RequestBody, ResponseEntity.", "practice": "Build full CRUD for Product with proper status codes."},
-        {"slug": "spring-data-jpa", "title": "Repositories & Spring Data JPA", "hours": 6, "description": "JpaRepository, derived queries, @Query, pagination and sorting.", "practice": "Add search by name + price range with pagination."},
-        {"slug": "spring-dtos", "title": "DTOs (Data Transfer Objects)", "hours": 3, "description": "Why entities should not be your API; request/response records; mapping.", "practice": "Replace entity-returning endpoints with DTOs."},
-        {"slug": "spring-validation-errors", "title": "Validation & global exception handling", "hours": 4, "description": "@Valid, Bean Validation annotations, @RestControllerAdvice, ProblemDetail.", "practice": "Return a consistent JSON error for every failure case."},
-        {"slug": "hibernate-orm", "title": "Hibernate & ORM relationships", "hours": 8, "description": "@Entity, @OneToMany/@ManyToOne, fetch types, N+1 problem, dirty checking.", "practice": "Model Order -> OrderItems -> Product and fix an N+1 query."},
-        {"slug": "spring-transactions", "title": "Database transactions (@Transactional)", "hours": 4, "description": "Propagation, rollback rules, readOnly, why self-invocation skips the proxy.", "practice": "Place an order that decrements stock atomically; prove rollback on failure."},
-        {"slug": "spring-security-basics", "title": "Spring Security basics", "hours": 4, "description": "Filter chain, authentication vs authorization, password encoding.", "practice": "Protect admin endpoints with a role."},
-        {"slug": "spring-actuator", "title": "Spring Boot Actuator & health checks", "hours": 1, "description": "/actuator/health, readiness/liveness, metrics.", "practice": "Expose health and metrics; add a custom health indicator."},
-        {"slug": "project-ecommerce-api", "title": "Project: E-Commerce Backend API", "hours": 20, "description": "Build the level project (or rebuild your own project line by line in the Rebuild Lab).", "practice": "Users, products, cart, orders with PostgreSQL."}
+        {
+          "slug": "spring-ioc-di",
+          "title": "Spring basics: IoC & Dependency Injection",
+          "hours": 5,
+          "description": "Why a container creates your objects; constructor injection; @Component/@Service/@Repository.",
+          "practice": "Wire 3 classes by hand, then let Spring wire them - compare."
+        },
+        {
+          "slug": "spring-beans-context",
+          "title": "Beans, ApplicationContext & bean lifecycle",
+          "hours": 4,
+          "description": "@Configuration + @Bean, scopes, @PostConstruct, how auto-configuration decides what to create.",
+          "practice": "Run with --debug and read the auto-configuration report."
+        },
+        {
+          "slug": "spring-config-profiles",
+          "title": "Configuration & profiles",
+          "hours": 3,
+          "description": "application.yml, @Value, @ConfigurationProperties, profiles (dev/prod), env overrides.",
+          "practice": "Add a 'prod' profile that changes the DB URL and log format."
+        },
+        {
+          "slug": "spring-rest-controllers",
+          "title": "REST controllers & services",
+          "hours": 6,
+          "description": "@RestController, @GetMapping/@PostMapping, @PathVariable, @RequestParam, @RequestBody, ResponseEntity.",
+          "practice": "Build full CRUD for Product with proper status codes."
+        },
+        {
+          "slug": "spring-data-jpa",
+          "title": "Repositories & Spring Data JPA",
+          "hours": 6,
+          "description": "JpaRepository, derived queries, @Query, pagination and sorting.",
+          "practice": "Add search by name + price range with pagination."
+        },
+        {
+          "slug": "spring-dtos",
+          "title": "DTOs (Data Transfer Objects)",
+          "hours": 3,
+          "description": "Why entities should not be your API; request/response records; mapping.",
+          "practice": "Replace entity-returning endpoints with DTOs."
+        },
+        {
+          "slug": "spring-validation-errors",
+          "title": "Validation & global exception handling",
+          "hours": 4,
+          "description": "@Valid, Bean Validation annotations, @RestControllerAdvice, ProblemDetail.",
+          "practice": "Return a consistent JSON error for every failure case."
+        },
+        {
+          "slug": "hibernate-orm",
+          "title": "Hibernate & ORM relationships",
+          "hours": 8,
+          "description": "@Entity, @OneToMany/@ManyToOne, fetch types, N+1 problem, dirty checking.",
+          "practice": "Model Order -> OrderItems -> Product and fix an N+1 query."
+        },
+        {
+          "slug": "spring-transactions",
+          "title": "Database transactions (@Transactional)",
+          "hours": 4,
+          "description": "Propagation, rollback rules, readOnly, why self-invocation skips the proxy.",
+          "practice": "Place an order that decrements stock atomically; prove rollback on failure."
+        },
+        {
+          "slug": "spring-security-basics",
+          "title": "Spring Security basics",
+          "hours": 4,
+          "description": "Filter chain, authentication vs authorization, password encoding.",
+          "practice": "Protect admin endpoints with a role."
+        },
+        {
+          "slug": "spring-actuator",
+          "title": "Spring Boot Actuator & health checks",
+          "hours": 1,
+          "description": "/actuator/health, readiness/liveness, metrics.",
+          "practice": "Expose health and metrics; add a custom health indicator."
+        },
+        {
+          "slug": "project-ecommerce-api",
+          "title": "Project: E-Commerce Backend API",
+          "hours": 20,
+          "description": "Build the level project (or rebuild your own project line by line in the Rebuild Lab).",
+          "practice": "Users, products, cart, orders with PostgreSQL."
+        }
       ],
       "resources": [
-        {"title": "Spring Boot Full Course 2026 (your main Spring Boot playlist)", "url": "https://www.youtube.com/playlist?list=PLEYgx5hMdopw", "channel": "Coder Army", "language": "HI", "kind": "PLAYLIST", "primary": true, "note": "Your chosen playlist. Pair each video with the matching file in the Rebuild Lab."},
-        {"title": "Spring Boot from Basics to Advanced", "url": "https://www.youtube.com/playlist?list=PL6W8uoQQ2c60g6_fcjDCLHSx1LBeVYqyZ", "channel": "Concept && Coding (Shrayansh Jain)", "language": "HI", "kind": "PLAYLIST", "note": "Deep 'how it works internally' explanations - great second source."},
-        {"title": "Engineering Digest (Spring Boot in Hindi)", "url": "https://www.youtube.com/@EngineeringDigest", "channel": "Engineering Digest", "language": "HI", "kind": "CHANNEL"},
-        {"title": "Spring Boot Tutorial - Full Course", "url": "https://www.youtube.com/watch?v=9SGDpanrc8U", "channel": "Amigoscode", "language": "EN", "kind": "VIDEO", "primary": true},
-        {"title": "Spring Boot reference documentation", "url": "https://docs.spring.io/spring-boot/index.html", "channel": "spring.io", "language": "EN", "kind": "DOCS"},
-        {"title": "Spring Guides (short hands-on tutorials)", "url": "https://spring.io/guides", "channel": "spring.io", "language": "EN", "kind": "DOCS"}
+        {
+          "title": "Spring Boot Full Course 2026 (your main Spring Boot playlist)",
+          "url": "https://www.youtube.com/playlist?list=PLEYgx5hMdopw",
+          "channel": "Coder Army",
+          "language": "HI",
+          "kind": "PLAYLIST",
+          "primary": true,
+          "note": "Your chosen playlist. Pair each video with the matching file in the Rebuild Lab."
+        },
+        {
+          "title": "Spring Boot from Basics to Advanced",
+          "url": "https://www.youtube.com/playlist?list=PL6W8uoQQ2c60g6_fcjDCLHSx1LBeVYqyZ",
+          "channel": "Concept && Coding (Shrayansh Jain)",
+          "language": "HI",
+          "kind": "PLAYLIST",
+          "note": "Deep 'how it works internally' explanations - great second source."
+        },
+        {
+          "title": "Engineering Digest (Spring Boot in Hindi)",
+          "url": "https://www.youtube.com/@EngineeringDigest",
+          "channel": "Engineering Digest",
+          "language": "HI",
+          "kind": "CHANNEL"
+        },
+        {
+          "title": "Spring Boot Tutorial - Full Course",
+          "url": "https://www.youtube.com/watch?v=9SGDpanrc8U",
+          "channel": "Amigoscode",
+          "language": "EN",
+          "kind": "VIDEO",
+          "primary": true
+        },
+        {
+          "title": "Spring Boot reference documentation",
+          "url": "https://docs.spring.io/spring-boot/index.html",
+          "channel": "spring.io",
+          "language": "EN",
+          "kind": "DOCS"
+        },
+        {
+          "title": "Spring Guides (short hands-on tutorials)",
+          "url": "https://spring.io/guides",
+          "channel": "spring.io",
+          "language": "EN",
+          "kind": "DOCS"
+        }
       ]
     },
     {
@@ -123,17 +472,74 @@
       "projectDescription": "Add pagination/filtering/sorting, API versioning, standard error responses, rate limiting and OpenAPI docs.",
       "month": 2,
       "topics": [
-        {"slug": "http-fundamentals", "title": "HTTP/HTTPS: methods, status codes, headers, cookies vs sessions, HTTP/1.1 vs HTTP/2", "hours": 4, "description": "The request/response cycle and everything in it.", "practice": "Use curl -v against your API and explain every line of output."},
-        {"slug": "rest-design", "title": "REST API design", "hours": 4, "description": "Resources, nouns vs verbs, GET/POST/PUT/PATCH/DELETE semantics.", "practice": "Design the URL scheme for a library system on paper first."},
-        {"slug": "api-design-principles", "title": "Idempotency, pagination, filtering, sorting, versioning, error format", "hours": 5, "description": "What makes an API safe to retry and pleasant to consume.", "practice": "Add an Idempotency-Key header to your 'place order' endpoint."},
-        {"slug": "rate-limiting-openapi", "title": "Rate limiting & Swagger/OpenAPI docs", "hours": 3, "description": "Token bucket, 429 + Retry-After, springdoc-openapi.", "practice": "Expose Swagger UI and document every endpoint."}
+        {
+          "slug": "http-fundamentals",
+          "title": "HTTP/HTTPS: methods, status codes, headers, cookies vs sessions, HTTP/1.1 vs HTTP/2",
+          "hours": 4,
+          "description": "The request/response cycle and everything in it.",
+          "practice": "Use curl -v against your API and explain every line of output."
+        },
+        {
+          "slug": "rest-design",
+          "title": "REST API design",
+          "hours": 4,
+          "description": "Resources, nouns vs verbs, GET/POST/PUT/PATCH/DELETE semantics.",
+          "practice": "Design the URL scheme for a library system on paper first."
+        },
+        {
+          "slug": "api-design-principles",
+          "title": "Idempotency, pagination, filtering, sorting, versioning, error format",
+          "hours": 5,
+          "description": "What makes an API safe to retry and pleasant to consume.",
+          "practice": "Add an Idempotency-Key header to your 'place order' endpoint."
+        },
+        {
+          "slug": "rate-limiting-openapi",
+          "title": "Rate limiting & Swagger/OpenAPI docs",
+          "hours": 3,
+          "description": "Token bucket, 429 + Retry-After, springdoc-openapi.",
+          "practice": "Expose Swagger UI and document every endpoint."
+        }
       ],
       "resources": [
-        {"title": "Hussein Nasser - backend fundamentals", "url": "https://www.youtube.com/@hnasr", "channel": "Hussein Nasser", "language": "EN", "kind": "CHANNEL", "primary": true, "note": "Best deep explanations of HTTP, TCP, proxies, HTTP/2."},
-        {"title": "Chai aur Backend (Hindi)", "url": "https://www.youtube.com/playlist?list=PLu71SKxNbfoBGh_8p_NS-ZAh6v7HhYqHW", "channel": "Chai aur Code (Hitesh Choudhary)", "language": "HI", "kind": "PLAYLIST", "note": "Uses Node.js, but the HTTP/API/auth concepts transfer 1:1 to Spring Boot."},
-        {"title": "REST API design best practices (Hindi search)", "url": "https://www.youtube.com/results?search_query=rest+api+design+best+practices+hindi", "channel": null, "language": "HI", "kind": "SEARCH"},
-        {"title": "MDN - An overview of HTTP", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview", "channel": "MDN", "language": "EN", "kind": "DOCS"},
-        {"title": "springdoc-openapi", "url": "https://springdoc.org/", "channel": "springdoc", "language": "EN", "kind": "DOCS"}
+        {
+          "title": "Hussein Nasser - backend fundamentals",
+          "url": "https://www.youtube.com/@hnasr",
+          "channel": "Hussein Nasser",
+          "language": "EN",
+          "kind": "CHANNEL",
+          "primary": true,
+          "note": "Best deep explanations of HTTP, TCP, proxies, HTTP/2."
+        },
+        {
+          "title": "Chai aur Backend (Hindi)",
+          "url": "https://www.youtube.com/playlist?list=PLu71SKxNbfoBGh_8p_NS-ZAh6v7HhYqHW",
+          "channel": "Chai aur Code (Hitesh Choudhary)",
+          "language": "HI",
+          "kind": "PLAYLIST",
+          "note": "Uses Node.js, but the HTTP/API/auth concepts transfer 1:1 to Spring Boot."
+        },
+        {
+          "title": "REST API design best practices (Hindi search)",
+          "url": "https://www.youtube.com/results?search_query=rest+api+design+best+practices+hindi",
+          "channel": null,
+          "language": "HI",
+          "kind": "SEARCH"
+        },
+        {
+          "title": "MDN - An overview of HTTP",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview",
+          "channel": "MDN",
+          "language": "EN",
+          "kind": "DOCS"
+        },
+        {
+          "title": "springdoc-openapi",
+          "url": "https://springdoc.org/",
+          "channel": "springdoc",
+          "language": "EN",
+          "kind": "DOCS"
+        }
       ]
     },
     {
@@ -146,20 +552,95 @@
       "projectDescription": "Normalise the schema, add the right indexes, read EXPLAIN plans for your slowest queries and fix them.",
       "month": 2,
       "topics": [
-        {"slug": "sql-basics-keys", "title": "Tables, primary/foreign keys, constraints", "hours": 5, "description": "DDL, DML, NOT NULL/UNIQUE/CHECK, referential integrity.", "practice": "Create the e-commerce schema by hand in psql."},
-        {"slug": "sql-joins-indexes", "title": "Joins & B-Tree indexes", "hours": 6, "description": "INNER/LEFT/RIGHT/FULL joins, composite indexes, index-only scans.", "practice": "Write 10 join queries; add an index and measure the difference."},
-        {"slug": "sql-transactions-isolation", "title": "Transactions, ACID & isolation levels", "hours": 4, "description": "Dirty/non-repeatable/phantom reads, READ COMMITTED vs SERIALIZABLE, locking.", "practice": "Reproduce a lost update with two psql sessions, then fix it."},
-        {"slug": "sql-normalization", "title": "Normalization (1NF, 2NF, 3NF)", "hours": 3, "description": "Removing redundancy; when to denormalize on purpose.", "practice": "Normalize a messy spreadsheet into tables."},
-        {"slug": "sql-explain", "title": "Query optimisation & EXPLAIN plans", "hours": 4, "description": "Seq scan vs index scan, EXPLAIN ANALYZE, statistics.", "practice": "Find and fix your slowest query with EXPLAIN ANALYZE."},
-        {"slug": "nosql-when-to-choose", "title": "NoSQL: MongoDB, key-value stores, SQL vs NoSQL", "hours": 5, "description": "Document and key-value models and when each fits.", "practice": "Store product catalog JSON in MongoDB and compare with Postgres JSONB."}
+        {
+          "slug": "sql-basics-keys",
+          "title": "Tables, primary/foreign keys, constraints",
+          "hours": 5,
+          "description": "DDL, DML, NOT NULL/UNIQUE/CHECK, referential integrity.",
+          "practice": "Create the e-commerce schema by hand in psql."
+        },
+        {
+          "slug": "sql-joins-indexes",
+          "title": "Joins & B-Tree indexes",
+          "hours": 6,
+          "description": "INNER/LEFT/RIGHT/FULL joins, composite indexes, index-only scans.",
+          "practice": "Write 10 join queries; add an index and measure the difference."
+        },
+        {
+          "slug": "sql-transactions-isolation",
+          "title": "Transactions, ACID & isolation levels",
+          "hours": 4,
+          "description": "Dirty/non-repeatable/phantom reads, READ COMMITTED vs SERIALIZABLE, locking.",
+          "practice": "Reproduce a lost update with two psql sessions, then fix it."
+        },
+        {
+          "slug": "sql-normalization",
+          "title": "Normalization (1NF, 2NF, 3NF)",
+          "hours": 3,
+          "description": "Removing redundancy; when to denormalize on purpose.",
+          "practice": "Normalize a messy spreadsheet into tables."
+        },
+        {
+          "slug": "sql-explain",
+          "title": "Query optimisation & EXPLAIN plans",
+          "hours": 4,
+          "description": "Seq scan vs index scan, EXPLAIN ANALYZE, statistics.",
+          "practice": "Find and fix your slowest query with EXPLAIN ANALYZE."
+        },
+        {
+          "slug": "nosql-when-to-choose",
+          "title": "NoSQL: MongoDB, key-value stores, SQL vs NoSQL",
+          "hours": 5,
+          "description": "Document and key-value models and when each fits.",
+          "practice": "Store product catalog JSON in MongoDB and compare with Postgres JSONB."
+        }
       ],
       "resources": [
-        {"title": "SQL - Complete Course in 3 Hours (MySQL)", "url": "https://www.youtube.com/watch?v=hlGoQC332VM", "channel": "Apna College", "language": "HI", "kind": "VIDEO", "primary": true},
-        {"title": "Learn PostgreSQL - Full Course for Beginners", "url": "https://www.youtube.com/watch?v=qw--VYLpxG4", "channel": "freeCodeCamp.org", "language": "EN", "kind": "VIDEO", "primary": true},
-        {"title": "Hussein Nasser - database engineering", "url": "https://www.youtube.com/@hnasr", "channel": "Hussein Nasser", "language": "EN", "kind": "CHANNEL", "note": "Search his channel for indexes, isolation levels and ACID."},
-        {"title": "MongoDB tutorial (Hindi search)", "url": "https://www.youtube.com/results?search_query=mongodb+tutorial+hindi", "channel": null, "language": "HI", "kind": "SEARCH"},
-        {"title": "Use The Index, Luke (free SQL indexing book)", "url": "https://use-the-index-luke.com/", "channel": "Markus Winand", "language": "EN", "kind": "DOCS"},
-        {"title": "PostgreSQL documentation", "url": "https://www.postgresql.org/docs/current/", "channel": "postgresql.org", "language": "EN", "kind": "DOCS"}
+        {
+          "title": "SQL - Complete Course in 3 Hours (MySQL)",
+          "url": "https://www.youtube.com/watch?v=hlGoQC332VM",
+          "channel": "Apna College",
+          "language": "HI",
+          "kind": "VIDEO",
+          "primary": true
+        },
+        {
+          "title": "Learn PostgreSQL - Full Course for Beginners",
+          "url": "https://www.youtube.com/watch?v=qw--VYLpxG4",
+          "channel": "freeCodeCamp.org",
+          "language": "EN",
+          "kind": "VIDEO",
+          "primary": true
+        },
+        {
+          "title": "Hussein Nasser - database engineering",
+          "url": "https://www.youtube.com/@hnasr",
+          "channel": "Hussein Nasser",
+          "language": "EN",
+          "kind": "CHANNEL",
+          "note": "Search his channel for indexes, isolation levels and ACID."
+        },
+        {
+          "title": "MongoDB tutorial (Hindi search)",
+          "url": "https://www.youtube.com/results?search_query=mongodb+tutorial+hindi",
+          "channel": null,
+          "language": "HI",
+          "kind": "SEARCH"
+        },
+        {
+          "title": "Use The Index, Luke (free SQL indexing book)",
+          "url": "https://use-the-index-luke.com/",
+          "channel": "Markus Winand",
+          "language": "EN",
+          "kind": "DOCS"
+        },
+        {
+          "title": "PostgreSQL documentation",
+          "url": "https://www.postgresql.org/docs/current/",
+          "channel": "postgresql.org",
+          "language": "EN",
+          "kind": "DOCS"
+        }
       ]
     },
     {
@@ -172,18 +653,81 @@
       "projectDescription": "Stateless JWT login with refresh tokens, BCrypt passwords, role-based access (USER/ADMIN), CORS configured, OWASP checks.",
       "month": 3,
       "topics": [
-        {"slug": "authn-vs-authz", "title": "Authentication vs authorization", "hours": 1, "description": "Who are you? vs What can you do?", "practice": "List which endpoints of your API need which role."},
-        {"slug": "sessions-jwt-oauth", "title": "Stateful sessions vs stateless JWT, OAuth 2.0 basics", "hours": 5, "description": "Cookies + server sessions, JWT structure and signing, access vs refresh tokens, OAuth2 flows.", "practice": "Decode a JWT from this playground at jwt.io and explain each claim."},
-        {"slug": "password-hashing-secrets", "title": "Password hashing & secrets management", "hours": 2, "description": "BCrypt/Argon2, salts, never plain text; secrets in env vars / vaults.", "practice": "Explain why SHA-256 alone is wrong for passwords."},
-        {"slug": "web-vulnerabilities", "title": "SQL injection, XSS, CSRF, CORS, RBAC", "hours": 5, "description": "OWASP Top 10 essentials and how Spring protects you.", "practice": "Write a vulnerable query, exploit it, then fix it with parameters."},
-        {"slug": "project-jwt-auth", "title": "Project: add JWT auth to your API", "hours": 6, "description": "Implement login/refresh/logout and role checks.", "practice": "Compare your implementation with this playground's auth package."}
+        {
+          "slug": "authn-vs-authz",
+          "title": "Authentication vs authorization",
+          "hours": 1,
+          "description": "Who are you? vs What can you do?",
+          "practice": "List which endpoints of your API need which role."
+        },
+        {
+          "slug": "sessions-jwt-oauth",
+          "title": "Stateful sessions vs stateless JWT, OAuth 2.0 basics",
+          "hours": 5,
+          "description": "Cookies + server sessions, JWT structure and signing, access vs refresh tokens, OAuth2 flows.",
+          "practice": "Decode a JWT from this playground at jwt.io and explain each claim."
+        },
+        {
+          "slug": "password-hashing-secrets",
+          "title": "Password hashing & secrets management",
+          "hours": 2,
+          "description": "BCrypt/Argon2, salts, never plain text; secrets in env vars / vaults.",
+          "practice": "Explain why SHA-256 alone is wrong for passwords."
+        },
+        {
+          "slug": "web-vulnerabilities",
+          "title": "SQL injection, XSS, CSRF, CORS, RBAC",
+          "hours": 5,
+          "description": "OWASP Top 10 essentials and how Spring protects you.",
+          "practice": "Write a vulnerable query, exploit it, then fix it with parameters."
+        },
+        {
+          "slug": "project-jwt-auth",
+          "title": "Project: add JWT auth to your API",
+          "hours": 6,
+          "description": "Implement login/refresh/logout and role checks.",
+          "practice": "Compare your implementation with this playground's auth package."
+        }
       ],
       "resources": [
-        {"title": "Complete JWT Authentication with Spring Boot 3.1 in one video", "url": "https://www.youtube.com/watch?v=q2l91Ffc_8U", "channel": "Learn Code With Durgesh", "language": "HI", "kind": "VIDEO", "primary": true},
-        {"title": "Spring Security JWT: secure your Spring Boot REST APIs", "url": "https://www.youtube.com/watch?v=KYNR5js2cXE", "channel": "Dan Vega", "language": "EN", "kind": "VIDEO", "primary": true, "note": "Uses the same OAuth2 Resource Server approach as this playground."},
-        {"title": "OAuth 2.0 explained (Hindi search)", "url": "https://www.youtube.com/results?search_query=oauth+2.0+explained+hindi", "channel": null, "language": "HI", "kind": "SEARCH"},
-        {"title": "OWASP Top 10", "url": "https://owasp.org/www-project-top-ten/", "channel": "OWASP", "language": "EN", "kind": "DOCS"},
-        {"title": "Spring Security reference", "url": "https://docs.spring.io/spring-security/reference/index.html", "channel": "spring.io", "language": "EN", "kind": "DOCS"}
+        {
+          "title": "Complete JWT Authentication with Spring Boot 3.1 in one video",
+          "url": "https://www.youtube.com/watch?v=q2l91Ffc_8U",
+          "channel": "Learn Code With Durgesh",
+          "language": "HI",
+          "kind": "VIDEO",
+          "primary": true
+        },
+        {
+          "title": "Spring Security JWT: secure your Spring Boot REST APIs",
+          "url": "https://www.youtube.com/watch?v=KYNR5js2cXE",
+          "channel": "Dan Vega",
+          "language": "EN",
+          "kind": "VIDEO",
+          "primary": true,
+          "note": "Uses the same OAuth2 Resource Server approach as this playground."
+        },
+        {
+          "title": "OAuth 2.0 explained (Hindi search)",
+          "url": "https://www.youtube.com/results?search_query=oauth+2.0+explained+hindi",
+          "channel": null,
+          "language": "HI",
+          "kind": "SEARCH"
+        },
+        {
+          "title": "OWASP Top 10",
+          "url": "https://owasp.org/www-project-top-ten/",
+          "channel": "OWASP",
+          "language": "EN",
+          "kind": "DOCS"
+        },
+        {
+          "title": "Spring Security reference",
+          "url": "https://docs.spring.io/spring-security/reference/index.html",
+          "channel": "spring.io",
+          "language": "EN",
+          "kind": "DOCS"
+        }
       ]
     },
     {
@@ -196,18 +740,80 @@
       "projectDescription": "Unit tests for services with Mockito, controller tests with MockMvc, repository/integration tests against a real Postgres with Testcontainers.",
       "month": 3,
       "topics": [
-        {"slug": "testing-pyramid", "title": "Testing pyramid: unit, integration, API, contract", "hours": 2, "description": "What to test at which level and why.", "practice": "Classify this playground's tests by pyramid level."},
-        {"slug": "junit-mockito", "title": "JUnit 5 & Mockito", "hours": 6, "description": "Assertions, parameterized tests, mocks, stubs, verify, ArgumentCaptor.", "practice": "Reach 80% coverage on your service layer."},
-        {"slug": "integration-testcontainers", "title": "Integration tests: MockMvc & Testcontainers", "hours": 6, "description": "@SpringBootTest, @WebMvcTest, real Postgres in Docker for tests.", "practice": "Write one end-to-end test: register -> login -> create order."},
-        {"slug": "solid-dry-kiss", "title": "SOLID, DRY, KISS", "hours": 3, "description": "Principles that keep code changeable.", "practice": "Find one SOLID violation in your code and fix it."},
-        {"slug": "design-patterns", "title": "Design patterns: Factory, Singleton, Strategy, Builder, Observer", "hours": 6, "description": "Know when they help - and avoid over-engineering.", "practice": "Replace a big if/else with the Strategy pattern."}
+        {
+          "slug": "testing-pyramid",
+          "title": "Testing pyramid: unit, integration, API, contract",
+          "hours": 2,
+          "description": "What to test at which level and why.",
+          "practice": "Classify this playground's tests by pyramid level."
+        },
+        {
+          "slug": "junit-mockito",
+          "title": "JUnit 5 & Mockito",
+          "hours": 6,
+          "description": "Assertions, parameterized tests, mocks, stubs, verify, ArgumentCaptor.",
+          "practice": "Reach 80% coverage on your service layer."
+        },
+        {
+          "slug": "integration-testcontainers",
+          "title": "Integration tests: MockMvc & Testcontainers",
+          "hours": 6,
+          "description": "@SpringBootTest, @WebMvcTest, real Postgres in Docker for tests.",
+          "practice": "Write one end-to-end test: register -> login -> create order."
+        },
+        {
+          "slug": "solid-dry-kiss",
+          "title": "SOLID, DRY, KISS",
+          "hours": 3,
+          "description": "Principles that keep code changeable.",
+          "practice": "Find one SOLID violation in your code and fix it."
+        },
+        {
+          "slug": "design-patterns",
+          "title": "Design patterns: Factory, Singleton, Strategy, Builder, Observer",
+          "hours": 6,
+          "description": "Know when they help - and avoid over-engineering.",
+          "practice": "Replace a big if/else with the Strategy pattern."
+        }
       ],
       "resources": [
-        {"title": "Low Level Design (LLD) - design patterns in Java", "url": "https://www.youtube.com/playlist?list=PL6W8uoQQ2c61X_9e6Net0WdYZidm7zooW", "channel": "Concept && Coding (Shrayansh Jain)", "language": "HI", "kind": "PLAYLIST", "primary": true},
-        {"title": "Spring Boot testing with JUnit 5 & Mockito (English search)", "url": "https://www.youtube.com/results?search_query=spring+boot+testing+junit+5+mockito+testcontainers", "channel": null, "language": "EN", "kind": "SEARCH", "primary": true},
-        {"title": "Spring Boot JUnit Mockito (Hindi search)", "url": "https://www.youtube.com/results?search_query=spring+boot+junit+mockito+hindi", "channel": null, "language": "HI", "kind": "SEARCH"},
-        {"title": "Christopher Okhravi - design patterns", "url": "https://www.youtube.com/@ChristopherOkhravi", "channel": "Christopher Okhravi", "language": "EN", "kind": "CHANNEL"},
-        {"title": "Testcontainers for Java - getting started", "url": "https://testcontainers.com/guides/", "channel": "testcontainers.com", "language": "EN", "kind": "DOCS"}
+        {
+          "title": "Low Level Design (LLD) - design patterns in Java",
+          "url": "https://www.youtube.com/playlist?list=PL6W8uoQQ2c61X_9e6Net0WdYZidm7zooW",
+          "channel": "Concept && Coding (Shrayansh Jain)",
+          "language": "HI",
+          "kind": "PLAYLIST",
+          "primary": true
+        },
+        {
+          "title": "Spring Boot testing with JUnit 5 & Mockito (English search)",
+          "url": "https://www.youtube.com/results?search_query=spring+boot+testing+junit+5+mockito+testcontainers",
+          "channel": null,
+          "language": "EN",
+          "kind": "SEARCH",
+          "primary": true
+        },
+        {
+          "title": "Spring Boot JUnit Mockito (Hindi search)",
+          "url": "https://www.youtube.com/results?search_query=spring+boot+junit+mockito+hindi",
+          "channel": null,
+          "language": "HI",
+          "kind": "SEARCH"
+        },
+        {
+          "title": "Christopher Okhravi - design patterns",
+          "url": "https://www.youtube.com/@ChristopherOkhravi",
+          "channel": "Christopher Okhravi",
+          "language": "EN",
+          "kind": "CHANNEL"
+        },
+        {
+          "title": "Testcontainers for Java - getting started",
+          "url": "https://testcontainers.com/guides/",
+          "channel": "testcontainers.com",
+          "language": "EN",
+          "kind": "DOCS"
+        }
       ]
     },
     {
@@ -220,18 +826,80 @@
       "projectDescription": "Cache product lookups in Redis with @Cacheable, invalidate on update, and add a Redis-backed rate limiter.",
       "month": 4,
       "topics": [
-        {"slug": "caching-concepts", "title": "What is caching? Hit vs miss", "hours": 2, "description": "Latency numbers, where caches live (browser, CDN, app, DB).", "practice": "Measure an endpoint before and after an in-memory cache."},
-        {"slug": "cache-strategies", "title": "Cache-aside, TTL, invalidation, stampede", "hours": 3, "description": "Patterns and their failure modes.", "practice": "Simulate a cache stampede and fix it with locking or jittered TTL."},
-        {"slug": "redis-basics", "title": "Redis basics & data structures", "hours": 4, "description": "Strings, hashes, lists, sets, sorted sets, expiry, persistence.", "practice": "Build a leaderboard with sorted sets in redis-cli."},
-        {"slug": "spring-cache-redis", "title": "Spring Cache with Redis", "hours": 4, "description": "@Cacheable/@CacheEvict, RedisTemplate, serialization.", "practice": "Swap this playground's Caffeine cache for Redis via configuration."},
-        {"slug": "redis-use-cases", "title": "Redis use cases: sessions, rate limiting, leaderboards", "hours": 3, "description": "Distributed state shared by many app instances.", "practice": "Move the token-bucket rate limiter into Redis."}
+        {
+          "slug": "caching-concepts",
+          "title": "What is caching? Hit vs miss",
+          "hours": 2,
+          "description": "Latency numbers, where caches live (browser, CDN, app, DB).",
+          "practice": "Measure an endpoint before and after an in-memory cache."
+        },
+        {
+          "slug": "cache-strategies",
+          "title": "Cache-aside, TTL, invalidation, stampede",
+          "hours": 3,
+          "description": "Patterns and their failure modes.",
+          "practice": "Simulate a cache stampede and fix it with locking or jittered TTL."
+        },
+        {
+          "slug": "redis-basics",
+          "title": "Redis basics & data structures",
+          "hours": 4,
+          "description": "Strings, hashes, lists, sets, sorted sets, expiry, persistence.",
+          "practice": "Build a leaderboard with sorted sets in redis-cli."
+        },
+        {
+          "slug": "spring-cache-redis",
+          "title": "Spring Cache with Redis",
+          "hours": 4,
+          "description": "@Cacheable/@CacheEvict, RedisTemplate, serialization.",
+          "practice": "Swap this playground's Caffeine cache for Redis via configuration."
+        },
+        {
+          "slug": "redis-use-cases",
+          "title": "Redis use cases: sessions, rate limiting, leaderboards",
+          "hours": 3,
+          "description": "Distributed state shared by many app instances.",
+          "practice": "Move the token-bucket rate limiter into Redis."
+        }
       ],
       "resources": [
-        {"title": "Engineering Digest (Redis with Spring Boot, Hindi)", "url": "https://www.youtube.com/@EngineeringDigest", "channel": "Engineering Digest", "language": "HI", "kind": "CHANNEL", "primary": true},
-        {"title": "Piyush Garg (Redis & system design, Hindi)", "url": "https://www.youtube.com/@piyushgargdev", "channel": "Piyush Garg", "language": "HI", "kind": "CHANNEL"},
-        {"title": "Redis crash course (English search)", "url": "https://www.youtube.com/results?search_query=redis+crash+course", "channel": null, "language": "EN", "kind": "SEARCH", "primary": true},
-        {"title": "Spring Boot Redis cache (Hindi search)", "url": "https://www.youtube.com/results?search_query=spring+boot+redis+cache+hindi", "channel": null, "language": "HI", "kind": "SEARCH"},
-        {"title": "Redis documentation", "url": "https://redis.io/docs/latest/", "channel": "redis.io", "language": "EN", "kind": "DOCS"}
+        {
+          "title": "Engineering Digest (Redis with Spring Boot, Hindi)",
+          "url": "https://www.youtube.com/@EngineeringDigest",
+          "channel": "Engineering Digest",
+          "language": "HI",
+          "kind": "CHANNEL",
+          "primary": true
+        },
+        {
+          "title": "Piyush Garg (Redis & system design, Hindi)",
+          "url": "https://www.youtube.com/@piyushgargdev",
+          "channel": "Piyush Garg",
+          "language": "HI",
+          "kind": "CHANNEL"
+        },
+        {
+          "title": "Redis crash course (English search)",
+          "url": "https://www.youtube.com/results?search_query=redis+crash+course",
+          "channel": null,
+          "language": "EN",
+          "kind": "SEARCH",
+          "primary": true
+        },
+        {
+          "title": "Spring Boot Redis cache (Hindi search)",
+          "url": "https://www.youtube.com/results?search_query=spring+boot+redis+cache+hindi",
+          "channel": null,
+          "language": "HI",
+          "kind": "SEARCH"
+        },
+        {
+          "title": "Redis documentation",
+          "url": "https://redis.io/docs/latest/",
+          "channel": "redis.io",
+          "language": "EN",
+          "kind": "DOCS"
+        }
       ]
     },
     {
@@ -244,17 +912,73 @@
       "projectDescription": "Publish an OrderCreated event from the order service; payment and notification consumers react to it, with retries and a dead-letter topic.",
       "month": 4,
       "topics": [
-        {"slug": "why-async", "title": "Why async? Queues vs event streams", "hours": 2, "description": "Decoupling, throughput, backpressure; RabbitMQ vs Kafka.", "practice": "Draw sync vs async order flow and list the trade-offs."},
-        {"slug": "kafka-fundamentals", "title": "Kafka: producer, consumer, topic, partition, offset, consumer group, replication", "hours": 6, "description": "The core model and how ordering works per partition.", "practice": "Run Kafka in Docker and use the console producer/consumer."},
-        {"slug": "spring-kafka", "title": "Spring for Apache Kafka", "hours": 6, "description": "KafkaTemplate, @KafkaListener, JSON serialization, error handlers.", "practice": "Publish and consume OrderCreated from Spring Boot."},
-        {"slug": "kafka-reliability", "title": "Ordering, delivery semantics, retries, DLQ", "hours": 5, "description": "At-least-once vs exactly-once, idempotent consumers, dead-letter topics, outbox pattern.", "practice": "Make a consumer idempotent and route poison messages to a DLT."}
+        {
+          "slug": "why-async",
+          "title": "Why async? Queues vs event streams",
+          "hours": 2,
+          "description": "Decoupling, throughput, backpressure; RabbitMQ vs Kafka.",
+          "practice": "Draw sync vs async order flow and list the trade-offs."
+        },
+        {
+          "slug": "kafka-fundamentals",
+          "title": "Kafka: producer, consumer, topic, partition, offset, consumer group, replication",
+          "hours": 6,
+          "description": "The core model and how ordering works per partition.",
+          "practice": "Run Kafka in Docker and use the console producer/consumer."
+        },
+        {
+          "slug": "spring-kafka",
+          "title": "Spring for Apache Kafka",
+          "hours": 6,
+          "description": "KafkaTemplate, @KafkaListener, JSON serialization, error handlers.",
+          "practice": "Publish and consume OrderCreated from Spring Boot."
+        },
+        {
+          "slug": "kafka-reliability",
+          "title": "Ordering, delivery semantics, retries, DLQ",
+          "hours": 5,
+          "description": "At-least-once vs exactly-once, idempotent consumers, dead-letter topics, outbox pattern.",
+          "practice": "Make a consumer idempotent and route poison messages to a DLT."
+        }
       ],
       "resources": [
-        {"title": "Master Kafka in a single video (Kafka in Hindi)", "url": "https://www.youtube.com/watch?v=ei6fK9StzMM", "channel": "Piyush Garg", "language": "HI", "kind": "VIDEO", "primary": true},
-        {"title": "Apache Kafka 101", "url": "https://www.youtube.com/playlist?list=PLf38f5LhQtheK16nwnCYFqH23WUUvZfSb", "channel": "Confluent (Tim Berglund)", "language": "EN", "kind": "PLAYLIST", "primary": true},
-        {"title": "Spring Boot + Apache Kafka Tutorial", "url": "https://www.youtube.com/playlist?list=PLGRDMO4rOGcNLwoack4ZiTyewUcF6y6BU", "channel": "Java Guides", "language": "EN", "kind": "PLAYLIST"},
-        {"title": "Spring Boot Kafka (Hindi search)", "url": "https://www.youtube.com/results?search_query=spring+boot+kafka+hindi", "channel": null, "language": "HI", "kind": "SEARCH"},
-        {"title": "Confluent Developer courses", "url": "https://developer.confluent.io/courses/", "channel": "Confluent", "language": "EN", "kind": "DOCS"}
+        {
+          "title": "Master Kafka in a single video (Kafka in Hindi)",
+          "url": "https://www.youtube.com/watch?v=ei6fK9StzMM",
+          "channel": "Piyush Garg",
+          "language": "HI",
+          "kind": "VIDEO",
+          "primary": true
+        },
+        {
+          "title": "Apache Kafka 101",
+          "url": "https://www.youtube.com/playlist?list=PLf38f5LhQtheK16nwnCYFqH23WUUvZfSb",
+          "channel": "Confluent (Tim Berglund)",
+          "language": "EN",
+          "kind": "PLAYLIST",
+          "primary": true
+        },
+        {
+          "title": "Spring Boot + Apache Kafka Tutorial",
+          "url": "https://www.youtube.com/playlist?list=PLGRDMO4rOGcNLwoack4ZiTyewUcF6y6BU",
+          "channel": "Java Guides",
+          "language": "EN",
+          "kind": "PLAYLIST"
+        },
+        {
+          "title": "Spring Boot Kafka (Hindi search)",
+          "url": "https://www.youtube.com/results?search_query=spring+boot+kafka+hindi",
+          "channel": null,
+          "language": "HI",
+          "kind": "SEARCH"
+        },
+        {
+          "title": "Confluent Developer courses",
+          "url": "https://developer.confluent.io/courses/",
+          "channel": "Confluent",
+          "language": "EN",
+          "kind": "DOCS"
+        }
       ]
     },
     {
@@ -267,17 +991,73 @@
       "projectDescription": "Extract notifications from the monolith into its own service behind an API gateway, communicating via Kafka, with circuit breakers on sync calls.",
       "month": 4,
       "topics": [
-        {"slug": "service-boundaries", "title": "Monolith vs modular monolith vs microservices; service boundaries", "hours": 3, "description": "Bounded contexts and the cost of the network.", "practice": "Draw the boundaries for the food-delivery capstone."},
-        {"slug": "gateway-discovery-config", "title": "API gateway, service discovery, config management", "hours": 5, "description": "Spring Cloud Gateway, Eureka/Kubernetes DNS, centralised config.", "practice": "Route two services through a gateway."},
-        {"slug": "service-communication", "title": "Sync (REST/gRPC) vs async (Kafka/RabbitMQ)", "hours": 3, "description": "Choosing the right communication style.", "practice": "Call a service with RestClient, then replace it with an event."},
-        {"slug": "data-per-service-saga", "title": "Database per service, distributed transactions, Saga", "hours": 5, "description": "Why 2PC is avoided; choreography vs orchestration sagas.", "practice": "Design an order saga with compensation steps."},
-        {"slug": "resilience-patterns", "title": "Circuit breaker, retry, timeout, idempotency", "hours": 4, "description": "Resilience4j and failure isolation.", "practice": "Add a circuit breaker around a flaky downstream call."}
+        {
+          "slug": "service-boundaries",
+          "title": "Monolith vs modular monolith vs microservices; service boundaries",
+          "hours": 3,
+          "description": "Bounded contexts and the cost of the network.",
+          "practice": "Draw the boundaries for the food-delivery capstone."
+        },
+        {
+          "slug": "gateway-discovery-config",
+          "title": "API gateway, service discovery, config management",
+          "hours": 5,
+          "description": "Spring Cloud Gateway, Eureka/Kubernetes DNS, centralised config.",
+          "practice": "Route two services through a gateway."
+        },
+        {
+          "slug": "service-communication",
+          "title": "Sync (REST/gRPC) vs async (Kafka/RabbitMQ)",
+          "hours": 3,
+          "description": "Choosing the right communication style.",
+          "practice": "Call a service with RestClient, then replace it with an event."
+        },
+        {
+          "slug": "data-per-service-saga",
+          "title": "Database per service, distributed transactions, Saga",
+          "hours": 5,
+          "description": "Why 2PC is avoided; choreography vs orchestration sagas.",
+          "practice": "Design an order saga with compensation steps."
+        },
+        {
+          "slug": "resilience-patterns",
+          "title": "Circuit breaker, retry, timeout, idempotency",
+          "hours": 4,
+          "description": "Resilience4j and failure isolation.",
+          "practice": "Add a circuit breaker around a flaky downstream call."
+        }
       ],
       "resources": [
-        {"title": "Java and Spring Boot Microservices - 10 Hour Full Course", "url": "https://www.youtube.com/watch?v=1aWhYEynZQw", "channel": "Amigoscode", "language": "EN", "kind": "VIDEO", "primary": true},
-        {"title": "High Level Design (microservices patterns, Hindi)", "url": "https://www.youtube.com/playlist?list=PL6W8uoQQ2c63W58rpNFDwdrBnq5G3EfT7", "channel": "Concept && Coding (Shrayansh Jain)", "language": "HI", "kind": "PLAYLIST", "primary": true},
-        {"title": "Spring Boot microservices (Hindi search)", "url": "https://www.youtube.com/results?search_query=spring+boot+microservices+hindi+full+course", "channel": null, "language": "HI", "kind": "SEARCH"},
-        {"title": "microservices.io patterns", "url": "https://microservices.io/patterns/", "channel": "Chris Richardson", "language": "EN", "kind": "DOCS"}
+        {
+          "title": "Java and Spring Boot Microservices - 10 Hour Full Course",
+          "url": "https://www.youtube.com/watch?v=1aWhYEynZQw",
+          "channel": "Amigoscode",
+          "language": "EN",
+          "kind": "VIDEO",
+          "primary": true
+        },
+        {
+          "title": "High Level Design (microservices patterns, Hindi)",
+          "url": "https://www.youtube.com/playlist?list=PL6W8uoQQ2c63W58rpNFDwdrBnq5G3EfT7",
+          "channel": "Concept && Coding (Shrayansh Jain)",
+          "language": "HI",
+          "kind": "PLAYLIST",
+          "primary": true
+        },
+        {
+          "title": "Spring Boot microservices (Hindi search)",
+          "url": "https://www.youtube.com/results?search_query=spring+boot+microservices+hindi+full+course",
+          "channel": null,
+          "language": "HI",
+          "kind": "SEARCH"
+        },
+        {
+          "title": "microservices.io patterns",
+          "url": "https://microservices.io/patterns/",
+          "channel": "Chris Richardson",
+          "language": "EN",
+          "kind": "DOCS"
+        }
       ]
     },
     {
@@ -290,21 +1070,101 @@
       "projectDescription": "Write a one-page design (requirements, estimates, API, DB, diagram, scaling) for a URL shortener, a rate limiter and a notification system.",
       "month": 6,
       "topics": [
-        {"slug": "sd-requirements-estimation", "title": "Requirements & back-of-the-envelope estimation", "hours": 3, "description": "Functional vs non-functional; DAU, RPS, storage, bandwidth.", "practice": "Estimate storage for 100M short URLs over 5 years."},
-        {"slug": "sd-api-db-design", "title": "API design & database design for scale", "hours": 3, "description": "Contracts first; SQL vs NoSQL choice; indexes and relationships.", "practice": "Design the API + schema for a ticket booking system."},
-        {"slug": "sd-architecture-scalability", "title": "High-level architecture, horizontal vs vertical scaling, load balancing", "hours": 4, "description": "Client -> LB -> services -> cache -> DB.", "practice": "Draw the architecture of this playground for 1M users."},
-        {"slug": "sd-reliability-performance", "title": "Reliability & performance: replication, failover, caching, CDNs, async", "hours": 4, "description": "Keeping systems up and fast.", "practice": "List every single point of failure in your design and remove it."},
-        {"slug": "sd-distributed-systems", "title": "Distributed systems: CAP, consistency, distributed locks", "hours": 5, "description": "Eventual consistency, quorum, leader election basics.", "practice": "Explain CAP using the booking system."},
-        {"slug": "sd-practice-beginner", "title": "Practice: URL shortener, rate limiter, pastebin/file upload", "hours": 6, "description": "Beginner problems: hashing, Base62, token bucket, S3 + CDN.", "practice": "Solve each in 45 minutes on a whiteboard."},
-        {"slug": "sd-practice-intermediate", "title": "Practice: notification system, ride/ticket booking, chat", "hours": 6, "description": "Queues, concurrency, WebSockets.", "practice": "Record yourself explaining one design out loud."},
-        {"slug": "sd-practice-advanced", "title": "Practice: YouTube/Instagram/Netflix, Uber/WhatsApp", "hours": 6, "description": "CDNs, transcoding, feeds (push vs pull), geospatial indexing, low-latency messaging.", "practice": "Compare your design with a published one and note gaps."}
+        {
+          "slug": "sd-requirements-estimation",
+          "title": "Requirements & back-of-the-envelope estimation",
+          "hours": 3,
+          "description": "Functional vs non-functional; DAU, RPS, storage, bandwidth.",
+          "practice": "Estimate storage for 100M short URLs over 5 years."
+        },
+        {
+          "slug": "sd-api-db-design",
+          "title": "API design & database design for scale",
+          "hours": 3,
+          "description": "Contracts first; SQL vs NoSQL choice; indexes and relationships.",
+          "practice": "Design the API + schema for a ticket booking system."
+        },
+        {
+          "slug": "sd-architecture-scalability",
+          "title": "High-level architecture, horizontal vs vertical scaling, load balancing",
+          "hours": 4,
+          "description": "Client -> LB -> services -> cache -> DB.",
+          "practice": "Draw the architecture of this playground for 1M users."
+        },
+        {
+          "slug": "sd-reliability-performance",
+          "title": "Reliability & performance: replication, failover, caching, CDNs, async",
+          "hours": 4,
+          "description": "Keeping systems up and fast.",
+          "practice": "List every single point of failure in your design and remove it."
+        },
+        {
+          "slug": "sd-distributed-systems",
+          "title": "Distributed systems: CAP, consistency, distributed locks",
+          "hours": 5,
+          "description": "Eventual consistency, quorum, leader election basics.",
+          "practice": "Explain CAP using the booking system."
+        },
+        {
+          "slug": "sd-practice-beginner",
+          "title": "Practice: URL shortener, rate limiter, pastebin/file upload",
+          "hours": 6,
+          "description": "Beginner problems: hashing, Base62, token bucket, S3 + CDN.",
+          "practice": "Solve each in 45 minutes on a whiteboard."
+        },
+        {
+          "slug": "sd-practice-intermediate",
+          "title": "Practice: notification system, ride/ticket booking, chat",
+          "hours": 6,
+          "description": "Queues, concurrency, WebSockets.",
+          "practice": "Record yourself explaining one design out loud."
+        },
+        {
+          "slug": "sd-practice-advanced",
+          "title": "Practice: YouTube/Instagram/Netflix, Uber/WhatsApp",
+          "hours": 6,
+          "description": "CDNs, transcoding, feeds (push vs pull), geospatial indexing, low-latency messaging.",
+          "practice": "Compare your design with a published one and note gaps."
+        }
       ],
       "resources": [
-        {"title": "System Design playlist", "url": "https://www.youtube.com/playlist?list=PLMCXHnjXnTnvo6alSjVkgxV-VH6EPyvoX", "channel": "Gaurav Sen", "language": "EN", "kind": "PLAYLIST", "primary": true},
-        {"title": "High Level Design (HLD) from Basics to Advanced", "url": "https://www.youtube.com/playlist?list=PL6W8uoQQ2c63W58rpNFDwdrBnq5G3EfT7", "channel": "Concept && Coding (Shrayansh Jain)", "language": "HI", "kind": "PLAYLIST", "primary": true},
-        {"title": "Low Level Design (LLD) from Basics to Advanced", "url": "https://www.youtube.com/playlist?list=PL6W8uoQQ2c61X_9e6Net0WdYZidm7zooW", "channel": "Concept && Coding (Shrayansh Jain)", "language": "HI", "kind": "PLAYLIST"},
-        {"title": "ByteByteGo", "url": "https://www.youtube.com/@ByteByteGo", "channel": "ByteByteGo", "language": "EN", "kind": "CHANNEL"},
-        {"title": "System Design Primer (GitHub)", "url": "https://github.com/donnemartin/system-design-primer", "channel": "donnemartin", "language": "EN", "kind": "DOCS"}
+        {
+          "title": "System Design playlist",
+          "url": "https://www.youtube.com/playlist?list=PLMCXHnjXnTnvo6alSjVkgxV-VH6EPyvoX",
+          "channel": "Gaurav Sen",
+          "language": "EN",
+          "kind": "PLAYLIST",
+          "primary": true
+        },
+        {
+          "title": "High Level Design (HLD) from Basics to Advanced",
+          "url": "https://www.youtube.com/playlist?list=PL6W8uoQQ2c63W58rpNFDwdrBnq5G3EfT7",
+          "channel": "Concept && Coding (Shrayansh Jain)",
+          "language": "HI",
+          "kind": "PLAYLIST",
+          "primary": true
+        },
+        {
+          "title": "Low Level Design (LLD) from Basics to Advanced",
+          "url": "https://www.youtube.com/playlist?list=PL6W8uoQQ2c61X_9e6Net0WdYZidm7zooW",
+          "channel": "Concept && Coding (Shrayansh Jain)",
+          "language": "HI",
+          "kind": "PLAYLIST"
+        },
+        {
+          "title": "ByteByteGo",
+          "url": "https://www.youtube.com/@ByteByteGo",
+          "channel": "ByteByteGo",
+          "language": "EN",
+          "kind": "CHANNEL"
+        },
+        {
+          "title": "System Design Primer (GitHub)",
+          "url": "https://github.com/donnemartin/system-design-primer",
+          "channel": "donnemartin",
+          "language": "EN",
+          "kind": "DOCS"
+        }
       ]
     },
     {
@@ -317,18 +1177,81 @@
       "projectDescription": "Write a multi-stage Dockerfile, run app + Postgres + Redis with docker compose, then deploy to AWS (EC2 or ECS) with RDS.",
       "month": 5,
       "topics": [
-        {"slug": "docker-basics", "title": "Images, containers, writing a Dockerfile", "hours": 4, "description": "Layers, multi-stage builds, non-root users, .dockerignore.", "practice": "Read this playground's Dockerfile line by line in the Rebuild Lab."},
-        {"slug": "docker-compose-volumes-networks", "title": "docker compose, volumes, networks", "hours": 4, "description": "Multi-service local environments.", "practice": "Add Redis to this playground's compose file."},
-        {"slug": "aws-compute", "title": "AWS compute: EC2, ECS/EKS basics", "hours": 4, "description": "VMs vs containers vs managed orchestration.", "practice": "Run your container on a free-tier EC2 instance."},
-        {"slug": "aws-storage-db", "title": "AWS storage & databases: S3, RDS, ElastiCache", "hours": 3, "description": "Managed state services.", "practice": "Point your app at an RDS Postgres."},
-        {"slug": "aws-networking-iam-sqs", "title": "Load balancers, IAM, SQS", "hours": 4, "description": "Security groups, least-privilege IAM roles, queues.", "practice": "Put an ALB in front of two instances."}
+        {
+          "slug": "docker-basics",
+          "title": "Images, containers, writing a Dockerfile",
+          "hours": 4,
+          "description": "Layers, multi-stage builds, non-root users, .dockerignore.",
+          "practice": "Read this playground's Dockerfile line by line in the Rebuild Lab."
+        },
+        {
+          "slug": "docker-compose-volumes-networks",
+          "title": "docker compose, volumes, networks",
+          "hours": 4,
+          "description": "Multi-service local environments.",
+          "practice": "Add Redis to this playground's compose file."
+        },
+        {
+          "slug": "aws-compute",
+          "title": "AWS compute: EC2, ECS/EKS basics",
+          "hours": 4,
+          "description": "VMs vs containers vs managed orchestration.",
+          "practice": "Run your container on a free-tier EC2 instance."
+        },
+        {
+          "slug": "aws-storage-db",
+          "title": "AWS storage & databases: S3, RDS, ElastiCache",
+          "hours": 3,
+          "description": "Managed state services.",
+          "practice": "Point your app at an RDS Postgres."
+        },
+        {
+          "slug": "aws-networking-iam-sqs",
+          "title": "Load balancers, IAM, SQS",
+          "hours": 4,
+          "description": "Security groups, least-privilege IAM roles, queues.",
+          "practice": "Put an ALB in front of two instances."
+        }
       ],
       "resources": [
-        {"title": "Docker Tutorial for Beginners", "url": "https://www.youtube.com/playlist?list=PLy7NrYWoggjzfAHlUusx2wuDwfCrmJYcs", "channel": "TechWorld with Nana", "language": "EN", "kind": "PLAYLIST", "primary": true},
-        {"title": "Docker in One Shot with 2 live DevOps projects", "url": "https://www.youtube.com/watch?v=9bSbNNH4Nqw", "channel": "TrainWithShubham", "language": "HI", "kind": "VIDEO", "primary": true},
-        {"title": "Abhishek Veeramalla - AWS Zero to Hero", "url": "https://www.youtube.com/@AbhishekVeeramalla/playlists", "channel": "Abhishek Veeramalla", "language": "EN", "kind": "CHANNEL", "note": "Indian-English explanations, very practical."},
-        {"title": "AWS for beginners (Hindi search)", "url": "https://www.youtube.com/results?search_query=aws+tutorial+for+beginners+hindi", "channel": null, "language": "HI", "kind": "SEARCH"},
-        {"title": "Docker docs - get started", "url": "https://docs.docker.com/get-started/", "channel": "docker.com", "language": "EN", "kind": "DOCS"}
+        {
+          "title": "Docker Tutorial for Beginners",
+          "url": "https://www.youtube.com/playlist?list=PLy7NrYWoggjzfAHlUusx2wuDwfCrmJYcs",
+          "channel": "TechWorld with Nana",
+          "language": "EN",
+          "kind": "PLAYLIST",
+          "primary": true
+        },
+        {
+          "title": "Docker in One Shot with 2 live DevOps projects",
+          "url": "https://www.youtube.com/watch?v=9bSbNNH4Nqw",
+          "channel": "TrainWithShubham",
+          "language": "HI",
+          "kind": "VIDEO",
+          "primary": true
+        },
+        {
+          "title": "Abhishek Veeramalla - AWS Zero to Hero",
+          "url": "https://www.youtube.com/@AbhishekVeeramalla/playlists",
+          "channel": "Abhishek Veeramalla",
+          "language": "EN",
+          "kind": "CHANNEL",
+          "note": "Indian-English explanations, very practical."
+        },
+        {
+          "title": "AWS for beginners (Hindi search)",
+          "url": "https://www.youtube.com/results?search_query=aws+tutorial+for+beginners+hindi",
+          "channel": null,
+          "language": "HI",
+          "kind": "SEARCH"
+        },
+        {
+          "title": "Docker docs - get started",
+          "url": "https://docs.docker.com/get-started/",
+          "channel": "docker.com",
+          "language": "EN",
+          "kind": "DOCS"
+        }
       ]
     },
     {
@@ -341,18 +1264,80 @@
       "projectDescription": "GitHub Actions: build -> test -> scan -> build image -> deploy to a local kind/minikube cluster with Deployment, Service, ConfigMap, Secret and Ingress.",
       "month": 5,
       "topics": [
-        {"slug": "k8s-pods-deployments-services", "title": "Pods, Deployments, Services", "hours": 6, "description": "The smallest unit, replica management, internal networking.", "practice": "Deploy this playground to minikube with 2 replicas."},
-        {"slug": "k8s-config-ingress-scaling", "title": "ConfigMaps, Secrets, Ingress, autoscaling", "hours": 5, "description": "Config, credentials, external access, HPA; readiness/liveness probes.", "practice": "Wire /actuator/health/readiness as the readiness probe."},
-        {"slug": "cicd-concepts", "title": "CI/CD pipeline: build -> test -> scan -> deploy", "hours": 2, "description": "Why every commit should be deployable.", "practice": "Draw your pipeline and the gate at each stage."},
-        {"slug": "github-actions", "title": "GitHub Actions", "hours": 4, "description": "Workflows, jobs, caching, secrets, matrix builds.", "practice": "Extend this repo's CI workflow to build and push a Docker image."}
+        {
+          "slug": "k8s-pods-deployments-services",
+          "title": "Pods, Deployments, Services",
+          "hours": 6,
+          "description": "The smallest unit, replica management, internal networking.",
+          "practice": "Deploy this playground to minikube with 2 replicas."
+        },
+        {
+          "slug": "k8s-config-ingress-scaling",
+          "title": "ConfigMaps, Secrets, Ingress, autoscaling",
+          "hours": 5,
+          "description": "Config, credentials, external access, HPA; readiness/liveness probes.",
+          "practice": "Wire /actuator/health/readiness as the readiness probe."
+        },
+        {
+          "slug": "cicd-concepts",
+          "title": "CI/CD pipeline: build -> test -> scan -> deploy",
+          "hours": 2,
+          "description": "Why every commit should be deployable.",
+          "practice": "Draw your pipeline and the gate at each stage."
+        },
+        {
+          "slug": "github-actions",
+          "title": "GitHub Actions",
+          "hours": 4,
+          "description": "Workflows, jobs, caching, secrets, matrix builds.",
+          "practice": "Extend this repo's CI workflow to build and push a Docker image."
+        }
       ],
       "resources": [
-        {"title": "Kubernetes Tutorial for Beginners (4 hours)", "url": "https://www.youtube.com/watch?v=X48VuDVv0do", "channel": "TechWorld with Nana", "language": "EN", "kind": "VIDEO", "primary": true},
-        {"title": "TrainWithShubham (Kubernetes & DevOps in Hindi)", "url": "https://www.youtube.com/@TrainWithShubham", "channel": "TrainWithShubham", "language": "HI", "kind": "CHANNEL", "primary": true},
-        {"title": "GitHub Actions Tutorial - CI/CD pipeline with Docker", "url": "https://www.youtube.com/watch?v=R8_veQiYBjI", "channel": "TechWorld with Nana", "language": "EN", "kind": "VIDEO"},
-        {"title": "Abhishek Veeramalla - DevOps Zero to Hero", "url": "https://www.youtube.com/@AbhishekVeeramalla/playlists", "channel": "Abhishek Veeramalla", "language": "EN", "kind": "CHANNEL"},
-        {"title": "GitHub Actions in Hindi (search)", "url": "https://www.youtube.com/results?search_query=github+actions+ci+cd+hindi", "channel": null, "language": "HI", "kind": "SEARCH"},
-        {"title": "Kubernetes docs - tutorials", "url": "https://kubernetes.io/docs/tutorials/", "channel": "kubernetes.io", "language": "EN", "kind": "DOCS"}
+        {
+          "title": "Kubernetes Tutorial for Beginners (4 hours)",
+          "url": "https://www.youtube.com/watch?v=X48VuDVv0do",
+          "channel": "TechWorld with Nana",
+          "language": "EN",
+          "kind": "VIDEO",
+          "primary": true
+        },
+        {
+          "title": "TrainWithShubham (Kubernetes & DevOps in Hindi)",
+          "url": "https://www.youtube.com/@TrainWithShubham",
+          "channel": "TrainWithShubham",
+          "language": "HI",
+          "kind": "CHANNEL",
+          "primary": true
+        },
+        {
+          "title": "GitHub Actions Tutorial - CI/CD pipeline with Docker",
+          "url": "https://www.youtube.com/watch?v=R8_veQiYBjI",
+          "channel": "TechWorld with Nana",
+          "language": "EN",
+          "kind": "VIDEO"
+        },
+        {
+          "title": "Abhishek Veeramalla - DevOps Zero to Hero",
+          "url": "https://www.youtube.com/@AbhishekVeeramalla/playlists",
+          "channel": "Abhishek Veeramalla",
+          "language": "EN",
+          "kind": "CHANNEL"
+        },
+        {
+          "title": "GitHub Actions in Hindi (search)",
+          "url": "https://www.youtube.com/results?search_query=github+actions+ci+cd+hindi",
+          "channel": null,
+          "language": "HI",
+          "kind": "SEARCH"
+        },
+        {
+          "title": "Kubernetes docs - tutorials",
+          "url": "https://kubernetes.io/docs/tutorials/",
+          "channel": "kubernetes.io",
+          "language": "EN",
+          "kind": "DOCS"
+        }
       ]
     },
     {
@@ -365,16 +1350,66 @@
       "projectDescription": "JSON logs with correlation ids, Prometheus metrics from Actuator, a Grafana dashboard (latency, error rate, throughput) and OpenTelemetry traces.",
       "month": 5,
       "topics": [
-        {"slug": "structured-logging", "title": "Structured logging, log levels, correlation IDs (ELK)", "hours": 3, "description": "JSON logs, MDC, searching logs across services.", "practice": "Run this playground with LOG_FORMAT=ecs and follow one request by its correlation id."},
-        {"slug": "metrics-prometheus-grafana", "title": "Metrics with Prometheus & Grafana", "hours": 4, "description": "RED metrics (rate, errors, duration), Micrometer, PromQL basics.", "practice": "Graph p95 latency of /api/roadmap in Grafana."},
-        {"slug": "tracing-opentelemetry", "title": "Distributed tracing with OpenTelemetry", "hours": 3, "description": "Spans, trace context propagation, finding the slow hop.", "practice": "Trace a request across two services."}
+        {
+          "slug": "structured-logging",
+          "title": "Structured logging, log levels, correlation IDs (ELK)",
+          "hours": 3,
+          "description": "JSON logs, MDC, searching logs across services.",
+          "practice": "Run this playground with LOG_FORMAT=ecs and follow one request by its correlation id."
+        },
+        {
+          "slug": "metrics-prometheus-grafana",
+          "title": "Metrics with Prometheus & Grafana",
+          "hours": 4,
+          "description": "RED metrics (rate, errors, duration), Micrometer, PromQL basics.",
+          "practice": "Graph p95 latency of /api/roadmap in Grafana."
+        },
+        {
+          "slug": "tracing-opentelemetry",
+          "title": "Distributed tracing with OpenTelemetry",
+          "hours": 3,
+          "description": "Spans, trace context propagation, finding the slow hop.",
+          "practice": "Trace a request across two services."
+        }
       ],
       "resources": [
-        {"title": "How Prometheus Monitoring works", "url": "https://www.youtube.com/watch?v=h4Sl21AKiDg", "channel": "TechWorld with Nana", "language": "EN", "kind": "VIDEO", "primary": true},
-        {"title": "Prometheus Monitoring - full tutorial", "url": "https://www.youtube.com/playlist?list=PLy7NrYWoggjxCF3av5JKwyG7FFF9eLeL4", "channel": "TechWorld with Nana", "language": "EN", "kind": "PLAYLIST"},
-        {"title": "Abhishek Veeramalla - Observability Zero to Hero", "url": "https://www.youtube.com/@AbhishekVeeramalla/playlists", "channel": "Abhishek Veeramalla", "language": "EN", "kind": "CHANNEL"},
-        {"title": "Prometheus + Grafana (Hindi search)", "url": "https://www.youtube.com/results?search_query=prometheus+grafana+tutorial+hindi", "channel": null, "language": "HI", "kind": "SEARCH", "primary": true},
-        {"title": "OpenTelemetry docs - Java", "url": "https://opentelemetry.io/docs/languages/java/", "channel": "opentelemetry.io", "language": "EN", "kind": "DOCS"}
+        {
+          "title": "How Prometheus Monitoring works",
+          "url": "https://www.youtube.com/watch?v=h4Sl21AKiDg",
+          "channel": "TechWorld with Nana",
+          "language": "EN",
+          "kind": "VIDEO",
+          "primary": true
+        },
+        {
+          "title": "Prometheus Monitoring - full tutorial",
+          "url": "https://www.youtube.com/playlist?list=PLy7NrYWoggjxCF3av5JKwyG7FFF9eLeL4",
+          "channel": "TechWorld with Nana",
+          "language": "EN",
+          "kind": "PLAYLIST"
+        },
+        {
+          "title": "Abhishek Veeramalla - Observability Zero to Hero",
+          "url": "https://www.youtube.com/@AbhishekVeeramalla/playlists",
+          "channel": "Abhishek Veeramalla",
+          "language": "EN",
+          "kind": "CHANNEL"
+        },
+        {
+          "title": "Prometheus + Grafana (Hindi search)",
+          "url": "https://www.youtube.com/results?search_query=prometheus+grafana+tutorial+hindi",
+          "channel": null,
+          "language": "HI",
+          "kind": "SEARCH",
+          "primary": true
+        },
+        {
+          "title": "OpenTelemetry docs - Java",
+          "url": "https://opentelemetry.io/docs/languages/java/",
+          "channel": "opentelemetry.io",
+          "language": "EN",
+          "kind": "DOCS"
+        }
       ]
     },
     {
@@ -387,42 +1422,166 @@
       "projectDescription": "Microservices (User, Restaurant, Order, Payment, Notification) with Java, Spring Boot, PostgreSQL, Redis, Kafka, Docker, K8s and Prometheus.",
       "month": 6,
       "topics": [
-        {"slug": "proj-task-management-api", "title": "Project 1: Task Management REST API", "hours": 10, "description": "Java + Spring Boot + PostgreSQL. Basic CRUD, Spring Data JPA, REST conventions.", "practice": "Rebuild the 'Task Manager API' template in the Rebuild Lab, then extend it."},
-        {"slug": "proj-ecommerce", "title": "Project 2: E-Commerce backend (JWT + Redis)", "hours": 14, "description": "Security filters, cart caching, relations (orders to users).", "practice": "Add JWT and Redis to your Level 3 project."},
-        {"slug": "proj-url-shortener", "title": "Project 3: URL Shortener", "hours": 12, "description": "Redis + PostgreSQL + load balancing + rate limiting; Base62, click analytics, spam prevention.", "practice": "Load test it with k6 and report p95 latency."},
-        {"slug": "proj-notification-service", "title": "Project 4: Notification Service", "hours": 15, "description": "Kafka + Redis + microservices; async email/SMS, DLQ, templating.", "practice": "Add retries with exponential backoff and a DLQ dashboard."},
-        {"slug": "proj-food-delivery", "title": "Project 5: Food Delivery backend (capstone)", "hours": 30, "description": "Distributed transactions, geodata queries, real-time status updates.", "practice": "Deploy it to Kubernetes with dashboards."},
-        {"slug": "interview-dsa", "title": "Interview prep: DSA", "hours": 20, "description": "Arrays & strings, HashMap, two pointers & sliding window, stack & queue, binary search, trees & graphs, heaps, DP basics.", "practice": "2 problems a day from Striver's sheet."},
-        {"slug": "interview-backend-internals", "title": "Interview prep: backend 'under the hood'", "hours": 6, "description": "JVM memory, Spring annotations, SQL joins & indexes, REST, Kafka partitions & Redis TTL, resilience patterns.", "practice": "Ask the AI Mentor to quiz you on each topic."}
+        {
+          "slug": "proj-task-management-api",
+          "title": "Project 1: Task Management REST API",
+          "hours": 10,
+          "description": "Java + Spring Boot + PostgreSQL. Basic CRUD, Spring Data JPA, REST conventions.",
+          "practice": "Rebuild the 'Task Manager API' template in the Rebuild Lab, then extend it."
+        },
+        {
+          "slug": "proj-ecommerce",
+          "title": "Project 2: E-Commerce backend (JWT + Redis)",
+          "hours": 14,
+          "description": "Security filters, cart caching, relations (orders to users).",
+          "practice": "Add JWT and Redis to your Level 3 project."
+        },
+        {
+          "slug": "proj-url-shortener",
+          "title": "Project 3: URL Shortener",
+          "hours": 12,
+          "description": "Redis + PostgreSQL + load balancing + rate limiting; Base62, click analytics, spam prevention.",
+          "practice": "Load test it with k6 and report p95 latency."
+        },
+        {
+          "slug": "proj-notification-service",
+          "title": "Project 4: Notification Service",
+          "hours": 15,
+          "description": "Kafka + Redis + microservices; async email/SMS, DLQ, templating.",
+          "practice": "Add retries with exponential backoff and a DLQ dashboard."
+        },
+        {
+          "slug": "proj-food-delivery",
+          "title": "Project 5: Food Delivery backend (capstone)",
+          "hours": 30,
+          "description": "Distributed transactions, geodata queries, real-time status updates.",
+          "practice": "Deploy it to Kubernetes with dashboards."
+        },
+        {
+          "slug": "interview-dsa",
+          "title": "Interview prep: DSA",
+          "hours": 20,
+          "description": "Arrays & strings, HashMap, two pointers & sliding window, stack & queue, binary search, trees & graphs, heaps, DP basics.",
+          "practice": "2 problems a day from Striver's sheet."
+        },
+        {
+          "slug": "interview-backend-internals",
+          "title": "Interview prep: backend 'under the hood'",
+          "hours": 6,
+          "description": "JVM memory, Spring annotations, SQL joins & indexes, REST, Kafka partitions & Redis TTL, resilience patterns.",
+          "practice": "Explain each topic out loud in 2 minutes, then write your answer in the topic notes."
+        }
       ],
       "resources": [
-        {"title": "Coder Army (Java, Spring Boot, DSA in Hindi)", "url": "https://www.youtube.com/@CoderArmy9", "channel": "Coder Army", "language": "HI", "kind": "CHANNEL", "primary": true},
-        {"title": "Striver's A2Z DSA Course", "url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz", "channel": "take U forward", "language": "EN", "kind": "PLAYLIST", "primary": true},
-        {"title": "Striver's A2Z DSA sheet", "url": "https://takeuforward.org/dsa/strivers-a2z-sheet-learn-dsa-a-to-z", "channel": "takeUforward", "language": "EN", "kind": "DOCS"},
-        {"title": "Spring Boot project from scratch (Hindi search)", "url": "https://www.youtube.com/results?search_query=spring+boot+project+from+scratch+hindi", "channel": null, "language": "HI", "kind": "SEARCH"},
-        {"title": "roadmap.sh - backend project ideas", "url": "https://roadmap.sh/backend/projects", "channel": "roadmap.sh", "language": "EN", "kind": "DOCS"}
+        {
+          "title": "Coder Army (Java, Spring Boot, DSA in Hindi)",
+          "url": "https://www.youtube.com/@CoderArmy9",
+          "channel": "Coder Army",
+          "language": "HI",
+          "kind": "CHANNEL",
+          "primary": true
+        },
+        {
+          "title": "Striver's A2Z DSA Course",
+          "url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
+          "channel": "take U forward",
+          "language": "EN",
+          "kind": "PLAYLIST",
+          "primary": true
+        },
+        {
+          "title": "Striver's A2Z DSA sheet",
+          "url": "https://takeuforward.org/dsa/strivers-a2z-sheet-learn-dsa-a-to-z",
+          "channel": "takeUforward",
+          "language": "EN",
+          "kind": "DOCS"
+        },
+        {
+          "title": "Spring Boot project from scratch (Hindi search)",
+          "url": "https://www.youtube.com/results?search_query=spring+boot+project+from+scratch+hindi",
+          "channel": null,
+          "language": "HI",
+          "kind": "SEARCH"
+        },
+        {
+          "title": "roadmap.sh - backend project ideas",
+          "url": "https://roadmap.sh/backend/projects",
+          "channel": "roadmap.sh",
+          "language": "EN",
+          "kind": "DOCS"
+        }
       ]
     },
     {
       "slug": "spring-ai",
       "number": 16,
       "title": "Bonus: AI Engineering with Spring AI",
-      "summary": "Not in the original PDF: add AI features to Java backends with Spring AI (the AI Mentor in this playground is built with it).",
+      "summary": "Not in the original PDF: add AI features to Java backends with Spring AI (ChatClient, structured output, RAG). Optional - do it after the core roadmap.",
       "whyItMatters": "Backend engineers are increasingly asked to integrate LLMs safely: prompts, structured output, tool calling, RAG, cost and rate limits.",
       "projectTitle": "Add an AI feature to your capstone",
       "projectDescription": "E.g. 'describe your craving' food search with RAG over restaurant menus using pgvector, with per-user quotas and cached answers.",
       "month": 6,
       "topics": [
-        {"slug": "spring-ai-chatclient", "title": "ChatClient, prompts & system messages", "hours": 3, "description": "Provider-agnostic chat with OpenAI, Anthropic or local Ollama.", "practice": "Read mentor/MentorService.java in the Rebuild Lab and change the system prompt."},
-        {"slug": "spring-ai-structured-output", "title": "Structured output & tool calling", "hours": 3, "description": "Map LLM output to Java records; let the model call your @Tool methods.", "practice": "Generate a quiz as a Java record (see the Mentor quiz endpoint)."},
-        {"slug": "spring-ai-rag", "title": "RAG with embeddings & pgvector", "hours": 5, "description": "Embeddings, vector search, chunking, grounding answers in your documents.", "practice": "Index your notes and ask questions over them."},
-        {"slug": "spring-ai-production", "title": "AI in production: cost, caching, quotas, safety", "hours": 4, "description": "Rate limits, answer caching, timeouts, prompt injection awareness.", "practice": "Add a per-user daily quota to your AI feature."}
+        {
+          "slug": "spring-ai-chatclient",
+          "title": "ChatClient, prompts & system messages",
+          "hours": 3,
+          "description": "Provider-agnostic chat with OpenAI, Anthropic or local Ollama.",
+          "practice": "Build a tiny Spring Boot app with one endpoint that calls ChatClient (Ollama runs free on your laptop)."
+        },
+        {
+          "slug": "spring-ai-structured-output",
+          "title": "Structured output & tool calling",
+          "hours": 3,
+          "description": "Map LLM output to Java records; let the model call your @Tool methods.",
+          "practice": "Ask the model for a quiz and map it straight into a Java record with .entity(Quiz.class)."
+        },
+        {
+          "slug": "spring-ai-rag",
+          "title": "RAG with embeddings & pgvector",
+          "hours": 5,
+          "description": "Embeddings, vector search, chunking, grounding answers in your documents.",
+          "practice": "Index your notes and ask questions over them."
+        },
+        {
+          "slug": "spring-ai-production",
+          "title": "AI in production: cost, caching, quotas, safety",
+          "hours": 4,
+          "description": "Rate limits, answer caching, timeouts, prompt injection awareness.",
+          "practice": "Add a per-user daily quota to your AI feature."
+        }
       ],
       "resources": [
-        {"title": "Dan Vega (Spring AI tutorials)", "url": "https://www.youtube.com/@DanVega", "channel": "Dan Vega", "language": "EN", "kind": "CHANNEL", "primary": true},
-        {"title": "Spring AI Introduction: Building AI applications in Java", "url": "https://www.youtube.com/watch?v=yyvjT0v3lpY", "channel": null, "language": "EN", "kind": "VIDEO"},
-        {"title": "Spring AI in Hindi (search)", "url": "https://www.youtube.com/results?search_query=spring+ai+tutorial+hindi", "channel": null, "language": "HI", "kind": "SEARCH", "primary": true},
-        {"title": "Spring AI reference documentation", "url": "https://docs.spring.io/spring-ai/reference/", "channel": "spring.io", "language": "EN", "kind": "DOCS"}
+        {
+          "title": "Dan Vega (Spring AI tutorials)",
+          "url": "https://www.youtube.com/@DanVega",
+          "channel": "Dan Vega",
+          "language": "EN",
+          "kind": "CHANNEL",
+          "primary": true
+        },
+        {
+          "title": "Spring AI Introduction: Building AI applications in Java",
+          "url": "https://www.youtube.com/watch?v=yyvjT0v3lpY",
+          "channel": null,
+          "language": "EN",
+          "kind": "VIDEO"
+        },
+        {
+          "title": "Spring AI in Hindi (search)",
+          "url": "https://www.youtube.com/results?search_query=spring+ai+tutorial+hindi",
+          "channel": null,
+          "language": "HI",
+          "kind": "SEARCH",
+          "primary": true
+        },
+        {
+          "title": "Spring AI reference documentation",
+          "url": "https://docs.spring.io/spring-ai/reference/",
+          "channel": "spring.io",
+          "language": "EN",
+          "kind": "DOCS"
+        }
       ]
     }
   ]

@@ -6,7 +6,7 @@ import com.backendprinciple.playground.common.security.AuthUser;
 import com.backendprinciple.playground.common.security.CurrentUser;
 import com.backendprinciple.playground.common.web.PageResponse;
 import com.backendprinciple.playground.lab.LabProjectRepository;
-import com.backendprinciple.playground.planner.StudySessionRepository;
+import com.backendprinciple.playground.planly.StudySessionRepository;
 import com.backendprinciple.playground.user.Role;
 import com.backendprinciple.playground.user.User;
 import com.backendprinciple.playground.user.UserDto;

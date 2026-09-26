@@ -1,6 +1,6 @@
 package com.backendprinciple.playground.progress;
 
-import com.backendprinciple.playground.planner.StudySessionRepository;
+import com.backendprinciple.playground.planly.StudySessionRepository;
 import com.backendprinciple.playground.roadmap.RoadmapDtos.LevelDto;
 import com.backendprinciple.playground.roadmap.RoadmapDtos.TopicDto;
 import com.backendprinciple.playground.roadmap.RoadmapService;

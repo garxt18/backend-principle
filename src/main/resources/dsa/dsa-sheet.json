@@ -1,0 +1,1469 @@
+{
+ "version": 1,
+ "topics": [
+  {
+   "slug": "arrays",
+   "title": "Arrays",
+   "summary": "Traversal, prefix sums, Kadane's algorithm, in-place tricks and matrix problems. The foundation of every other topic.",
+   "resources": [
+    {
+     "title": "Striver's A2Z DSA Course",
+     "url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
+     "channel": "take U forward",
+     "language": "EN"
+    },
+    {
+     "title": "Arrays in Hindi (YouTube search)",
+     "url": "https://www.youtube.com/results?search_query=Arrays+dsa+in+hindi",
+     "channel": null,
+     "language": "HI"
+    },
+    {
+     "title": "Coder Army (DSA in Hindi)",
+     "url": "https://www.youtube.com/@CoderArmy9",
+     "channel": "Coder Army",
+     "language": "HI"
+    },
+    {
+     "title": "NeetCode (problem walkthroughs)",
+     "url": "https://www.youtube.com/@NeetCode",
+     "channel": "NeetCode",
+     "language": "EN"
+    }
+   ],
+   "problems": [
+    {
+     "slug": "two-sum",
+     "title": "Two Sum",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/two-sum/"
+    },
+    {
+     "slug": "best-time-to-buy-and-sell-stock",
+     "title": "Best Time to Buy and Sell Stock",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/"
+    },
+    {
+     "slug": "contains-duplicate",
+     "title": "Contains Duplicate",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/contains-duplicate/"
+    },
+    {
+     "slug": "move-zeroes",
+     "title": "Move Zeroes",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/move-zeroes/"
+    },
+    {
+     "slug": "remove-duplicates-from-sorted-array",
+     "title": "Remove Duplicates from Sorted Array",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/remove-duplicates-from-sorted-array/"
+    },
+    {
+     "slug": "majority-element",
+     "title": "Majority Element",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/majority-element/"
+    },
+    {
+     "slug": "pascals-triangle",
+     "title": "Pascal's Triangle",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/pascals-triangle/"
+    },
+    {
+     "slug": "rotate-array",
+     "title": "Rotate Array",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/rotate-array/"
+    },
+    {
+     "slug": "maximum-subarray",
+     "title": "Maximum Subarray (Kadane)",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/maximum-subarray/"
+    },
+    {
+     "slug": "product-of-array-except-self",
+     "title": "Product of Array Except Self",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/product-of-array-except-self/"
+    },
+    {
+     "slug": "sort-colors",
+     "title": "Sort Colors (Dutch National Flag)",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/sort-colors/"
+    },
+    {
+     "slug": "next-permutation",
+     "title": "Next Permutation",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/next-permutation/"
+    },
+    {
+     "slug": "merge-intervals",
+     "title": "Merge Intervals",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/merge-intervals/"
+    },
+    {
+     "slug": "set-matrix-zeroes",
+     "title": "Set Matrix Zeroes",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/set-matrix-zeroes/"
+    },
+    {
+     "slug": "spiral-matrix",
+     "title": "Spiral Matrix",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/spiral-matrix/"
+    },
+    {
+     "slug": "rotate-image",
+     "title": "Rotate Image",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/rotate-image/"
+    },
+    {
+     "slug": "majority-element-ii",
+     "title": "Majority Element II",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/majority-element-ii/"
+    },
+    {
+     "slug": "first-missing-positive",
+     "title": "First Missing Positive",
+     "difficulty": "HARD",
+     "url": "https://leetcode.com/problems/first-missing-positive/"
+    }
+   ]
+  },
+  {
+   "slug": "hashing",
+   "title": "Hashing",
+   "summary": "HashMap and HashSet patterns: counting, grouping and prefix-sum lookups. The most asked interview topic.",
+   "resources": [
+    {
+     "title": "Striver's A2Z DSA Course",
+     "url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
+     "channel": "take U forward",
+     "language": "EN"
+    },
+    {
+     "title": "Hashing in Hindi (YouTube search)",
+     "url": "https://www.youtube.com/results?search_query=Hashing+dsa+in+hindi",
+     "channel": null,
+     "language": "HI"
+    },
+    {
+     "title": "Coder Army (DSA in Hindi)",
+     "url": "https://www.youtube.com/@CoderArmy9",
+     "channel": "Coder Army",
+     "language": "HI"
+    },
+    {
+     "title": "NeetCode (problem walkthroughs)",
+     "url": "https://www.youtube.com/@NeetCode",
+     "channel": "NeetCode",
+     "language": "EN"
+    }
+   ],
+   "problems": [
+    {
+     "slug": "valid-anagram",
+     "title": "Valid Anagram",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/valid-anagram/"
+    },
+    {
+     "slug": "group-anagrams",
+     "title": "Group Anagrams",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/group-anagrams/"
+    },
+    {
+     "slug": "top-k-frequent-elements",
+     "title": "Top K Frequent Elements",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/top-k-frequent-elements/"
+    },
+    {
+     "slug": "longest-consecutive-sequence",
+     "title": "Longest Consecutive Sequence",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/longest-consecutive-sequence/"
+    },
+    {
+     "slug": "subarray-sum-equals-k",
+     "title": "Subarray Sum Equals K",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/subarray-sum-equals-k/"
+    },
+    {
+     "slug": "valid-sudoku",
+     "title": "Valid Sudoku",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/valid-sudoku/"
+    }
+   ]
+  },
+  {
+   "slug": "two-pointers",
+   "title": "Two Pointers",
+   "summary": "Move two indices towards each other or in the same direction to avoid nested loops.",
+   "resources": [
+    {
+     "title": "Striver's A2Z DSA Course",
+     "url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
+     "channel": "take U forward",
+     "language": "EN"
+    },
+    {
+     "title": "Two Pointers in Hindi (YouTube search)",
+     "url": "https://www.youtube.com/results?search_query=Two+Pointers+dsa+in+hindi",
+     "channel": null,
+     "language": "HI"
+    },
+    {
+     "title": "Coder Army (DSA in Hindi)",
+     "url": "https://www.youtube.com/@CoderArmy9",
+     "channel": "Coder Army",
+     "language": "HI"
+    },
+    {
+     "title": "NeetCode (problem walkthroughs)",
+     "url": "https://www.youtube.com/@NeetCode",
+     "channel": "NeetCode",
+     "language": "EN"
+    }
+   ],
+   "problems": [
+    {
+     "slug": "valid-palindrome",
+     "title": "Valid Palindrome",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/valid-palindrome/"
+    },
+    {
+     "slug": "two-sum-ii-input-array-is-sorted",
+     "title": "Two Sum II - Input Array Is Sorted",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/"
+    },
+    {
+     "slug": "3sum",
+     "title": "3Sum",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/3sum/"
+    },
+    {
+     "slug": "4sum",
+     "title": "4Sum",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/4sum/"
+    },
+    {
+     "slug": "container-with-most-water",
+     "title": "Container With Most Water",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/container-with-most-water/"
+    },
+    {
+     "slug": "trapping-rain-water",
+     "title": "Trapping Rain Water",
+     "difficulty": "HARD",
+     "url": "https://leetcode.com/problems/trapping-rain-water/"
+    }
+   ]
+  },
+  {
+   "slug": "sliding-window",
+   "title": "Sliding Window",
+   "summary": "Grow and shrink a window over an array/string to answer 'longest/shortest subarray with X' questions in O(n).",
+   "resources": [
+    {
+     "title": "Striver's A2Z DSA Course",
+     "url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
+     "channel": "take U forward",
+     "language": "EN"
+    },
+    {
+     "title": "Sliding Window in Hindi (YouTube search)",
+     "url": "https://www.youtube.com/results?search_query=Sliding+Window+dsa+in+hindi",
+     "channel": null,
+     "language": "HI"
+    },
+    {
+     "title": "Coder Army (DSA in Hindi)",
+     "url": "https://www.youtube.com/@CoderArmy9",
+     "channel": "Coder Army",
+     "language": "HI"
+    },
+    {
+     "title": "NeetCode (problem walkthroughs)",
+     "url": "https://www.youtube.com/@NeetCode",
+     "channel": "NeetCode",
+     "language": "EN"
+    }
+   ],
+   "problems": [
+    {
+     "slug": "longest-substring-without-repeating-characters",
+     "title": "Longest Substring Without Repeating Characters",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/"
+    },
+    {
+     "slug": "longest-repeating-character-replacement",
+     "title": "Longest Repeating Character Replacement",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/longest-repeating-character-replacement/"
+    },
+    {
+     "slug": "permutation-in-string",
+     "title": "Permutation in String",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/permutation-in-string/"
+    },
+    {
+     "slug": "max-consecutive-ones-iii",
+     "title": "Max Consecutive Ones III",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/max-consecutive-ones-iii/"
+    },
+    {
+     "slug": "fruit-into-baskets",
+     "title": "Fruit Into Baskets",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/fruit-into-baskets/"
+    },
+    {
+     "slug": "minimum-window-substring",
+     "title": "Minimum Window Substring",
+     "difficulty": "HARD",
+     "url": "https://leetcode.com/problems/minimum-window-substring/"
+    },
+    {
+     "slug": "sliding-window-maximum",
+     "title": "Sliding Window Maximum",
+     "difficulty": "HARD",
+     "url": "https://leetcode.com/problems/sliding-window-maximum/"
+    }
+   ]
+  },
+  {
+   "slug": "binary-search",
+   "title": "Binary Search",
+   "summary": "Search sorted data in O(log n) - and 'binary search on the answer' for min/max optimisation problems.",
+   "resources": [
+    {
+     "title": "Striver's A2Z DSA Course",
+     "url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
+     "channel": "take U forward",
+     "language": "EN"
+    },
+    {
+     "title": "Binary Search in Hindi (YouTube search)",
+     "url": "https://www.youtube.com/results?search_query=Binary+Search+dsa+in+hindi",
+     "channel": null,
+     "language": "HI"
+    },
+    {
+     "title": "Coder Army (DSA in Hindi)",
+     "url": "https://www.youtube.com/@CoderArmy9",
+     "channel": "Coder Army",
+     "language": "HI"
+    },
+    {
+     "title": "NeetCode (problem walkthroughs)",
+     "url": "https://www.youtube.com/@NeetCode",
+     "channel": "NeetCode",
+     "language": "EN"
+    }
+   ],
+   "problems": [
+    {
+     "slug": "binary-search",
+     "title": "Binary Search",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/binary-search/"
+    },
+    {
+     "slug": "search-insert-position",
+     "title": "Search Insert Position",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/search-insert-position/"
+    },
+    {
+     "slug": "find-first-and-last-position-of-element-in-sorted-array",
+     "title": "Find First and Last Position of Element",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/"
+    },
+    {
+     "slug": "search-in-rotated-sorted-array",
+     "title": "Search in Rotated Sorted Array",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/search-in-rotated-sorted-array/"
+    },
+    {
+     "slug": "find-minimum-in-rotated-sorted-array",
+     "title": "Find Minimum in Rotated Sorted Array",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/"
+    },
+    {
+     "slug": "find-peak-element",
+     "title": "Find Peak Element",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/find-peak-element/"
+    },
+    {
+     "slug": "koko-eating-bananas",
+     "title": "Koko Eating Bananas",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/koko-eating-bananas/"
+    },
+    {
+     "slug": "capacity-to-ship-packages-within-d-days",
+     "title": "Capacity To Ship Packages Within D Days",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/"
+    },
+    {
+     "slug": "search-a-2d-matrix",
+     "title": "Search a 2D Matrix",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/search-a-2d-matrix/"
+    },
+    {
+     "slug": "split-array-largest-sum",
+     "title": "Split Array Largest Sum",
+     "difficulty": "HARD",
+     "url": "https://leetcode.com/problems/split-array-largest-sum/"
+    },
+    {
+     "slug": "median-of-two-sorted-arrays",
+     "title": "Median of Two Sorted Arrays",
+     "difficulty": "HARD",
+     "url": "https://leetcode.com/problems/median-of-two-sorted-arrays/"
+    }
+   ]
+  },
+  {
+   "slug": "strings",
+   "title": "Strings",
+   "summary": "String building, parsing and palindromes. Remember: Java Strings are immutable - use StringBuilder in loops.",
+   "resources": [
+    {
+     "title": "Striver's A2Z DSA Course",
+     "url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
+     "channel": "take U forward",
+     "language": "EN"
+    },
+    {
+     "title": "Strings in Hindi (YouTube search)",
+     "url": "https://www.youtube.com/results?search_query=Strings+dsa+in+hindi",
+     "channel": null,
+     "language": "HI"
+    },
+    {
+     "title": "Coder Army (DSA in Hindi)",
+     "url": "https://www.youtube.com/@CoderArmy9",
+     "channel": "Coder Army",
+     "language": "HI"
+    },
+    {
+     "title": "NeetCode (problem walkthroughs)",
+     "url": "https://www.youtube.com/@NeetCode",
+     "channel": "NeetCode",
+     "language": "EN"
+    }
+   ],
+   "problems": [
+    {
+     "slug": "longest-common-prefix",
+     "title": "Longest Common Prefix",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/longest-common-prefix/"
+    },
+    {
+     "slug": "isomorphic-strings",
+     "title": "Isomorphic Strings",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/isomorphic-strings/"
+    },
+    {
+     "slug": "roman-to-integer",
+     "title": "Roman to Integer",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/roman-to-integer/"
+    },
+    {
+     "slug": "reverse-words-in-a-string",
+     "title": "Reverse Words in a String",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/reverse-words-in-a-string/"
+    },
+    {
+     "slug": "longest-palindromic-substring",
+     "title": "Longest Palindromic Substring",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/longest-palindromic-substring/"
+    },
+    {
+     "slug": "string-to-integer-atoi",
+     "title": "String to Integer (atoi)",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/string-to-integer-atoi/"
+    }
+   ]
+  },
+  {
+   "slug": "linked-list",
+   "title": "Linked List",
+   "summary": "Pointer manipulation: reversal, fast/slow pointers, dummy nodes and merging.",
+   "resources": [
+    {
+     "title": "Striver's A2Z DSA Course",
+     "url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
+     "channel": "take U forward",
+     "language": "EN"
+    },
+    {
+     "title": "Linked List in Hindi (YouTube search)",
+     "url": "https://www.youtube.com/results?search_query=Linked+List+dsa+in+hindi",
+     "channel": null,
+     "language": "HI"
+    },
+    {
+     "title": "Coder Army (DSA in Hindi)",
+     "url": "https://www.youtube.com/@CoderArmy9",
+     "channel": "Coder Army",
+     "language": "HI"
+    },
+    {
+     "title": "NeetCode (problem walkthroughs)",
+     "url": "https://www.youtube.com/@NeetCode",
+     "channel": "NeetCode",
+     "language": "EN"
+    }
+   ],
+   "problems": [
+    {
+     "slug": "reverse-linked-list",
+     "title": "Reverse Linked List",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/reverse-linked-list/"
+    },
+    {
+     "slug": "middle-of-the-linked-list",
+     "title": "Middle of the Linked List",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/middle-of-the-linked-list/"
+    },
+    {
+     "slug": "merge-two-sorted-lists",
+     "title": "Merge Two Sorted Lists",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/merge-two-sorted-lists/"
+    },
+    {
+     "slug": "linked-list-cycle",
+     "title": "Linked List Cycle",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/linked-list-cycle/"
+    },
+    {
+     "slug": "palindrome-linked-list",
+     "title": "Palindrome Linked List",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/palindrome-linked-list/"
+    },
+    {
+     "slug": "intersection-of-two-linked-lists",
+     "title": "Intersection of Two Linked Lists",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/intersection-of-two-linked-lists/"
+    },
+    {
+     "slug": "linked-list-cycle-ii",
+     "title": "Linked List Cycle II",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/linked-list-cycle-ii/"
+    },
+    {
+     "slug": "remove-nth-node-from-end-of-list",
+     "title": "Remove Nth Node From End of List",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/remove-nth-node-from-end-of-list/"
+    },
+    {
+     "slug": "add-two-numbers",
+     "title": "Add Two Numbers",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/add-two-numbers/"
+    },
+    {
+     "slug": "copy-list-with-random-pointer",
+     "title": "Copy List with Random Pointer",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/copy-list-with-random-pointer/"
+    },
+    {
+     "slug": "reorder-list",
+     "title": "Reorder List",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/reorder-list/"
+    },
+    {
+     "slug": "reverse-nodes-in-k-group",
+     "title": "Reverse Nodes in k-Group",
+     "difficulty": "HARD",
+     "url": "https://leetcode.com/problems/reverse-nodes-in-k-group/"
+    },
+    {
+     "slug": "merge-k-sorted-lists",
+     "title": "Merge k Sorted Lists",
+     "difficulty": "HARD",
+     "url": "https://leetcode.com/problems/merge-k-sorted-lists/"
+    }
+   ]
+  },
+  {
+   "slug": "recursion-backtracking",
+   "title": "Recursion & Backtracking",
+   "summary": "Pick / not-pick recursion, generating subsets and permutations, and pruning the search space.",
+   "resources": [
+    {
+     "title": "Striver's A2Z DSA Course",
+     "url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
+     "channel": "take U forward",
+     "language": "EN"
+    },
+    {
+     "title": "Recursion & Backtracking in Hindi (YouTube search)",
+     "url": "https://www.youtube.com/results?search_query=Recursion+and+Backtracking+dsa+in+hindi",
+     "channel": null,
+     "language": "HI"
+    },
+    {
+     "title": "Coder Army (DSA in Hindi)",
+     "url": "https://www.youtube.com/@CoderArmy9",
+     "channel": "Coder Army",
+     "language": "HI"
+    },
+    {
+     "title": "NeetCode (problem walkthroughs)",
+     "url": "https://www.youtube.com/@NeetCode",
+     "channel": "NeetCode",
+     "language": "EN"
+    }
+   ],
+   "problems": [
+    {
+     "slug": "subsets",
+     "title": "Subsets",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/subsets/"
+    },
+    {
+     "slug": "subsets-ii",
+     "title": "Subsets II",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/subsets-ii/"
+    },
+    {
+     "slug": "permutations",
+     "title": "Permutations",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/permutations/"
+    },
+    {
+     "slug": "combination-sum",
+     "title": "Combination Sum",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/combination-sum/"
+    },
+    {
+     "slug": "combination-sum-ii",
+     "title": "Combination Sum II",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/combination-sum-ii/"
+    },
+    {
+     "slug": "letter-combinations-of-a-phone-number",
+     "title": "Letter Combinations of a Phone Number",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/letter-combinations-of-a-phone-number/"
+    },
+    {
+     "slug": "generate-parentheses",
+     "title": "Generate Parentheses",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/generate-parentheses/"
+    },
+    {
+     "slug": "palindrome-partitioning",
+     "title": "Palindrome Partitioning",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/palindrome-partitioning/"
+    },
+    {
+     "slug": "word-search",
+     "title": "Word Search",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/word-search/"
+    },
+    {
+     "slug": "n-queens",
+     "title": "N-Queens",
+     "difficulty": "HARD",
+     "url": "https://leetcode.com/problems/n-queens/"
+    },
+    {
+     "slug": "sudoku-solver",
+     "title": "Sudoku Solver",
+     "difficulty": "HARD",
+     "url": "https://leetcode.com/problems/sudoku-solver/"
+    }
+   ]
+  },
+  {
+   "slug": "stack-queue",
+   "title": "Stack & Queue",
+   "summary": "LIFO/FIFO structures and the monotonic stack pattern for 'next greater element' problems.",
+   "resources": [
+    {
+     "title": "Striver's A2Z DSA Course",
+     "url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
+     "channel": "take U forward",
+     "language": "EN"
+    },
+    {
+     "title": "Stack & Queue in Hindi (YouTube search)",
+     "url": "https://www.youtube.com/results?search_query=Stack+and+Queue+dsa+in+hindi",
+     "channel": null,
+     "language": "HI"
+    },
+    {
+     "title": "Coder Army (DSA in Hindi)",
+     "url": "https://www.youtube.com/@CoderArmy9",
+     "channel": "Coder Army",
+     "language": "HI"
+    },
+    {
+     "title": "NeetCode (problem walkthroughs)",
+     "url": "https://www.youtube.com/@NeetCode",
+     "channel": "NeetCode",
+     "language": "EN"
+    }
+   ],
+   "problems": [
+    {
+     "slug": "valid-parentheses",
+     "title": "Valid Parentheses",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/valid-parentheses/"
+    },
+    {
+     "slug": "implement-queue-using-stacks",
+     "title": "Implement Queue using Stacks",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/implement-queue-using-stacks/"
+    },
+    {
+     "slug": "next-greater-element-i",
+     "title": "Next Greater Element I",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/next-greater-element-i/"
+    },
+    {
+     "slug": "min-stack",
+     "title": "Min Stack",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/min-stack/"
+    },
+    {
+     "slug": "daily-temperatures",
+     "title": "Daily Temperatures",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/daily-temperatures/"
+    },
+    {
+     "slug": "evaluate-reverse-polish-notation",
+     "title": "Evaluate Reverse Polish Notation",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/evaluate-reverse-polish-notation/"
+    },
+    {
+     "slug": "online-stock-span",
+     "title": "Online Stock Span",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/online-stock-span/"
+    },
+    {
+     "slug": "asteroid-collision",
+     "title": "Asteroid Collision",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/asteroid-collision/"
+    },
+    {
+     "slug": "lru-cache",
+     "title": "LRU Cache",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/lru-cache/"
+    },
+    {
+     "slug": "largest-rectangle-in-histogram",
+     "title": "Largest Rectangle in Histogram",
+     "difficulty": "HARD",
+     "url": "https://leetcode.com/problems/largest-rectangle-in-histogram/"
+    }
+   ]
+  },
+  {
+   "slug": "binary-trees",
+   "title": "Binary Trees",
+   "summary": "DFS (pre/in/post-order), BFS level order, and recursion that returns information up the tree.",
+   "resources": [
+    {
+     "title": "Striver's A2Z DSA Course",
+     "url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
+     "channel": "take U forward",
+     "language": "EN"
+    },
+    {
+     "title": "Binary Trees in Hindi (YouTube search)",
+     "url": "https://www.youtube.com/results?search_query=Binary+Trees+dsa+in+hindi",
+     "channel": null,
+     "language": "HI"
+    },
+    {
+     "title": "Coder Army (DSA in Hindi)",
+     "url": "https://www.youtube.com/@CoderArmy9",
+     "channel": "Coder Army",
+     "language": "HI"
+    },
+    {
+     "title": "NeetCode (problem walkthroughs)",
+     "url": "https://www.youtube.com/@NeetCode",
+     "channel": "NeetCode",
+     "language": "EN"
+    }
+   ],
+   "problems": [
+    {
+     "slug": "binary-tree-inorder-traversal",
+     "title": "Binary Tree Inorder Traversal",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/binary-tree-inorder-traversal/"
+    },
+    {
+     "slug": "maximum-depth-of-binary-tree",
+     "title": "Maximum Depth of Binary Tree",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/maximum-depth-of-binary-tree/"
+    },
+    {
+     "slug": "balanced-binary-tree",
+     "title": "Balanced Binary Tree",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/balanced-binary-tree/"
+    },
+    {
+     "slug": "diameter-of-binary-tree",
+     "title": "Diameter of Binary Tree",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/diameter-of-binary-tree/"
+    },
+    {
+     "slug": "same-tree",
+     "title": "Same Tree",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/same-tree/"
+    },
+    {
+     "slug": "invert-binary-tree",
+     "title": "Invert Binary Tree",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/invert-binary-tree/"
+    },
+    {
+     "slug": "symmetric-tree",
+     "title": "Symmetric Tree",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/symmetric-tree/"
+    },
+    {
+     "slug": "binary-tree-level-order-traversal",
+     "title": "Binary Tree Level Order Traversal",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/binary-tree-level-order-traversal/"
+    },
+    {
+     "slug": "binary-tree-zigzag-level-order-traversal",
+     "title": "Binary Tree Zigzag Level Order Traversal",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/"
+    },
+    {
+     "slug": "binary-tree-right-side-view",
+     "title": "Binary Tree Right Side View",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/binary-tree-right-side-view/"
+    },
+    {
+     "slug": "lowest-common-ancestor-of-a-binary-tree",
+     "title": "Lowest Common Ancestor of a Binary Tree",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/"
+    },
+    {
+     "slug": "construct-binary-tree-from-preorder-and-inorder-traversal",
+     "title": "Construct Binary Tree from Preorder and Inorder Traversal",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/"
+    },
+    {
+     "slug": "binary-tree-maximum-path-sum",
+     "title": "Binary Tree Maximum Path Sum",
+     "difficulty": "HARD",
+     "url": "https://leetcode.com/problems/binary-tree-maximum-path-sum/"
+    },
+    {
+     "slug": "serialize-and-deserialize-binary-tree",
+     "title": "Serialize and Deserialize Binary Tree",
+     "difficulty": "HARD",
+     "url": "https://leetcode.com/problems/serialize-and-deserialize-binary-tree/"
+    }
+   ]
+  },
+  {
+   "slug": "bst",
+   "title": "Binary Search Trees",
+   "summary": "Use the BST ordering property: left < node < right. Inorder traversal gives sorted order.",
+   "resources": [
+    {
+     "title": "Striver's A2Z DSA Course",
+     "url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
+     "channel": "take U forward",
+     "language": "EN"
+    },
+    {
+     "title": "Binary Search Trees in Hindi (YouTube search)",
+     "url": "https://www.youtube.com/results?search_query=Binary+Search+Trees+dsa+in+hindi",
+     "channel": null,
+     "language": "HI"
+    },
+    {
+     "title": "Coder Army (DSA in Hindi)",
+     "url": "https://www.youtube.com/@CoderArmy9",
+     "channel": "Coder Army",
+     "language": "HI"
+    },
+    {
+     "title": "NeetCode (problem walkthroughs)",
+     "url": "https://www.youtube.com/@NeetCode",
+     "channel": "NeetCode",
+     "language": "EN"
+    }
+   ],
+   "problems": [
+    {
+     "slug": "search-in-a-binary-search-tree",
+     "title": "Search in a Binary Search Tree",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/search-in-a-binary-search-tree/"
+    },
+    {
+     "slug": "convert-sorted-array-to-binary-search-tree",
+     "title": "Convert Sorted Array to BST",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/"
+    },
+    {
+     "slug": "insert-into-a-binary-search-tree",
+     "title": "Insert into a Binary Search Tree",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/insert-into-a-binary-search-tree/"
+    },
+    {
+     "slug": "delete-node-in-a-bst",
+     "title": "Delete Node in a BST",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/delete-node-in-a-bst/"
+    },
+    {
+     "slug": "validate-binary-search-tree",
+     "title": "Validate Binary Search Tree",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/validate-binary-search-tree/"
+    },
+    {
+     "slug": "kth-smallest-element-in-a-bst",
+     "title": "Kth Smallest Element in a BST",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/kth-smallest-element-in-a-bst/"
+    },
+    {
+     "slug": "lowest-common-ancestor-of-a-binary-search-tree",
+     "title": "Lowest Common Ancestor of a BST",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/"
+    }
+   ]
+  },
+  {
+   "slug": "heaps",
+   "title": "Heaps / Priority Queue",
+   "summary": "Top-K, merging sorted streams and running medians with PriorityQueue.",
+   "resources": [
+    {
+     "title": "Striver's A2Z DSA Course",
+     "url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
+     "channel": "take U forward",
+     "language": "EN"
+    },
+    {
+     "title": "Heaps / Priority Queue in Hindi (YouTube search)",
+     "url": "https://www.youtube.com/results?search_query=Heaps+dsa+in+hindi",
+     "channel": null,
+     "language": "HI"
+    },
+    {
+     "title": "Coder Army (DSA in Hindi)",
+     "url": "https://www.youtube.com/@CoderArmy9",
+     "channel": "Coder Army",
+     "language": "HI"
+    },
+    {
+     "title": "NeetCode (problem walkthroughs)",
+     "url": "https://www.youtube.com/@NeetCode",
+     "channel": "NeetCode",
+     "language": "EN"
+    }
+   ],
+   "problems": [
+    {
+     "slug": "last-stone-weight",
+     "title": "Last Stone Weight",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/last-stone-weight/"
+    },
+    {
+     "slug": "kth-largest-element-in-an-array",
+     "title": "Kth Largest Element in an Array",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/kth-largest-element-in-an-array/"
+    },
+    {
+     "slug": "k-closest-points-to-origin",
+     "title": "K Closest Points to Origin",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/k-closest-points-to-origin/"
+    },
+    {
+     "slug": "task-scheduler",
+     "title": "Task Scheduler",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/task-scheduler/"
+    },
+    {
+     "slug": "find-median-from-data-stream",
+     "title": "Find Median from Data Stream",
+     "difficulty": "HARD",
+     "url": "https://leetcode.com/problems/find-median-from-data-stream/"
+    }
+   ]
+  },
+  {
+   "slug": "graphs",
+   "title": "Graphs",
+   "summary": "BFS/DFS on grids and adjacency lists, topological sort, union-find and shortest paths (Dijkstra).",
+   "resources": [
+    {
+     "title": "Striver's A2Z DSA Course",
+     "url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
+     "channel": "take U forward",
+     "language": "EN"
+    },
+    {
+     "title": "Graphs in Hindi (YouTube search)",
+     "url": "https://www.youtube.com/results?search_query=Graphs+dsa+in+hindi",
+     "channel": null,
+     "language": "HI"
+    },
+    {
+     "title": "Coder Army (DSA in Hindi)",
+     "url": "https://www.youtube.com/@CoderArmy9",
+     "channel": "Coder Army",
+     "language": "HI"
+    },
+    {
+     "title": "NeetCode (problem walkthroughs)",
+     "url": "https://www.youtube.com/@NeetCode",
+     "channel": "NeetCode",
+     "language": "EN"
+    }
+   ],
+   "problems": [
+    {
+     "slug": "flood-fill",
+     "title": "Flood Fill",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/flood-fill/"
+    },
+    {
+     "slug": "number-of-islands",
+     "title": "Number of Islands",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/number-of-islands/"
+    },
+    {
+     "slug": "number-of-provinces",
+     "title": "Number of Provinces",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/number-of-provinces/"
+    },
+    {
+     "slug": "clone-graph",
+     "title": "Clone Graph",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/clone-graph/"
+    },
+    {
+     "slug": "rotting-oranges",
+     "title": "Rotting Oranges",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/rotting-oranges/"
+    },
+    {
+     "slug": "01-matrix",
+     "title": "01 Matrix",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/01-matrix/"
+    },
+    {
+     "slug": "surrounded-regions",
+     "title": "Surrounded Regions",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/surrounded-regions/"
+    },
+    {
+     "slug": "course-schedule",
+     "title": "Course Schedule",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/course-schedule/"
+    },
+    {
+     "slug": "course-schedule-ii",
+     "title": "Course Schedule II",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/course-schedule-ii/"
+    },
+    {
+     "slug": "is-graph-bipartite",
+     "title": "Is Graph Bipartite?",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/is-graph-bipartite/"
+    },
+    {
+     "slug": "network-delay-time",
+     "title": "Network Delay Time",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/network-delay-time/"
+    },
+    {
+     "slug": "cheapest-flights-within-k-stops",
+     "title": "Cheapest Flights Within K Stops",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/cheapest-flights-within-k-stops/"
+    },
+    {
+     "slug": "accounts-merge",
+     "title": "Accounts Merge",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/accounts-merge/"
+    },
+    {
+     "slug": "word-ladder",
+     "title": "Word Ladder",
+     "difficulty": "HARD",
+     "url": "https://leetcode.com/problems/word-ladder/"
+    }
+   ]
+  },
+  {
+   "slug": "dynamic-programming",
+   "title": "Dynamic Programming",
+   "summary": "Recursion + memoisation -> tabulation -> space optimisation. 1D, 2D grid, subsequence and knapsack patterns.",
+   "resources": [
+    {
+     "title": "Striver's A2Z DSA Course",
+     "url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
+     "channel": "take U forward",
+     "language": "EN"
+    },
+    {
+     "title": "Dynamic Programming in Hindi (YouTube search)",
+     "url": "https://www.youtube.com/results?search_query=Dynamic+Programming+dsa+in+hindi",
+     "channel": null,
+     "language": "HI"
+    },
+    {
+     "title": "Coder Army (DSA in Hindi)",
+     "url": "https://www.youtube.com/@CoderArmy9",
+     "channel": "Coder Army",
+     "language": "HI"
+    },
+    {
+     "title": "NeetCode (problem walkthroughs)",
+     "url": "https://www.youtube.com/@NeetCode",
+     "channel": "NeetCode",
+     "language": "EN"
+    }
+   ],
+   "problems": [
+    {
+     "slug": "climbing-stairs",
+     "title": "Climbing Stairs",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/climbing-stairs/"
+    },
+    {
+     "slug": "house-robber",
+     "title": "House Robber",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/house-robber/"
+    },
+    {
+     "slug": "house-robber-ii",
+     "title": "House Robber II",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/house-robber-ii/"
+    },
+    {
+     "slug": "coin-change",
+     "title": "Coin Change",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/coin-change/"
+    },
+    {
+     "slug": "coin-change-ii",
+     "title": "Coin Change II",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/coin-change-ii/"
+    },
+    {
+     "slug": "unique-paths",
+     "title": "Unique Paths",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/unique-paths/"
+    },
+    {
+     "slug": "minimum-path-sum",
+     "title": "Minimum Path Sum",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/minimum-path-sum/"
+    },
+    {
+     "slug": "partition-equal-subset-sum",
+     "title": "Partition Equal Subset Sum",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/partition-equal-subset-sum/"
+    },
+    {
+     "slug": "longest-increasing-subsequence",
+     "title": "Longest Increasing Subsequence",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/longest-increasing-subsequence/"
+    },
+    {
+     "slug": "longest-common-subsequence",
+     "title": "Longest Common Subsequence",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/longest-common-subsequence/"
+    },
+    {
+     "slug": "word-break",
+     "title": "Word Break",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/word-break/"
+    },
+    {
+     "slug": "decode-ways",
+     "title": "Decode Ways",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/decode-ways/"
+    },
+    {
+     "slug": "edit-distance",
+     "title": "Edit Distance",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/edit-distance/"
+    },
+    {
+     "slug": "best-time-to-buy-and-sell-stock-with-cooldown",
+     "title": "Best Time to Buy and Sell Stock with Cooldown",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/"
+    },
+    {
+     "slug": "burst-balloons",
+     "title": "Burst Balloons",
+     "difficulty": "HARD",
+     "url": "https://leetcode.com/problems/burst-balloons/"
+    }
+   ]
+  },
+  {
+   "slug": "greedy",
+   "title": "Greedy",
+   "summary": "Make the locally best choice - and prove (or test) why it is globally optimal.",
+   "resources": [
+    {
+     "title": "Striver's A2Z DSA Course",
+     "url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
+     "channel": "take U forward",
+     "language": "EN"
+    },
+    {
+     "title": "Greedy in Hindi (YouTube search)",
+     "url": "https://www.youtube.com/results?search_query=Greedy+dsa+in+hindi",
+     "channel": null,
+     "language": "HI"
+    },
+    {
+     "title": "Coder Army (DSA in Hindi)",
+     "url": "https://www.youtube.com/@CoderArmy9",
+     "channel": "Coder Army",
+     "language": "HI"
+    },
+    {
+     "title": "NeetCode (problem walkthroughs)",
+     "url": "https://www.youtube.com/@NeetCode",
+     "channel": "NeetCode",
+     "language": "EN"
+    }
+   ],
+   "problems": [
+    {
+     "slug": "assign-cookies",
+     "title": "Assign Cookies",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/assign-cookies/"
+    },
+    {
+     "slug": "jump-game",
+     "title": "Jump Game",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/jump-game/"
+    },
+    {
+     "slug": "jump-game-ii",
+     "title": "Jump Game II",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/jump-game-ii/"
+    },
+    {
+     "slug": "gas-station",
+     "title": "Gas Station",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/gas-station/"
+    },
+    {
+     "slug": "non-overlapping-intervals",
+     "title": "Non-overlapping Intervals",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/non-overlapping-intervals/"
+    },
+    {
+     "slug": "candy",
+     "title": "Candy",
+     "difficulty": "HARD",
+     "url": "https://leetcode.com/problems/candy/"
+    }
+   ]
+  },
+  {
+   "slug": "tries-bits",
+   "title": "Tries & Bit Manipulation",
+   "summary": "Prefix trees for word problems, and XOR / bit tricks.",
+   "resources": [
+    {
+     "title": "Striver's A2Z DSA Course",
+     "url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
+     "channel": "take U forward",
+     "language": "EN"
+    },
+    {
+     "title": "Tries & Bit Manipulation in Hindi (YouTube search)",
+     "url": "https://www.youtube.com/results?search_query=Tries+and+Bit+Manipulation+dsa+in+hindi",
+     "channel": null,
+     "language": "HI"
+    },
+    {
+     "title": "Coder Army (DSA in Hindi)",
+     "url": "https://www.youtube.com/@CoderArmy9",
+     "channel": "Coder Army",
+     "language": "HI"
+    },
+    {
+     "title": "NeetCode (problem walkthroughs)",
+     "url": "https://www.youtube.com/@NeetCode",
+     "channel": "NeetCode",
+     "language": "EN"
+    }
+   ],
+   "problems": [
+    {
+     "slug": "single-number",
+     "title": "Single Number",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/single-number/"
+    },
+    {
+     "slug": "number-of-1-bits",
+     "title": "Number of 1 Bits",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/number-of-1-bits/"
+    },
+    {
+     "slug": "counting-bits",
+     "title": "Counting Bits",
+     "difficulty": "EASY",
+     "url": "https://leetcode.com/problems/counting-bits/"
+    },
+    {
+     "slug": "implement-trie-prefix-tree",
+     "title": "Implement Trie (Prefix Tree)",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/implement-trie-prefix-tree/"
+    },
+    {
+     "slug": "design-add-and-search-words-data-structure",
+     "title": "Design Add and Search Words Data Structure",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/design-add-and-search-words-data-structure/"
+    },
+    {
+     "slug": "maximum-xor-of-two-numbers-in-an-array",
+     "title": "Maximum XOR of Two Numbers in an Array",
+     "difficulty": "MEDIUM",
+     "url": "https://leetcode.com/problems/maximum-xor-of-two-numbers-in-an-array/"
+    },
+    {
+     "slug": "word-search-ii",
+     "title": "Word Search II",
+     "difficulty": "HARD",
+     "url": "https://leetcode.com/problems/word-search-ii/"
+    }
+   ]
+  }
+ ]
+}

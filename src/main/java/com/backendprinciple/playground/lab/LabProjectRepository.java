@@ -13,6 +13,9 @@ public interface LabProjectRepository extends JpaRepository<LabProject, UUID> {
 
     long countByOwnerId(UUID ownerId);
 
+    @Query("select p from LabProject p where p.ownerId is null")
+    List<LabProject> findAllTemplates();
+
     @Query("select p from LabProject p where p.ownerId is null and p.slug = :slug")
     Optional<LabProject> findTemplate(String slug);
 }

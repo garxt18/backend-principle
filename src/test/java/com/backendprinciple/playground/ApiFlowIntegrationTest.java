@@ -157,14 +157,68 @@ class ApiFlowIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    void mentorReportsDisabledWithoutAProvider() throws Exception {
-        Session s = register("zoya");
-        mvc.perform(get("/api/mentor/status").header("Authorization", s.bearer()))
+    void dsaSheetTracksSolvedProblemsAndFeedsPlanly() throws Exception {
+        Session s = register("tara");
+        JsonNode sheet = body(mvc.perform(get("/api/dsa/sheet").header("Authorization", s.bearer()))
+                .andExpect(status().isOk()).andReturn());
+        assertThat(sheet.get("stats").get("total").asInt()).isGreaterThan(100);
+        long twoSum = sheet.get("topics").get(0).get("problems").get(0).get("id").asLong();
+
+        mvc.perform(put("/api/dsa/problems/" + twoSum).header("Authorization", s.bearer())
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"solved\":true,\"revision\":true,\"notes\":\"HashMap of seen values\"}"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.enabled").value(false));
-        mvc.perform(post("/api/mentor/ask").header("Authorization", s.bearer()).contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"question\":\"What is IoC?\"}"))
-                .andExpect(status().isServiceUnavailable());
+                .andExpect(jsonPath("$.solved").value(true))
+                .andExpect(jsonPath("$.solvedAt").exists());
+        mvc.perform(get("/api/dsa/sheet").header("Authorization", s.bearer()))
+                .andExpect(jsonPath("$.stats.solved").value(1))
+                .andExpect(jsonPath("$.stats.revision").value(1))
+                .andExpect(jsonPath("$.stats.easy.solved").value(1))
+                .andExpect(jsonPath("$.topics[0].problems[0].notes").value("HashMap of seen values"));
+
+        // Planly counts problems solved during the current week against the weekly DSA target.
+        mvc.perform(post("/api/plans").header("Authorization", s.bearer()).contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"hoursPerWeek\":15,\"dsaPerWeek\":10}"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.dsaPerWeek").value(10))
+                .andExpect(jsonPath("$.weeks[0].dsaTarget").value(10))
+                .andExpect(jsonPath("$.weeks[0].dsaSolved").value(1));
+
+        // Another learner's sheet is untouched.
+        mvc.perform(get("/api/dsa/sheet").header("Authorization", register("uma").bearer()))
+                .andExpect(jsonPath("$.stats.solved").value(0));
+    }
+
+    @Test
+    void labLineNotesArePersonal() throws Exception {
+        Session a = register("farhan");
+        Session b = register("gita");
+        JsonNode projects = body(mvc.perform(get("/api/lab/projects").header("Authorization", a.bearer())).andReturn());
+        String templateId = projects.valueStream().filter(p -> p.get("template").asBoolean()).findFirst().orElseThrow()
+                .get("id").asText();
+        String fileId = body(mvc.perform(get("/api/lab/projects/" + templateId).header("Authorization", a.bearer())).andReturn())
+                .get("files").get(0).get("id").asText();
+
+        mvc.perform(put("/api/lab/files/" + fileId + "/lines/3/note").header("Authorization", a.bearer())
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"note\":\"Maven ka root tag\"}"))
+                .andExpect(status().isNoContent());
+        mvc.perform(get("/api/lab/files/" + fileId).header("Authorization", a.bearer()))
+                .andExpect(jsonPath("$.notes['3']").value("Maven ka root tag"));
+        mvc.perform(get("/api/lab/files/" + fileId).header("Authorization", b.bearer()))
+                .andExpect(jsonPath("$.notes['3']").doesNotExist());
+
+        // Blank text deletes the note; out-of-range lines are rejected.
+        mvc.perform(put("/api/lab/files/" + fileId + "/lines/3/note").header("Authorization", a.bearer())
+                .contentType(MediaType.APPLICATION_JSON).content("{\"note\":\" \"}")).andExpect(status().isNoContent());
+        mvc.perform(get("/api/lab/files/" + fileId).header("Authorization", a.bearer()))
+                .andExpect(jsonPath("$.notes['3']").doesNotExist());
+        mvc.perform(put("/api/lab/files/" + fileId + "/lines/99999/note").header("Authorization", a.bearer())
+                .contentType(MediaType.APPLICATION_JSON).content("{\"note\":\"x\"}")).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void unknownApiPathsAre404NotTheSpa() throws Exception {
+        Session s = register("hari");
+        mvc.perform(get("/api/does-not-exist").header("Authorization", s.bearer())).andExpect(status().isNotFound());
     }
 
     private static byte[] zip() throws Exception {

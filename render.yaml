@@ -1,0 +1,31 @@
+# Render Blueprint: one click creates the web app + a PostgreSQL database.
+# Render dashboard -> New -> Blueprint -> pick this repository.
+databases:
+  - name: playground-db
+    plan: free
+    databaseName: playground
+    user: playground
+
+services:
+  - type: web
+    name: backend-playground
+    runtime: docker
+    plan: free
+    healthCheckPath: /actuator/health/readiness
+    envVars:
+      - key: DATABASE_URL            # converted to a JDBC URL by DatabaseUrlEnvironmentPostProcessor
+        fromDatabase:
+          name: playground-db
+          property: connectionString
+      - key: APP_JWT_SECRET
+        generateValue: true          # Render creates a long random secret
+      - key: APP_SECURE_COOKIE
+        value: "true"
+      - key: LOG_FORMAT
+        value: ecs
+      - key: JAVA_OPTS
+        value: "-XX:MaxRAMPercentage=75 -XX:+ExitOnOutOfMemoryError -XX:TieredStopAtLevel=1"
+      - key: APP_ADMIN_EMAIL
+        sync: false                  # you type these in the dashboard when creating the Blueprint
+      - key: APP_ADMIN_PASSWORD
+        sync: false

@@ -22,7 +22,7 @@ public class AppConfig {
     OpenAPI openApi() {
         return new OpenAPI()
                 .info(new Info().title("Backend Playground API").version("v1")
-                        .description("Learning planner, roadmap tracker, Rebuild Lab and AI mentor"))
+                        .description("Roadmap tracker, Planly planner, DSA sheet and Rebuild Lab"))
                 .components(new Components().addSecuritySchemes("bearer",
                         new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")))
                 .addSecurityItem(new SecurityRequirement().addList("bearer"));

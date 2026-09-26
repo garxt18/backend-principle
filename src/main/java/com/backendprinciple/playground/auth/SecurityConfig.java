@@ -53,7 +53,6 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsSource(corsOrigins)))
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/index.html", "/favicon.svg", "/assets/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/roadmap/**").permitAll()
                         .requestMatchers("/actuator/health/**", "/actuator/info").permitAll()
@@ -61,12 +60,14 @@ public class SecurityConfig {
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/api/admin/**", "/actuator/**").hasRole("ADMIN")
                         .requestMatchers("/api/**").authenticated()
+                        // Everything else is the React app and its static files (public; data comes from /api).
+                        .requestMatchers(HttpMethod.GET, "/**").permitAll()
                         .anyRequest().denyAll())
                 .oauth2ResourceServer(rs -> rs.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthConverter())))
                 .headers(h -> h
                         .contentSecurityPolicy(csp -> csp.policyDirectives(
                                 "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; "
-                                        + "img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; "
+                                        + "img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; "
                                         + "base-uri 'self'; form-action 'self'"))
                         .referrerPolicy(r -> r.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)));
         return http.build();

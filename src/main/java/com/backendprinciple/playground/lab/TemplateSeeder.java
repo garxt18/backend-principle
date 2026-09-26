@@ -20,9 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
  * <ul>
  *   <li>task-manager-api - the roadmap's "Project 1", small enough to rebuild in a weekend.</li>
  *   <li>backend-playground - this very application (copied in by the Maven build), so you can
- *       rebuild the platform you are using, Spring AI mentor included.</li>
+ *       rebuild the platform you are using.</li>
  * </ul>
- * A template is only inserted once; bump its slug (e.g. -v2) to publish a new version.
+ * A template is only inserted once; bump its slug (e.g. -v2) to publish a new version. Templates whose slug is no
+ * longer listed here (older versions) are removed on startup, together with progress on them.
  */
 @Component
 @Order(2)
@@ -37,9 +38,9 @@ public class TemplateSeeder implements ApplicationRunner {
             new Template("task-manager-api-v1", "task-manager-api", "Task Manager API (Roadmap Project 1)",
                     "A small, clean Spring Boot + PostgreSQL CRUD API: entity, repository, DTOs, validation, "
                             + "error handling, service, controller, tests and Dockerfile. Rebuild this first."),
-            new Template("backend-playground-v1", "backend-playground", "Backend Playground (this app)",
+            new Template("backend-playground-v2", "backend-playground", "Backend Playground (this app)",
                     "The full source of this platform: JWT auth with refresh-token rotation, rate limiting, "
-                            + "caching, planner, Rebuild Lab and the Spring AI mentor. The advanced rebuild."));
+                            + "caching, Planly planner, DSA sheet and the Rebuild Lab. The advanced rebuild."));
 
     private final LabService lab;
     private final LabProjectRepository projects;
@@ -52,6 +53,13 @@ public class TemplateSeeder implements ApplicationRunner {
     @Override
     @Transactional
     public void run(ApplicationArguments args) throws IOException {
+        var current = TEMPLATES.stream().map(Template::slug).toList();
+        for (LabProject old : projects.findAllTemplates()) {
+            if (!current.contains(old.getSlug())) {
+                projects.delete(old);
+                log.info("Removed outdated Rebuild Lab template {}", old.getSlug());
+            }
+        }
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         for (Template t : TEMPLATES) {
             if (projects.findTemplate(t.slug()).isPresent()) {

@@ -21,12 +21,14 @@ public class LabService {
     private final LabProjectRepository projects;
     private final LabFileRepository files;
     private final LabFileProgressRepository progress;
+    private final LabLineNoteRepository notes;
     private final LineExplainer explainer;
     private final LabProperties props;
     private final Clock clock;
 
     public LabService(LabProjectRepository projects, LabFileRepository files, LabFileProgressRepository progress,
-                      LineExplainer explainer, LabProperties props, Clock clock) {
+                      LabLineNoteRepository notes, LineExplainer explainer, LabProperties props, Clock clock) {
+        this.notes = notes;
         this.projects = projects;
         this.files = files;
         this.progress = progress;
@@ -58,7 +60,7 @@ public class LabService {
 
     public record FileDto(UUID id, UUID projectId, String path, String language, FileLayer layer, String layerLabel,
                           String layerWhy, int buildOrder, int lineCount, int linesCompleted, List<String> lines,
-                          UUID previousFileId, UUID nextFileId) {
+                          Map<Integer, String> notes, UUID previousFileId, UUID nextFileId) {
     }
 
     public record ImportOutcome(ProjectDto project, List<String> skipped) {
@@ -105,7 +107,8 @@ public class LabService {
         }
         int done = progress.findByUserIdAndFileId(userId, fileId).map(LabFileProgress::getLinesCompleted).orElse(0);
         return new FileDto(f.getId(), f.getProjectId(), f.getPath(), f.getLanguage(), f.getLayer(), f.getLayer().label(),
-                f.getLayer().why(), f.getBuildOrder(), f.getLineCount(), done, f.getContent().lines().toList(), prev, next);
+                f.getLayer().why(), f.getBuildOrder(), f.getLineCount(), done, f.getContent().lines().toList(),
+                notesOf(userId, fileId), prev, next);
     }
 
     @Transactional(readOnly = true)
@@ -118,15 +121,30 @@ public class LabService {
         return explainer.explain(lines, lineNumber, f.getLanguage());
     }
 
-    /** Used by the AI mentor to build prompts; enforces the same visibility rules. */
-    @Transactional(readOnly = true)
-    public LabFile readableFile(UUID userId, UUID fileId) {
-        LabFile f = visibleFile(userId, fileId);
-        f.getContent(); // initialise the lazy column inside the transaction
-        return f;
+    private Map<Integer, String> notesOf(UUID userId, UUID fileId) {
+        Map<Integer, String> result = new java.util.TreeMap<>();
+        notes.findByUserIdAndFileIdOrderByLineNumber(userId, fileId).forEach(n -> result.put(n.getLineNumber(), n.getNote()));
+        return result;
     }
 
     // ---- commands ---------------------------------------------------------------------------------
+
+    /** Saves (or, with blank text, deletes) the learner's own explanation of a line. */
+    @Transactional
+    public void saveLineNote(UUID userId, UUID fileId, int lineNumber, String text) {
+        LabFile f = visibleFile(userId, fileId);
+        if (lineNumber < 1 || lineNumber > f.getLineCount()) {
+            throw ApiException.badRequest("Line number out of range");
+        }
+        var existing = notes.findByUserIdAndFileIdAndLineNumber(userId, fileId, lineNumber);
+        if (text == null || text.isBlank()) {
+            existing.ifPresent(notes::delete);
+            return;
+        }
+        LabLineNote note = existing.orElseGet(() -> new LabLineNote(userId, fileId, lineNumber));
+        note.write(text.strip(), clock.instant());
+        notes.save(note);
+    }
 
     @Transactional
     public int saveProgress(UUID userId, UUID fileId, int linesCompleted) {

@@ -3,7 +3,7 @@
 > learn -> build -> break -> debug -> improve -> repeat
 
 This guide turns the *Backend Engineering Roadmap 2026* into a routine. The same data (with progress tracking)
-lives in the app under **Roadmap** and **Planner**. Admins can edit resources in the app without redeploying.
+lives in the app under **Roadmap**, **DSA Sheet** and **Planly**. Admins can edit resources in the app without redeploying.
 
 ## Your two main playlists
 
@@ -18,13 +18,20 @@ lives in the app under **Roadmap** and **Planner**. Admins can edit resources in
 ### How to combine a video with the Rebuild Lab
 
 1. **Watch** one video at 1x (no coding yet), taking 3-5 bullet notes in the topic's notes box.
-2. **Rebuild**: open the matching file in the Rebuild Lab (e.g. an entity video -> the `DOMAIN` step) and
-   type it in normal mode. Click any line you don't understand; ask the AI mentor if the offline
-   explanation isn't enough.
+2. **Rebuild**: open the matching file in the Rebuild Lab (e.g. an entity video -> the "Entities" step) and
+   type it in Type mode. Click any line you don't understand and read its explanation, then write your own
+   explanation in the "Explain it in your own words" box.
 3. **Recall**: retype the same file in **Blind mode**. Wherever you get stuck is what to rewatch.
 4. **Break it**: change something in your own project (remove `@Transactional`, rename a repository
    method, drop an index) and predict what happens before you run it.
-5. **Log** the time on the dashboard and mark the topic done in the Roadmap.
+5. **Log** the time on the dashboard and mark the topic done in the Roadmap (Planly updates automatically).
+
+### Daily routine with Planly
+
+- Create a plan in **Planly** with your real hours (20 h/week ~ 6 months) and a DSA target (10/week finishes the
+  sheet in about 4 months).
+- Every day: 1-2 DSA problems from the **DSA Sheet** (Today's picks on the dashboard) + one roadmap topic.
+- Sunday: revise the problems you starred, and re-plan if you fell behind - that is what the plan is for.
 
 Suggested order in the Lab: **Task Manager API** template (a weekend) -> **your own project** -> the
 **Backend Playground** template (advanced: JWT, rate limiting, caching, Spring AI).
@@ -138,9 +145,17 @@ HI = Hindi / Hinglish, EN = English. Starred items are the recommended starting 
 
 ### Bonus: Spring AI
 - EN * [Dan Vega](https://www.youtube.com/@DanVega) - Spring AI tutorials
-- EN [Spring AI Introduction: Building AI applications in Java](https://www.youtube.com/watch?v=yyvjT0v3lpY)
+- EN [Spring AI Introduction: Building AI applications in Java](https://www.youtube.com/watch?v=yyvjT0v3lpY) (optional level - do it after the core roadmap)
 - HI * [Spring AI (search)](https://www.youtube.com/results?search_query=spring+ai+tutorial+hindi)
 - EN [Spring AI reference](https://docs.spring.io/spring-ai/reference/)
+
+## DSA resources
+
+The in-app DSA Sheet links every problem to LeetCode and to Hindi/English video searches. Topic-level picks:
+
+- EN * [Striver's A2Z DSA Course - take U forward](https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz) and the [A2Z sheet](https://takeuforward.org/dsa/strivers-a2z-sheet-learn-dsa-a-to-z)
+- HI * [Coder Army](https://www.youtube.com/@CoderArmy9) - DSA in Hindi
+- EN [NeetCode](https://www.youtube.com/@NeetCode) - clear walkthroughs of the classic LeetCode problems
 
 ## What NOT to do (from the roadmap)
 

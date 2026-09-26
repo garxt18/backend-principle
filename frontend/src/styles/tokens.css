@@ -1,0 +1,101 @@
+/* Design tokens. Two themes: dark (default) and light, switched with <html data-theme="...">.
+   Neutral greys + one warm accent; difficulty colours follow the usual green / amber / red convention. */
+:root {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --container: 1120px;
+  --nav-h: 58px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 120ms;
+  --dur: 220ms;
+  --dur-slow: 600ms;
+}
+
+:root,
+[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0b0b0c;
+  --bg-nav: rgba(11, 11, 12, 0.78);
+  --surface: #141416;
+  --surface-2: #1b1b1e;
+  --surface-3: #232327;
+  --border: #26262a;
+  --border-strong: #3a3a40;
+  --text: #f4f4f5;
+  --text-2: #a1a1aa;
+  --text-3: #71717a;
+
+  --accent: #f97316;
+  --accent-hover: #fb8a3c;
+  --accent-contrast: #0b0b0c;
+  --accent-soft: rgba(249, 115, 22, 0.12);
+  --accent-ring: rgba(249, 115, 22, 0.35);
+
+  --success: #22c55e;
+  --success-soft: rgba(34, 197, 94, 0.12);
+  --warning: #eab308;
+  --warning-soft: rgba(234, 179, 8, 0.12);
+  --danger: #ef4444;
+  --danger-soft: rgba(239, 68, 68, 0.12);
+
+  --easy: #22c55e;
+  --medium: #eab308;
+  --hard: #ef4444;
+
+  --code-bg: #0f0f11;
+  --code-done: #5b5b63;
+  --shadow: 0 1px 0 rgba(255, 255, 255, 0.02) inset, 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-pop: 0 12px 40px rgba(0, 0, 0, 0.55);
+  --heat-0: #1b1b1e;
+  --heat-1: #4a2a14;
+  --heat-2: #8a4312;
+  --heat-3: #c85a12;
+  --heat-4: #f97316;
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+  --bg: #fafafa;
+  --bg-nav: rgba(250, 250, 250, 0.82);
+  --surface: #ffffff;
+  --surface-2: #f4f4f5;
+  --surface-3: #e9e9ec;
+  --border: #e4e4e7;
+  --border-strong: #d4d4d8;
+  --text: #18181b;
+  --text-2: #52525b;
+  --text-3: #8b8b94;
+
+  --accent: #ea580c;
+  --accent-hover: #c2410c;
+  --accent-contrast: #ffffff;
+  --accent-soft: rgba(234, 88, 12, 0.09);
+  --accent-ring: rgba(234, 88, 12, 0.3);
+
+  --success: #16a34a;
+  --success-soft: rgba(22, 163, 74, 0.1);
+  --warning: #b58105;
+  --warning-soft: rgba(202, 138, 4, 0.12);
+  --danger: #dc2626;
+  --danger-soft: rgba(220, 38, 38, 0.08);
+
+  --easy: #16a34a;
+  --medium: #c28a04;
+  --hard: #dc2626;
+
+  --code-bg: #fbfbfb;
+  --code-done: #a1a1aa;
+  --shadow: 0 1px 2px rgba(24, 24, 27, 0.04), 0 4px 16px rgba(24, 24, 27, 0.05);
+  --shadow-pop: 0 12px 40px rgba(24, 24, 27, 0.14);
+  --heat-0: #ececef;
+  --heat-1: #fed7aa;
+  --heat-2: #fdba74;
+  --heat-3: #fb923c;
+  --heat-4: #ea580c;
+}

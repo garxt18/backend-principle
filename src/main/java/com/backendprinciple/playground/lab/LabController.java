@@ -5,6 +5,7 @@ import com.backendprinciple.playground.common.security.AuthUser;
 import com.backendprinciple.playground.common.security.CurrentUser;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
@@ -38,6 +39,9 @@ public class LabController {
     }
 
     public record ProgressResponse(int linesCompleted) {
+    }
+
+    public record NoteBody(@Size(max = 5000) String note) {
     }
 
     @GetMapping("/projects")
@@ -86,6 +90,13 @@ public class LabController {
     public ProgressResponse progress(@CurrentUser AuthUser me, @PathVariable UUID id,
                                      @Valid @RequestBody ProgressBody body) {
         return new ProgressResponse(lab.saveProgress(me.id(), id, body.linesCompleted()));
+    }
+
+    @PutMapping("/files/{id}/lines/{line}/note")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void note(@CurrentUser AuthUser me, @PathVariable UUID id, @PathVariable int line,
+                     @Valid @RequestBody NoteBody body) {
+        lab.saveLineNote(me.id(), id, line, body.note());
     }
 
     @GetMapping("/files/{id}/lines/{line}/explain")

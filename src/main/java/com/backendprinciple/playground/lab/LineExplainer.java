@@ -20,8 +20,7 @@ import tools.jackson.databind.ObjectMapper;
 /**
  * Explains a single line of code without any AI: it recognises annotations, keywords, well-known
  * types, imports, YAML/properties keys, Maven tags, SQL and Dockerfile instructions using the
- * knowledge base in {@code lab/knowledge.json}. Fast, free and deterministic - the AI mentor is an
- * optional deeper layer on top.
+ * knowledge base in {@code lab/knowledge.json}. Fast, free and deterministic - no API keys needed.
  */
 @Component
 public class LineExplainer {
@@ -181,7 +180,7 @@ public class LineExplainer {
             String name = ann.group(1);
             String text = kb.annotations().get(name);
             notes.add(new Note("@" + name, text != null ? text
-                    : "Annotation @" + name + ". Hover it in your IDE (or ask the AI mentor) to see what it does."));
+                    : "Annotation @" + name + ". Hover it in your IDE or search its docs to see what it does."));
         }
         Matcher derived = DERIVED_QUERY.matcher(t);
         if (derived.find()) {
