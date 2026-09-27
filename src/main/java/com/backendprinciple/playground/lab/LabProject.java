@@ -43,6 +43,10 @@ public class LabProject {
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ProjectStack stack = ProjectStack.SPRING;
+
     protected LabProject() {
     }
 
@@ -80,4 +84,6 @@ public class LabProject {
     public int getFileCount() { return fileCount; }
     public int getTotalLines() { return totalLines; }
     public Instant getCreatedAt() { return createdAt; }
+    public ProjectStack getStack() { return stack; }
+    public void setStack(ProjectStack stack) { this.stack = stack; }
 }

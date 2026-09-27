@@ -26,6 +26,10 @@ app to save the exact video once you find it. Lecture topics come from the cours
    drop an index) and predict what happens before you run it.
 5. **Log** the time on the dashboard and mark the lecture done (Planly updates automatically).
 
+Want a second stack? The **Next.js Task Board** template is the same CRUD idea as the Task Manager API, built
+the Next.js way: Prisma schema -> data access in `lib/` -> server actions -> `route.ts` handlers -> components ->
+pages. Rebuild it after L3 to see which backend ideas (validation, layering, 404/400 handling) carry across stacks.
+
 Away from the website? On the project page use **Download progress**, keep typing in IntelliJ/VS Code, then zip
 the folder and **Sync from computer**.
 

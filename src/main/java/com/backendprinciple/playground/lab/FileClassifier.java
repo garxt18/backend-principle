@@ -14,7 +14,8 @@ public final class FileClassifier {
             Map.entry("md", "markdown"), Map.entry("json", "json"), Map.entry("http", "http"),
             Map.entry("html", "html"), Map.entry("css", "css"), Map.entry("js", "javascript"),
             Map.entry("ts", "typescript"), Map.entry("tsx", "typescript"), Map.entry("jsx", "javascript"), Map.entry("sh", "shell"), Map.entry("env", "properties"),
-            Map.entry("txt", "text"), Map.entry("conf", "text"), Map.entry("toml", "text"));
+            Map.entry("txt", "text"), Map.entry("conf", "text"), Map.entry("toml", "text"),
+            Map.entry("prisma", "prisma"), Map.entry("mjs", "javascript"), Map.entry("cjs", "javascript"));
 
     private static final Pattern ENTITY = Pattern.compile("@(Entity|Embeddable|MappedSuperclass|Document)\\b");
     private static final Pattern REPOSITORY = Pattern.compile("@Repository\\b|extends\\s+(Jpa|Crud|PagingAndSorting|Mongo|ListCrud)Repository");
@@ -45,7 +46,85 @@ public final class FileClassifier {
         if (name.equals(".gitignore") || name.equals(".dockerignore")) {
             return "text";
         }
+        if (name.startsWith(".env")) {
+            return "properties";
+        }
         return LANGUAGE_BY_EXTENSION.getOrDefault(extension(name), "text");
+    }
+
+    public static FileLayer layer(String path, String content, ProjectStack stack) {
+        return stack == ProjectStack.NEXTJS ? nextLayer(path, content) : layer(path, content);
+    }
+
+    private static final Pattern USE_SERVER = Pattern.compile("\\A(\\s|//[^\\n]*\\n|/\\*.*?\\*/)*['\"]use server['\"]", Pattern.DOTALL);
+    private static final Pattern DATA_ACCESS = Pattern.compile("new PrismaClient|\\bprisma\\.\\w+\\.(find|create|update|delete|upsert|count|aggregate)|drizzle\\(|\\bdb\\.(select|insert|update|delete)\\(");
+    private static final Pattern ZOD = Pattern.compile("\\bz\\.(object|string|enum|array|number)\\(");
+
+    /**
+     * Next.js (App Router, Prisma/Drizzle) layers, in build order: setup -> env -> schema -> types ->
+     * data access -> server logic -> proxy/auth -> API routes | styles -> components -> pages.
+     */
+    static FileLayer nextLayer(String path, String content) {
+        String p = path.toLowerCase(Locale.ROOT);
+        String name = fileName(p);
+        String base = name.replaceFirst("\\.[^.]+$", ""); // next.config.ts -> next.config
+        boolean code = p.matches(".*\\.(ts|tsx|js|jsx|mjs|cjs)$");
+
+        if (name.equals("package.json") || base.equals("next.config") || name.startsWith("tsconfig")
+                || base.equals("tailwind.config") || base.equals("postcss.config") || base.equals("eslint.config")
+                || name.startsWith(".eslintrc") || base.equals("prisma.config") || base.equals("drizzle.config")
+                || base.equals("vitest.config") || base.equals("jest.config") || name.equals("components.json")) {
+            return FileLayer.BUILD;
+        }
+        if (name.startsWith(".env")) {
+            return FileLayer.CONFIG;
+        }
+        if (name.endsWith(".prisma") || p.contains("prisma/migrations/") || name.endsWith(".sql")
+                || p.matches("(.*/)?(db|drizzle)/schema\\.(ts|js)")) {
+            return FileLayer.MIGRATION;
+        }
+        if (p.matches(".*\\.(test|spec)\\.(ts|tsx|js|jsx)$") || p.contains("__tests__/") || p.startsWith("e2e/")
+                || p.startsWith("tests/")) {
+            return FileLayer.TEST;
+        }
+        if (name.startsWith("dockerfile") || name.startsWith("docker-compose") || p.startsWith(".github/")
+                || name.equals(".dockerignore") || name.equals("vercel.json")) {
+            return FileLayer.INFRA;
+        }
+        if (name.endsWith(".md")) {
+            return FileLayer.DOCS;
+        }
+        String route = p.startsWith("src/") ? p.substring(4) : p;
+        if (route.matches("app/api/.*route\\.(ts|js)") || route.startsWith("pages/api/")) {
+            return FileLayer.CONTROLLER;
+        }
+        if (route.matches("(proxy|middleware)\\.(ts|js)") || base.equals("auth") || base.equals("auth.config")
+                || route.startsWith("lib/auth")) {
+            return FileLayer.SECURITY;
+        }
+        if (code && USE_SERVER.matcher(content).find() || base.equals("actions") || route.contains("/actions/")) {
+            return FileLayer.SERVICE;
+        }
+        if (name.endsWith(".css") || name.endsWith(".scss") || route.startsWith("public/")) {
+            return FileLayer.FRONTEND;
+        }
+        if (route.matches("app/(.*/)?(page|layout|loading|error|not-found|template|default|global-error)\\.(tsx|jsx|js|ts)")
+                || route.startsWith("pages/")) {
+            return FileLayer.UI_PAGE;
+        }
+        if (name.endsWith(".tsx") || name.endsWith(".jsx") || route.startsWith("components/") || route.startsWith("hooks/")) {
+            return FileLayer.UI_COMPONENT;
+        }
+        if (code && DATA_ACCESS.matcher(content).find()) {
+            return FileLayer.REPOSITORY;
+        }
+        if (route.startsWith("types/") || name.endsWith(".d.ts") || code && ZOD.matcher(content).find()) {
+            return FileLayer.DOMAIN;
+        }
+        if (code) {
+            return FileLayer.SERVICE; // lib/ helpers and other server-side code
+        }
+        return FileLayer.OTHER;
     }
 
     public static FileLayer layer(String path, String content) {
@@ -141,6 +220,7 @@ public final class FileClassifier {
 
     private static boolean isSpecialName(String name) {
         return name.equals("Dockerfile") || name.startsWith("Dockerfile.") || name.equals("Makefile")
-                || name.equals(".gitignore") || name.equals(".dockerignore") || name.equals("mvnw");
+                || name.equals(".gitignore") || name.equals(".dockerignore") || name.equals("mvnw")
+                || name.equals(".env.example") || name.equals(".env.local.example");
     }
 }

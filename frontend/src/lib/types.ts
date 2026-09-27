@@ -237,6 +237,8 @@ export interface LabProject {
   fileCount: number;
   totalLines: number;
   createdAt: string;
+  stack: 'SPRING' | 'NEXTJS';
+  stackLabel: string;
 }
 
 export interface LabFileEntry {

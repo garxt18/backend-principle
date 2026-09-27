@@ -39,6 +39,8 @@ public final class BuildOrderPlanner {
         return result;
     }
 
+    private static final java.util.Set<String> MANIFESTS = java.util.Set.of("pom.xml", "build.gradle", "build.gradle.kts", "package.json");
+
     private static List<Candidate> topologicalWithinLayer(List<Candidate> group) {
         if (group.size() < 2) {
             return group;
@@ -54,16 +56,41 @@ public final class BuildOrderPlanner {
         Map<Candidate, List<Candidate>> dependents = new HashMap<>();
         Map<Candidate, Integer> inDegree = new HashMap<>();
         group.forEach(c -> inDegree.put(c, 0));
+        Map<String, Candidate> byModule = new HashMap<>();
         for (Candidate c : group) {
+            String module = moduleKey(c.path());
+            if (module != null) {
+                byModule.putIfAbsent(module, c);
+            }
+        }
+        for (Candidate c : group) {
+            java.util.Set<Candidate> deps = new java.util.LinkedHashSet<>();
             for (var entry : byClassName.entrySet()) {
-                Candidate dep = entry.getValue();
-                if (dep != c && mentions(c.content(), entry.getKey())) {
+                if (mentions(c.content(), entry.getKey())) {
+                    deps.add(entry.getValue());
+                }
+            }
+            for (String imported : importedModules(c)) {
+                Candidate dep = byModule.get(imported);
+                if (dep == null) {
+                    dep = byModule.get(imported + "/index");
+                }
+                if (dep != null) {
+                    deps.add(dep);
+                }
+            }
+            for (Candidate dep : deps) {
+                if (dep != c) {
                     dependents.computeIfAbsent(dep, k -> new ArrayList<>()).add(c);
                     inDegree.merge(c, 1, Integer::sum);
                 }
             }
         }
-        Comparator<Candidate> byPath = Comparator.comparing(Candidate::path);
+        // The project's manifest (pom.xml / package.json) and the Prisma schema open their layer: the rest
+        // is derived from them (prisma migrate generates the SQL from schema.prisma).
+        Comparator<Candidate> byPath = Comparator.<Candidate>comparingInt(c -> MANIFESTS.contains(c.path())
+                        || c.path().endsWith("schema.prisma") ? 0 : 1)
+                .thenComparing(Candidate::path);
         PriorityQueue<Candidate> ready = new PriorityQueue<>(byPath);
         inDegree.forEach((c, d) -> {
             if (d == 0) {
@@ -92,6 +119,70 @@ public final class BuildOrderPlanner {
             }
         }
         return ordered;
+    }
+
+    private static final Pattern IMPORT = Pattern.compile(
+            "(?:import|export)\\s[^'\";]*?from\\s*['\"]([^'\"]+)['\"]|import\\s*['\"]([^'\"]+)['\"]|require\\(['\"]([^'\"]+)['\"]\\)");
+    private static final Pattern SCRIPT = Pattern.compile(".*\\.(ts|tsx|js|jsx|mjs|cjs)$");
+
+    /** "components/TaskItem.tsx" -> "components/TaskItem" (null for non-script files). */
+    static String moduleKey(String path) {
+        if (!SCRIPT.matcher(path).matches()) {
+            return null;
+        }
+        String key = path.substring(0, path.lastIndexOf('.'));
+        return key.startsWith("src/") ? key.substring(4) : key;
+    }
+
+    /**
+     * Project files a TS/JS file imports, as module keys: "@/lib/db" and "../lib/db" both become "lib/db".
+     * Package imports ("react", "next/server") are ignored.
+     */
+    static List<String> importedModules(Candidate c) {
+        List<String> result = new ArrayList<>();
+        if (!SCRIPT.matcher(c.path()).matches()) {
+            return result;
+        }
+        java.util.regex.Matcher m = IMPORT.matcher(c.content());
+        String dir = c.path().contains("/") ? c.path().substring(0, c.path().lastIndexOf('/')) : "";
+        if (dir.startsWith("src/")) {
+            dir = dir.substring(4);
+        } else if (dir.equals("src")) {
+            dir = "";
+        }
+        while (m.find()) {
+            String spec = m.group(1) != null ? m.group(1) : m.group(2) != null ? m.group(2) : m.group(3);
+            String resolved;
+            if (spec.startsWith("@/") || spec.startsWith("~/")) {
+                resolved = spec.substring(2);
+            } else if (spec.startsWith("./") || spec.startsWith("../")) {
+                resolved = normalize(dir.isEmpty() ? spec : dir + "/" + spec);
+            } else {
+                continue;
+            }
+            if (resolved != null) {
+                result.add(resolved.replaceAll("\\.(ts|tsx|js|jsx|mjs|cjs)$", ""));
+            }
+        }
+        return result;
+    }
+
+    private static String normalize(String path) {
+        Deque<String> parts = new ArrayDeque<>();
+        for (String part : path.split("/")) {
+            if (part.isEmpty() || part.equals(".")) {
+                continue;
+            }
+            if (part.equals("..")) {
+                if (parts.isEmpty()) {
+                    return null;
+                }
+                parts.removeLast();
+            } else {
+                parts.addLast(part);
+            }
+        }
+        return String.join("/", parts);
     }
 
     private static boolean mentions(String content, String className) {

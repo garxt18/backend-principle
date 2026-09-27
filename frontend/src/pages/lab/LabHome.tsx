@@ -22,7 +22,11 @@ export default function LabHome() {
         <div>
           <div className="eyebrow">Rebuild Lab</div>
           <h1>Rebuild real projects, line by line</h1>
-          <p>Upload any Spring Boot / Java project. The Lab orders the files the way a senior engineer builds them - pom.xml → config → schema → entities → repositories → DTOs → services → controllers → tests → Docker - and explains every line while you retype it.</p>
+          <p>Upload a Spring Boot or Next.js project. The Lab orders the files the way a senior engineer builds them and explains every line - what it does and why - while you retype it.</p>
+          <p className="small muted" style={{ marginTop: 6 }}>
+            <strong>Spring Boot:</strong> pom.xml → config → schema → entities → repositories → DTOs → services → controllers → tests → Docker<br />
+            <strong>Next.js:</strong> package.json → .env → Prisma schema → types & zod → data access → server actions → proxy → route handlers → components → pages
+          </p>
         </div>
       </div>
       <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(420px, 100%), 1fr))', alignItems: 'start' }}>
@@ -60,7 +64,10 @@ function ProjectCard({ p }: { p: LabProject }) {
         <Link to={`/lab/p/${p.id}`} className="row" style={{ flexWrap: 'nowrap', minWidth: 0 }}>
           <span className="feature-icon" style={{ width: 34, height: 34, flex: 'none' }}><FolderGit2 size={18} /></span>
           <span style={{ minWidth: 0 }}>
-            <span className="card-title truncate" style={{ display: 'block' }}>{p.name}</span>
+            <span className="row" style={{ gap: 8, flexWrap: 'nowrap', minWidth: 0 }}>
+              <span className="card-title truncate">{p.name}</span>
+              <span className={p.stack === 'NEXTJS' ? 'badge' : 'badge badge-accent'} style={{ flex: 'none' }}>{p.stackLabel}</span>
+            </span>
             <span className="tiny subtle">{p.fileCount} files · {p.totalLines.toLocaleString()} lines{p.template ? ' · template' : ` · uploaded ${formatDate(p.createdAt)}`}</span>
           </span>
         </Link>
@@ -113,7 +120,7 @@ function Upload() {
       return;
     }
     if (f.size > 5 * 1024 * 1024) {
-      toast('The zip is larger than 5 MB - remove target/, build/ and node_modules/ first', 'error');
+      toast('The zip is larger than 5 MB - remove target/, build/, .next/ and node_modules/ first', 'error');
       return;
     }
     setFile(f);
@@ -152,8 +159,8 @@ function Upload() {
       {skipped.length > 0 && <div className="alert alert-info small">Skipped: {skipped.join(', ')}</div>}
       <Button type="submit" variant="primary" disabled={!file} loading={upload.isPending}>Upload & analyse</Button>
       <p className="tiny subtle">
-        Tip: on GitHub use Code → Download ZIP. Java, Kotlin, XML, YAML, properties, SQL, Dockerfile, JS/TS and Markdown files are imported;
-        target/, build/, .git/ and node_modules/ are skipped automatically.
+        Tip: on GitHub use Code → Download ZIP. Java, Kotlin, XML, YAML, properties, SQL, Prisma, Dockerfile, JS/TS/TSX, CSS and Markdown files are imported;
+        target/, build/, .git/, node_modules/, .next/ and lockfiles are skipped automatically. Next.js projects are detected from next.config or package.json.
       </p>
     </form>
   );

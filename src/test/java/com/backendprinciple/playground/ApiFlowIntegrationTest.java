@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import jakarta.servlet.http.Cookie;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -344,6 +345,41 @@ class ApiFlowIntegrationTest extends AbstractIntegrationTest {
                 .andExpect(jsonPath("$.notes['3']").doesNotExist());
         mvc.perform(put("/api/lab/files/" + fileId + "/lines/99999/note").header("Authorization", a.bearer())
                 .contentType(MediaType.APPLICATION_JSON).content("{\"note\":\"x\"}")).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void nextJsTemplateIsOrderedAndExplainedLikeANextProject() throws Exception {
+        Session s = register("nisha");
+        JsonNode projects = body(mvc.perform(get("/api/lab/projects").header("Authorization", s.bearer())).andReturn());
+        JsonNode next = projects.valueStream().filter(p -> p.get("stack").asText().equals("NEXTJS")).findFirst().orElseThrow();
+        assertThat(next.get("template").asBoolean()).isTrue();
+        assertThat(next.get("stackLabel").asText()).isEqualTo("Next.js");
+
+        JsonNode detail = body(mvc.perform(get("/api/lab/projects/" + next.get("id").asText())
+                .header("Authorization", s.bearer())).andReturn());
+        List<String> paths = detail.get("files").valueStream().map(f -> f.get("path").asText()).toList();
+        assertThat(paths.getFirst()).isEqualTo("package.json");
+        assertThat(paths.indexOf("prisma/schema.prisma")).isLessThan(paths.indexOf("prisma/migrations/20260901000000_init/migration.sql"));
+        assertThat(paths).containsSubsequence("prisma/schema.prisma", "lib/db.ts", "lib/tasks.ts", "app/actions.ts",
+                "app/api/tasks/route.ts", "components/TaskItem.tsx", "components/TaskList.tsx", "app/page.tsx");
+        assertThat(paths).noneMatch(p -> p.startsWith("node_modules/") || p.startsWith(".next/") || p.endsWith("package-lock.json"));
+        assertThat(detail.get("layers").valueStream().map(l -> l.get("label").asText()))
+                .contains("Project setup", "Data access", "API route handlers", "Pages & layouts");
+
+        JsonNode route = detail.get("files").valueStream().filter(f -> f.get("path").asText().equals("app/api/tasks/route.ts"))
+                .findFirst().orElseThrow();
+        assertThat(route.get("layerLabel").asText()).isEqualTo("API route handlers");
+        JsonNode page = detail.get("files").valueStream().filter(f -> f.get("path").asText().equals("app/page.tsx"))
+                .findFirst().orElseThrow();
+        assertThat(page.get("track").asText()).isEqualTo("FRONTEND");
+
+        String routeId = route.get("id").asText();
+        mvc.perform(get("/api/lab/files/" + routeId).header("Authorization", s.bearer()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.outline.purpose").value(org.hamcrest.Matchers.containsString("/api/tasks")));
+        String source = body(mvc.perform(get("/api/lab/files/" + routeId).header("Authorization", s.bearer())).andReturn())
+                .get("lines").toString();
+        assertThat(source).contains("export async function GET");
     }
 
     @Test

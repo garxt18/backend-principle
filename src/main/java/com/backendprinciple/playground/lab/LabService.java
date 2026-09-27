@@ -40,10 +40,10 @@ public class LabService {
     // ---- DTOs -------------------------------------------------------------------------------------
 
     public record ProjectDto(UUID id, String name, String description, boolean template, int fileCount,
-                             int totalLines, Instant createdAt) {
+                             int totalLines, Instant createdAt, ProjectStack stack, String stackLabel) {
         static ProjectDto from(LabProject p) {
             return new ProjectDto(p.getId(), p.getName(), p.getDescription(), p.isTemplate(), p.getFileCount(),
-                    p.getTotalLines(), p.getCreatedAt());
+                    p.getTotalLines(), p.getCreatedAt(), p.getStack(), p.getStack().label());
         }
     }
 
@@ -90,12 +90,13 @@ public class LabService {
             LabFileProgress p = byFile.get(f.id());
             int lines = p == null ? 0 : p.getLinesCompleted();
             done += lines;
-            entries.add(new FileEntryDto(f.id(), f.path(), f.language(), f.layer(), f.layer().label(), f.layer().track(),
+            entries.add(new FileEntryDto(f.id(), f.path(), f.language(), f.layer(), f.layer().label(project.getStack()),
+                    f.layer().track(),
                     f.buildOrder(),
                     f.lineCount(), lines, p != null && p.isCompleted()));
         }
         List<LayerDto> layers = entries.stream().map(FileEntryDto::layer).distinct()
-                .map(l -> new LayerDto(l, l.label(), l.why())).toList();
+                .map(l -> new LayerDto(l, l.label(project.getStack()), l.why(project.getStack()))).toList();
         int percent = project.getTotalLines() == 0 ? 0 : Math.round(done * 100f / project.getTotalLines());
         return new ProjectDetailDto(ProjectDto.from(project), done, percent, layers, entries);
     }
@@ -103,6 +104,7 @@ public class LabService {
     @Transactional(readOnly = true)
     public FileDto file(UUID userId, UUID fileId) {
         LabFile f = visibleFile(userId, fileId);
+        ProjectStack stack = visibleProject(userId, f.getProjectId()).getStack();
         FileLayer.Track track = f.getLayer().track();
         List<FileSummary> siblings = files.findSummaries(f.getProjectId()).stream()
                 .filter(s -> s.layer().track() == track).toList();
@@ -118,9 +120,9 @@ public class LabService {
         }
         int done = progress.findByUserIdAndFileId(userId, fileId).map(LabFileProgress::getLinesCompleted).orElse(0);
         List<String> lines = f.getContent().lines().toList();
-        return new FileDto(f.getId(), f.getProjectId(), f.getPath(), f.getLanguage(), f.getLayer(), f.getLayer().label(),
-                f.getLayer().why(), track, f.getBuildOrder(), position, siblings.size(), f.getLineCount(), done, lines,
-                notesOf(userId, fileId), explainer.outline(lines, f.getLanguage(), f.getLayer()), prev, next);
+        return new FileDto(f.getId(), f.getProjectId(), f.getPath(), f.getLanguage(), f.getLayer(), f.getLayer().label(stack),
+                f.getLayer().why(stack), track, f.getBuildOrder(), position, siblings.size(), f.getLineCount(), done, lines,
+                notesOf(userId, fileId), explainer.outline(lines, f.getLanguage(), f.getLayer(), f.getPath(), stack), prev, next);
     }
 
     @Transactional(readOnly = true)
@@ -130,7 +132,7 @@ public class LabService {
         if (lineNumber < 1 || lineNumber > lines.size()) {
             throw ApiException.badRequest("Line number out of range");
         }
-        return explainer.explain(lines, lineNumber, f.getLanguage(), f.getLayer());
+        return explainer.explain(lines, lineNumber, f.getLanguage(), f.getLayer(), f.getPath());
     }
 
     private Map<Integer, String> notesOf(UUID userId, UUID fileId) {
@@ -186,8 +188,10 @@ public class LabService {
     LabProject saveProject(UUID ownerId, String slug, String name, String description, LabProject.SourceKind kind,
                            List<ImportedFile> imported) {
         LabProject project = new LabProject(ownerId, slug, name.strip(), description, kind, clock.instant());
+        ProjectStack stack = ProjectStack.detect(imported);
+        project.setStack(stack);
         List<Candidate> ordered = BuildOrderPlanner.order(imported.stream()
-                .map(f -> new Candidate(f.path(), FileClassifier.layer(f.path(), f.content()), f.content()))
+                .map(f -> new Candidate(f.path(), FileClassifier.layer(f.path(), f.content(), stack), f.content()))
                 .toList());
         List<LabFile> entities = new ArrayList<>(ordered.size());
         int totalLines = 0;

@@ -238,7 +238,7 @@ function Editor({ file }: { file: LabFile }) {
           {mode === 'type' && selected === cursor && !done ? (
             <div className="card small muted">The explanation of the line you are typing is right under it. Click any other line in the code to see its explanation here.</div>
           ) : (
-            <ExplainPanel fileId={file.id} line={selected + 1} hidden={mode === 'type' && blind && selected >= cursor} />
+            <ExplainPanel fileId={file.id} line={selected + 1} language={file.language} hidden={mode === 'type' && blind && selected >= cursor} />
           )}
           <NotePanel fileId={file.id} line={selected + 1} value={notes[String(selected + 1)] ?? ''} onSaved={(text) => setNotes((n) => {
             const copy = { ...n };
@@ -251,10 +251,17 @@ function Editor({ file }: { file: LabFile }) {
   );
 }
 
-function ExplainPanel({ fileId, line, hidden }: { fileId: string; line: number; hidden: boolean }) {
+const SEARCH_CONTEXT: Record<string, string> = {
+  java: 'java spring boot', kotlin: 'kotlin spring boot', xml: 'maven', yaml: 'spring boot', properties: 'spring boot',
+  typescript: 'next.js typescript', javascript: 'next.js javascript', prisma: 'prisma', json: 'package.json', css: 'css',
+  sql: 'postgresql', dockerfile: 'dockerfile',
+};
+
+function ExplainPanel({ fileId, line, language, hidden }: { fileId: string; line: number; language: string; hidden: boolean }) {
   const explain = useExplanation(fileId, line);
   const ex = explain.data;
-  const googleFor = useMemo(() => (term: string) => `https://www.google.com/search?q=${encodeURIComponent(`${term} java spring boot`)}`, []);
+  const context = SEARCH_CONTEXT[language] ?? language;
+  const googleFor = useMemo(() => (term: string) => `https://www.google.com/search?q=${encodeURIComponent(`${term} ${context}`)}`, [context]);
   if (hidden) {
     return <div className="card small muted">Blind mode: the explanation appears once you have typed this line. Try to remember why it exists!</div>;
   }

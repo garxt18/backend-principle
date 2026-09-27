@@ -19,6 +19,7 @@ export default function LabProject() {
   const d = detail.data!;
   const backend = d.files.filter((f) => f.track === 'BACKEND');
   const frontend = d.files.filter((f) => f.track === 'FRONTEND');
+  const nextJs = d.project.stack === 'NEXTJS';
   const next = backend.find((f) => !f.completed) ?? frontend.find((f) => !f.completed) ?? d.files[0];
 
   return (
@@ -26,15 +27,20 @@ export default function LabProject() {
       <Link to="/lab" className="small muted row" style={{ marginBottom: 12 }}><ArrowLeft size={14} /> Rebuild Lab</Link>
       <div className="page-header">
         <div>
-          <h1>{d.project.name}</h1>
+          <div className="row" style={{ gap: 10 }}>
+            <h1>{d.project.name}</h1>
+            <span className={d.project.stack === 'NEXTJS' ? 'badge' : 'badge badge-accent'}>{d.project.stackLabel}</span>
+          </div>
           <p>{d.project.description || `${d.project.fileCount} files · ${d.project.totalLines} lines`}</p>
         </div>
         {next && <Link to={`/lab/f/${next.id}`} className="btn btn-primary"><Play size={15} /> {d.linesCompleted ? 'Continue rebuilding' : 'Start rebuilding'}</Link>}
       </div>
 
       <div className="grid grid-2" style={{ marginBottom: 16 }}>
-        <TrackCard icon={<Server size={15} />} title="Backend & database" files={backend} note="Main track: build files, config, SQL, entities, repositories, services, controllers, tests." />
-        <TrackCard icon={<MonitorSmartphone size={15} />} title="Frontend (optional)" files={frontend} note={frontend.length ? 'Pages, components and styles - practise them after the backend if you like.' : 'This project has no frontend files.'} />
+        <TrackCard icon={<Server size={15} />} title="Backend & database" files={backend} note={nextJs
+          ? 'Main track: package.json, .env, Prisma schema, types & zod, data access, server actions, proxy, route handlers, tests.'
+          : 'Main track: build files, config, SQL, entities, repositories, services, controllers, tests.'} />
+        <TrackCard icon={<MonitorSmartphone size={15} />} title="Frontend (optional)" files={frontend} note={frontend.length ? (nextJs ? 'Styles, React components, then the pages and layouts that use them - after the server side.' : 'Pages, components and styles - practise them after the backend if you like.') : 'This project has no frontend files.'} />
       </div>
 
       <SyncCard projectId={projectId} projectName={d.project.name} />

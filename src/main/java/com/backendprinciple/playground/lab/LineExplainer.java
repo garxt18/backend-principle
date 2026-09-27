@@ -84,6 +84,11 @@ public class LineExplainer {
 
     /** @param lineNumber 1-based */
     public Explanation explain(List<String> lines, int lineNumber, String language, FileLayer layer) {
+        return explain(lines, lineNumber, language, layer, "");
+    }
+
+    /** @param path the file's project path; lets TS/Next.js explanations know routes and file conventions */
+    public Explanation explain(List<String> lines, int lineNumber, String language, FileLayer layer, String path) {
         String code = lines.get(lineNumber - 1);
         String trimmed = code.strip();
         return switch (language) {
@@ -93,7 +98,9 @@ public class LineExplainer {
             case "xml" -> explainXml(lineNumber, code, trimmed);
             case "sql" -> explainSql(lineNumber, code, trimmed);
             case "dockerfile" -> explainDocker(lineNumber, code, trimmed);
-            case "typescript", "javascript" -> explainScript(lines, lineNumber, code, trimmed);
+            case "typescript", "javascript" -> ScriptExplainer.explainScript(lines, lineNumber, code, trimmed, layer, path);
+            case "prisma" -> ScriptExplainer.explainPrisma(lines, lineNumber, code, trimmed);
+            case "json" -> ScriptExplainer.explainJson(lines, lineNumber, code, trimmed, path);
             case "css" -> explainCss(lineNumber, code, trimmed);
             case "html" -> explainHtml(lineNumber, code, trimmed);
             default -> generic(lineNumber, code, trimmed);
@@ -617,8 +624,18 @@ public class LineExplainer {
 
     /** "Before you type": what this file is for and the members you are about to write. */
     public Outline outline(List<String> lines, String language, FileLayer layer) {
+        return outline(lines, language, layer, "", ProjectStack.SPRING);
+    }
+
+    public Outline outline(List<String> lines, String language, FileLayer layer, String path, ProjectStack stack) {
+        if (language.equals("typescript") || language.equals("javascript")) {
+            return ScriptExplainer.outlineScript(lines, layer, path, stack);
+        }
+        if (language.equals("prisma")) {
+            return ScriptExplainer.outlinePrisma(lines);
+        }
         List<OutlineItem> items = new ArrayList<>();
-        String purpose = layer.why();
+        String purpose = layer.why(stack);
         if (language.equals("java") || language.equals("kotlin")) {
             JavaFileModel m = JavaFileModel.parse(lines, layer);
             if (!m.typeName.isEmpty()) {
@@ -847,61 +864,6 @@ public class LineExplainer {
     }
 
     // ================================================================ frontend (optional track)
-
-    private Explanation explainScript(List<String> lines, int n, String code, String t) {
-        String summary;
-        String why;
-        String kind = "script";
-        if (t.isEmpty()) {
-            return new Explanation(n, code, "blank", "Blank line.", "Separates blocks.", "", List.of());
-        }
-        if (t.startsWith("//") || t.startsWith("/*") || t.startsWith("*")) {
-            return new Explanation(n, code, "comment", "Comment.", "Ignored when the code runs.", "", List.of());
-        }
-        if (t.startsWith("import ")) {
-            kind = "import";
-            Matcher from = Pattern.compile("from\\s+['\"]([^'\"]+)['\"]").matcher(t);
-            String module = from.find() ? from.group(1) : t.replaceAll("^import\\s+['\"]|['\"];?$", "");
-            summary = "Imports from '" + module + "'" + (module.startsWith(".") ? " (a file of this project)." : " (an npm package).");
-            why = "ES modules only see what they import; the bundler (Vite) follows these imports to build the app.";
-        } else if (t.matches("^export\\s+default\\s+function\\s+[A-Z].*|^(export\\s+)?function\\s+[A-Z]\\w*\\s*\\(.*")) {
-            kind = "component";
-            summary = "Declares a React component - a function that returns JSX (the UI).";
-            why = "Components split the UI into reusable pieces; React calls this function whenever its props or state change.";
-        } else if (t.matches(".*\\buse(State|Reducer)\\s*[<(].*")) {
-            kind = "hook";
-            summary = "useState: a piece of state that survives re-renders. It returns [value, setValue].";
-            why = "Calling the setter re-renders the component with the new value - that is how the UI reacts to user input.";
-        } else if (t.matches(".*\\buseEffect\\s*\\(.*")) {
-            kind = "hook";
-            summary = "useEffect: runs code after render (fetching, subscriptions, timers).";
-            why = "Side effects must not run during rendering; the dependency array decides when the effect re-runs.";
-        } else if (t.matches(".*\\buse(Query|Mutation)\\s*\\(.*")) {
-            kind = "hook";
-            summary = "TanStack Query hook: fetches/caches server data (or sends a change).";
-            why = "It handles loading/error states, caching and refetching so components do not re-implement that.";
-        } else if (t.matches("^(export\\s+)?(interface|type)\\s+\\w+.*")) {
-            kind = "type";
-            summary = "TypeScript type: describes the shape of an object.";
-            why = "Types catch mistakes (a typo in a field name, a missing property) at build time instead of in the browser.";
-        } else if (t.matches("^(export\\s+)?(const|let|var)\\s+.*")) {
-            kind = "variable";
-            summary = "Declares a " + (t.contains("const") ? "constant (cannot be reassigned)" : "variable") + ".";
-            why = "Prefer const: values that never get reassigned are easier to reason about.";
-        } else if (t.startsWith("return")) {
-            kind = "return";
-            summary = t.contains("<") ? "Returns JSX - the HTML-like markup React renders." : "Returns a value.";
-            why = "A component's return value IS its UI.";
-        } else if (t.startsWith("<") || t.startsWith("{") && t.endsWith("}")) {
-            kind = "jsx";
-            summary = "JSX markup: an element of the rendered UI. {expressions} insert JavaScript values.";
-            why = "className sets CSS classes; onClick etc. wire events to functions.";
-        } else {
-            summary = "A statement of the frontend code.";
-            why = "Frontend is optional practice here - focus on reading it once and understanding the data flow.";
-        }
-        return new Explanation(n, code, kind, summary, why, "", List.of());
-    }
 
     private Explanation explainCss(int n, String code, String t) {
         if (t.isEmpty() || t.startsWith("/*")) {

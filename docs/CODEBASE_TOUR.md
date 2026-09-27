@@ -9,6 +9,7 @@ in IntelliJ and use this map to find working, tested examples of each roadmap le
 | L2 | Thread safety, `synchronized`, concurrent caches | `common/ratelimit/TokenBucket.java`, `common/ratelimit/RateLimiter.java` |
 | L2 | Pure algorithms (greedy scheduling, topological sort, Kahn's algorithm) | `planly/PlanGenerator.java`, `lab/BuildOrderPlanner.java` |
 | L3 | Dependency injection (constructor injection everywhere), `@Configuration` + `@Bean` | `common/config/AppConfig.java`, `auth/SecurityConfig.java` |
+| L2 | Strategy by enum (one classifier, two stacks), regex-based parsing | `lab/ProjectStack.java`, `lab/FileLayer.java#label(ProjectStack)`, `lab/FileClassifier.java#nextLayer`, `lab/ScriptExplainer.java` |
 | L3 | Type-safe config with validation | `auth/JwtProperties.java`, `lab/LabProperties.java`, `application.yml` |
 | L3 | REST controllers, `ResponseEntity`, status codes, `Cache-Control` | `roadmap/RoadmapController.java`, `planly/PlanlyController.java`, `auth/AuthController.java` |
 | L3 | Entities, relationships, `@Version`, lifecycle callbacks | `user/User.java`, `roadmap/RoadmapLevel.java`, `planly/StudyPlan.java` |

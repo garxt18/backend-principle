@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Publishes the built-in projects under classpath:lab-templates/ as shared Rebuild Lab templates:
  * <ul>
  *   <li>task-manager-api - the roadmap's "Project 1", small enough to rebuild in a weekend.</li>
+ *   <li>nextjs-task-board - the same idea as a full-stack Next.js app.</li>
  *   <li>backend-playground - this very application (copied in by the Maven build), so you can
  *       rebuild the platform you are using.</li>
  * </ul>
@@ -38,6 +39,9 @@ public class TemplateSeeder implements ApplicationRunner {
             new Template("task-manager-api-v1", "task-manager-api", "Task Manager API (Roadmap Project 1)",
                     "A small, clean Spring Boot + PostgreSQL CRUD API: entity, repository, DTOs, validation, "
                             + "error handling, service, controller, tests and Dockerfile. Rebuild this first."),
+            new Template("nextjs-task-board-v1", "nextjs-task-board", "Next.js Task Board (App Router + Prisma)",
+                    "A small full-stack Next.js 16 app: Prisma 7 + PostgreSQL, zod validation, a data-access layer, "
+                            + "server actions, REST route handlers behind proxy.ts, and server + client components."),
             new Template("backend-playground-v2", "backend-playground", "Backend Playground (this app)",
                     "The full source of this platform: JWT auth with refresh-token rotation, rate limiting, "
                             + "caching, Planly planner, DSA sheet and the Rebuild Lab. The advanced rebuild."));

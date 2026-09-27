@@ -1,0 +1,29 @@
+// The data model. `prisma migrate dev` turns it into SQL migrations,
+// `prisma generate` turns it into a type-safe TypeScript client.
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
+model Task {
+  id          String     @id @default(cuid())
+  title       String     @db.VarChar(120)
+  description String?
+  status      TaskStatus @default(TODO)
+  dueDate     DateTime?  @map("due_date") @db.Date
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+
+  @@index([status])
+  @@map("tasks")
+}

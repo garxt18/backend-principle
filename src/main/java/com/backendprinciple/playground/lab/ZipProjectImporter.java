@@ -32,7 +32,11 @@ public class ZipProjectImporter {
 
     private static final Set<String> IGNORED_DIRS = Set.of("target", "build", "out", "bin", ".git", ".idea",
             ".vscode", ".gradle", "node_modules", ".mvn", "__MACOSX", ".settings", "dist", "logs",
-            "_reference"); // _reference = the originals inside a Rebuild Lab progress export
+            "_reference", // _reference = the originals inside a Rebuild Lab progress export
+            ".next", ".vercel", ".turbo", "coverage", ".nuxt", ".svelte-kit");
+    /** Generated or lock files: huge, not written by hand, nothing to learn from retyping them. */
+    private static final Set<String> IGNORED_FILES = Set.of("package-lock.json", "pnpm-lock.yaml", "yarn.lock",
+            "bun.lockb", "next-env.d.ts", "tsconfig.tsbuildinfo");
 
     private final LabProperties props;
 
@@ -127,7 +131,8 @@ public class ZipProjectImporter {
             }
         }
         String name = FileClassifier.fileName(path);
-        return name.equals(".DS_Store") || name.endsWith(".class") || name.endsWith(".jar");
+        return name.equals(".DS_Store") || name.endsWith(".class") || name.endsWith(".jar")
+                || IGNORED_FILES.contains(name) || path.contains("generated/prisma/");
     }
 
     private static String decodeUtf8(byte[] bytes) {
