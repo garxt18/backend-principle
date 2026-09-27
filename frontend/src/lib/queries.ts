@@ -87,6 +87,23 @@ export function useFollow() {
   });
 }
 
+/** Reschedule everything not done yet from today. */
+export function useReplan() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (keepDeadline: boolean) => api<Plan>('/api/plans/current/replan', { method: 'POST', body: { keepDeadline } }),
+    onSuccess: (plan) => qc.setQueryData(keys.plan, plan),
+  });
+}
+
+/** topicId -> first planned day in the active plan, so the roadmap can show "planned for Wed". */
+export function usePlannedDates() {
+  const plan = usePlan();
+  const map = new Map<number, string>();
+  plan.data?.weeks.forEach((w) => w.items.forEach((i) => { if (!map.has(i.topicId)) map.set(i.topicId, i.plannedDate); }));
+  return map;
+}
+
 export function useAddLink() {
   const qc = useQueryClient();
   return useMutation({

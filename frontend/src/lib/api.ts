@@ -31,11 +31,36 @@ export function setSessionExpiredHandler(handler: () => void) {
   onSessionExpired = handler;
 }
 
+/**
+ * All tabs share one refresh cookie, and each refresh rotates it. The Web Locks API makes tabs take turns,
+ * so the second tab sends the NEW cookie instead of racing with the old one (the server also tolerates a
+ * short race, for browsers without navigator.locks).
+ */
+function withRefreshLock<T>(fn: () => Promise<T>): Promise<T> {
+  const locks = typeof navigator !== 'undefined' ? navigator.locks : undefined;
+  return locks ? (locks.request('pg-refresh', fn) as Promise<T>) : fn();
+}
+
+const sleep = (ms: number) => new Promise((resolve) => window.setTimeout(resolve, ms));
+
+/** One refresh call; retried while the server is waking up (502/503/504 or no connection), never on 401. */
+async function refreshWithRetry(): Promise<Response | null> {
+  for (let attempt = 0; ; attempt++) {
+    try {
+      const res = await withRefreshLock(() => fetch('/api/auth/refresh', { method: 'POST', credentials: 'same-origin' }));
+      if (res.status < 500 || attempt >= 5) return res;
+    } catch {
+      if (attempt >= 5) return null;
+    }
+    await sleep(Math.min(1000 * 2 ** attempt, 10_000));
+  }
+}
+
 export function refreshSession(): Promise<AuthResponse | null> {
   if (!refreshing) {
-    refreshing = fetch('/api/auth/refresh', { method: 'POST', credentials: 'same-origin' })
+    refreshing = refreshWithRetry()
       .then(async (res) => {
-        if (!res.ok) {
+        if (!res || !res.ok) {
           accessToken = null;
           return null;
         }

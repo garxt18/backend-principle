@@ -8,7 +8,7 @@ TypeScript, Docker and GitHub Actions.
 |---|---|
 | **Roadmap** | The *Backend Engineering Roadmap 2026*: 17 levels, 170 topics with hour estimates, practice tasks and level projects. **Java Basics, Advanced Java and Spring Boot follow Coder Army's two playlists lecture by lecture** (what each lecture teaches, a practice task and a direct video link). Every other level has curated Hindi + English resources: mark the one you **follow**, or attach **your own links** to any level or lecture. |
 | **Dashboard** | "Continue with" your next lecture/topic and the resource you follow, streaks, weekly hours, level progress, and a direct link to **Striver's A2Z sheet** for DSA (no duplicate DSA sheet in the app). |
-| **Planly** | The study planner: your hours per week become a week-by-week schedule. Shows whether you are ahead or behind, with study-time logging, streaks and a consistency heatmap. |
+| **Planly** | Day-by-day study plans for any levels or lectures: **finish by a date** ("Java Basics in 7 days", "Spring Boot in 30 days") or **at your pace** (hours per day, chosen weekdays). Live preview, Today / Week / full schedule, catch-up re-planning, one-click time logging. Ticks are shared with the Roadmap and Dashboard - it is one record. |
 | **Rebuild Lab** | Upload **any** Spring Boot / Java project as a `.zip` and retype it **line by line**, in the order a senior engineer would build it (`pom.xml` -> config -> SQL -> entities -> repositories -> DTOs -> services -> controllers -> tests -> Docker). Backend + database files are the main track; frontend files (TSX/HTML/CSS/JS) sit in a separate optional section. Every line shows **what it does and why you type it** right under the line you are typing, and each file starts with an outline of what you are about to build. **Download your progress** as a zip, keep typing in your IDE, and **sync it back**. Built-in templates: a small **Task Manager API** and **this app's own source**. |
 
 Dark and light themes, responsive down to phone width, no API keys or paid services needed.
@@ -26,9 +26,10 @@ Open http://localhost:8080 and sign up. New to Docker or want to run it from Int
 
 ## Deploy it for your friends
 
-**[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** covers three options: a one-click **Render Blueprint**
-(`render.yaml`), your own server with **Docker Compose + Caddy (automatic HTTPS)** (`docker-compose.prod.yml`),
-or any container platform.
+**[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** covers: **Render free + Neon Postgres + a free pinger** so it
+never sleeps (all in the browser), an **Oracle Cloud Always Free VM** (free, never sleeps), your own server with
+**Docker Compose + Caddy (automatic HTTPS)** (`docker-compose.prod.yml`), or any container platform.
+Note: a free Render Postgres is deleted after 30 days - the Blueprint uses Neon instead.
 
 ## Architecture
 

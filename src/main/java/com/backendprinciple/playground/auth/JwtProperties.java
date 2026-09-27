@@ -15,5 +15,7 @@ public record JwtProperties(
         @NotBlank String issuer,
         @NotNull Duration accessTokenTtl,
         @NotNull Duration refreshTokenTtl,
-        boolean secureCookie) {
+        boolean secureCookie,
+        /* two tabs refreshing with the same cookie within this window is a race, not theft */
+        @NotNull Duration refreshReuseGrace) {
 }

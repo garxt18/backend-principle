@@ -73,15 +73,41 @@ class ApiFlowIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    void refreshTokensRotateAndReuseKillsTheFamily() throws Exception {
+    void refreshTokensRotateAndTwoTabsRefreshingAtOnceStayLoggedIn() throws Exception {
         Session s = register("ravi");
         MvcResult first = mvc.perform(post("/api/auth/refresh").cookie(s.refresh())).andExpect(status().isOk()).andReturn();
         Cookie rotated = first.getResponse().getCookie("pg_refresh");
         assertThat(rotated.getValue()).isNotEqualTo(s.refresh().getValue());
 
-        // An attacker replays the old token: rejected, and the legitimate new token dies with it.
+        // A second tab sends the same (already rotated) cookie a moment later: a race, not theft.
+        MvcResult second = mvc.perform(post("/api/auth/refresh").cookie(s.refresh())).andExpect(status().isOk()).andReturn();
+        Cookie secondTab = second.getResponse().getCookie("pg_refresh");
+        mvc.perform(post("/api/auth/refresh").cookie(rotated)).andExpect(status().isOk());
+        mvc.perform(post("/api/auth/refresh").cookie(secondTab)).andExpect(status().isOk());
+
+        // After logout nothing from that session works any more - not even inside the grace window.
+        mvc.perform(post("/api/auth/logout").cookie(rotated)).andExpect(status().isNoContent());
         mvc.perform(post("/api/auth/refresh").cookie(s.refresh())).andExpect(status().isUnauthorized());
-        mvc.perform(post("/api/auth/refresh").cookie(rotated)).andExpect(status().isUnauthorized());
+        mvc.perform(post("/api/auth/refresh").cookie(secondTab)).andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void loginWorksCaseInsensitivelyAndWrongPasswordsAreRejected() throws Exception {
+        String email = "Case-" + UUID.randomUUID() + "@Example.com";
+        mvc.perform(post("/api/auth/register").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"email\":\"%s\",\"password\":\"password123\",\"displayName\":\"Case\"}".formatted(email)))
+                .andExpect(status().isCreated());
+        mvc.perform(post("/api/auth/login").contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"email\":\"  %s \",\"password\":\"password123\"}".formatted(email.toLowerCase())))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.accessToken").isNotEmpty());
+        mvc.perform(post("/api/auth/login").contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"email\":\"%s\",\"password\":\"wrong-password\"}".formatted(email)))
+                .andExpect(status().isUnauthorized());
+        // Same email twice is a clean 409, not a 500.
+        mvc.perform(post("/api/auth/register").contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"email\":\"%s\",\"password\":\"password123\",\"displayName\":\"Case\"}".formatted(email.toUpperCase())))
+                .andExpect(status().isConflict());
     }
 
     @Test
@@ -118,6 +144,60 @@ class ApiFlowIntegrationTest extends AbstractIntegrationTest {
                 .andExpect(status().isOk()).andReturn());
         assertThat(plan.get("totalWeeks").asInt()).isBetween(20, 40);
         assertThat(plan.get("weeks").get(0).get("items").get(0).get("topicId").asLong()).isNotEqualTo(firstTopic);
+    }
+
+    @Test
+    void planlyFinishesALevelByADeadlineAndStaysInSyncWithTheRoadmap() throws Exception {
+        Session s = register("neha");
+        java.time.LocalDate today = java.time.LocalDate.now();
+        String sprint = """
+                {"name":"Java Basics sprint","pace":"DEADLINE","targetEndDate":"%s","levelNumbers":[0],
+                 "studyDays":["MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY","SUNDAY"]}"""
+                .formatted(today.plusDays(6));
+
+        // Preview first: nothing is saved, but hours per day and the finish date are known.
+        JsonNode preview = body(mvc.perform(post("/api/plans/preview").header("Authorization", s.bearer())
+                .contentType(MediaType.APPLICATION_JSON).content(sprint)).andExpect(status().isOk()).andReturn());
+        assertThat(preview.get("topics").asInt()).isEqualTo(22);
+        assertThat(java.time.LocalDate.parse(preview.get("endDate").asText())).isBeforeOrEqualTo(today.plusDays(6));
+        assertThat(preview.get("hoursPerDay").decimalValue()).isBetween(new java.math.BigDecimal("5"), new java.math.BigDecimal("9"));
+        mvc.perform(get("/api/plans/current").header("Authorization", s.bearer())).andExpect(status().isNotFound());
+
+        JsonNode plan = body(mvc.perform(post("/api/plans").header("Authorization", s.bearer())
+                .contentType(MediaType.APPLICATION_JSON).content(sprint)).andExpect(status().isCreated()).andReturn());
+        assertThat(plan.get("paceMode").asText()).isEqualTo("DEADLINE");
+        assertThat(plan.get("topicsTotal").asInt()).isEqualTo(22);
+        JsonNode todayItems = plan.get("today").get("items");
+        assertThat(todayItems.size()).isPositive();
+        assertThat(todayItems.get(0).get("lectureNumber").asInt()).isEqualTo(1);
+
+        // Ticking the topic in the roadmap shows up in the plan (and the other way round - it is one record).
+        long topicId = todayItems.get(0).get("topicId").asLong();
+        mvc.perform(put("/api/progress/topics/" + topicId).header("Authorization", s.bearer())
+                .contentType(MediaType.APPLICATION_JSON).content("{\"status\":\"DONE\"}")).andExpect(status().isOk());
+        mvc.perform(get("/api/plans/current").header("Authorization", s.bearer()))
+                .andExpect(jsonPath("$.today.items[0].done").value(true))
+                .andExpect(jsonPath("$.topicsDone").value(1));
+
+        // Re-planning the rest keeps finished work and schedules only what is left.
+        mvc.perform(post("/api/plans/current/replan").header("Authorization", s.bearer())
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"keepDeadline\":true}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.topicsTotal").value(22))
+                .andExpect(jsonPath("$.topicsDone").value(1));
+
+        // Pace mode: 2 hours a day.
+        mvc.perform(post("/api/plans").header("Authorization", s.bearer()).contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"pace\":\"HOURS\",\"hoursPerDay\":2,\"levelNumbers\":[3]}"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.hoursPerDay").value(2.0));
+
+        // An impossible deadline is refused with a clear message instead of a 20-hour day.
+        mvc.perform(post("/api/plans").header("Authorization", s.bearer()).contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"pace\":\"DEADLINE\",\"targetEndDate\":\"%s\",\"levelNumbers\":[2,3],\"studyDays\":[\"%s\"]}"
+                                .formatted(today, today.getDayOfWeek())))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.detail").value(org.hamcrest.Matchers.containsString("hours per study day")));
     }
 
     @Test

@@ -40,9 +40,17 @@ public class AuthController {
             @NotBlank @Size(min = 8, max = 128, message = "must be 8-128 characters") String password,
             @NotBlank @Size(min = 2, max = 80) String displayName,
             PreferredLanguage preferredLanguage) {
+        /** Phone keyboards and autofill add stray spaces; strip them before validation runs. */
+        public RegisterRequest {
+            email = email == null ? null : email.strip();
+            displayName = displayName == null ? null : displayName.strip();
+        }
     }
 
     public record LoginRequest(@NotBlank @Email String email, @NotBlank String password) {
+        public LoginRequest {
+            email = email == null ? null : email.strip();
+        }
     }
 
     public record AuthResponse(String accessToken, String tokenType, long expiresIn, UserDto user) {

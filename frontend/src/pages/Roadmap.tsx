@@ -1,12 +1,13 @@
 import { clsx } from 'clsx';
-import { Bookmark, BookmarkCheck, ExternalLink, Link2, ListVideo, Play, Plus, Star, Trash2, X } from 'lucide-react';
+import { Bookmark, BookmarkCheck, CalendarClock, ExternalLink, Link2, ListVideo, Play, Plus, Star, Trash2, X } from 'lucide-react';
 import { useEffect, useMemo, useState, type FormEvent, type MouseEvent } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Youtube } from '../components/icons';
 import { Accordion, Button, Check, Chips, ErrorState, Field, LangBadge, PageSkeleton, Progress } from '../components/ui';
 import { useAuth } from '../lib/auth';
 import { followedFor, isYoutube, levelLinks, topicLinks, watchFor } from '../lib/learn';
-import { useAddLink, useDeleteLink, useFollow, useMyResources, useProgress, useRoadmap, useSetTopicStatus } from '../lib/queries';
+import { useAddLink, useDeleteLink, useFollow, useMyResources, usePlannedDates, useProgress, useRoadmap, useSetTopicStatus } from '../lib/queries';
+import { formatDate, weekday } from '../lib/format';
 import { useToast } from '../lib/toast';
 import type { Level, MyLink, MyResources, Resource, Topic, TopicProgress, TopicStatus } from '../lib/types';
 
@@ -18,6 +19,7 @@ export default function Roadmap() {
   const roadmap = useRoadmap();
   const progress = useProgress();
   const mine = useMyResources();
+  const planned = usePlannedDates();
   const location = useLocation();
   const [open, setOpen] = useState<Set<number>>(new Set());
   const [lang, setLang] = useState<LangFilter>(user?.preferredLanguage === 'HINDI' ? 'HI' : user?.preferredLanguage === 'ENGLISH' ? 'EN' : 'ALL');
@@ -75,7 +77,7 @@ export default function Roadmap() {
                 : `Month ${level.suggestedMonth ?? '–'} · ${level.totalHours}h · ${level.topics.length} topics${followed ? ` · following ${followed.title}` : ''}`}
               meta={<><Progress value={lp?.percent ?? 0} /><span className="acc-count">{lp?.topicsDone ?? 0} / {level.topics.length}</span></>}
             >
-              <LevelBody level={level} lang={lang} byTopic={byTopic} mine={mine.data} />
+              <LevelBody level={level} lang={lang} byTopic={byTopic} mine={mine.data} planned={planned} />
             </Accordion>
           </div>
         );
@@ -84,7 +86,7 @@ export default function Roadmap() {
   );
 }
 
-function LevelBody({ level, lang, byTopic, mine }: { level: Level; lang: LangFilter; byTopic: Map<number, TopicProgress>; mine: MyResources | undefined }) {
+function LevelBody({ level, lang, byTopic, mine, planned }: { level: Level; lang: LangFilter; byTopic: Map<number, TopicProgress>; mine: MyResources | undefined; planned: Map<number, string> }) {
   const resources = level.resources.filter((r) => lang === 'ALL' || r.language === lang || level.playlist);
   const choice = mine?.choices.find((c) => c.levelId === level.id);
   const followed = followedFor(level, mine);
@@ -109,7 +111,7 @@ function LevelBody({ level, lang, byTopic, mine }: { level: Level; lang: LangFil
           </div>
         )}
         <div>
-          {level.topics.map((t) => <TopicRow key={t.id} level={level} topic={t} progress={byTopic.get(t.id)} mine={mine} />)}
+          {level.topics.map((t) => <TopicRow key={t.id} level={level} topic={t} progress={byTopic.get(t.id)} mine={mine} plannedOn={planned.get(t.id)} />)}
         </div>
       </div>
       <aside>
@@ -246,7 +248,7 @@ function AddLinkForm({ levelId, topicId, onDone }: { levelId?: number; topicId?:
   );
 }
 
-function TopicRow({ level, topic, progress, mine }: { level: Level; topic: Topic; progress?: TopicProgress; mine: MyResources | undefined }) {
+function TopicRow({ level, topic, progress, mine, plannedOn }: { level: Level; topic: Topic; progress?: TopicProgress; mine: MyResources | undefined; plannedOn?: string }) {
   const setStatus = useSetTopicStatus();
   const toast = useToast();
   const [notesOpen, setNotesOpen] = useState(false);
@@ -271,6 +273,7 @@ function TopicRow({ level, topic, progress, mine }: { level: Level; topic: Topic
         {topic.practice && <div className="t-desc"><span style={{ color: 'var(--accent)', fontWeight: 600 }}>Practice · </span>{topic.practice}</div>}
         <div className="t-links">
           <span className="subtle">{topic.estimatedHours}h</span>
+          {plannedOn && status !== 'DONE' && <span className="planned-on" title="Planned in your Planly plan"><CalendarClock size={13} /> {weekday(plannedOn)} {formatDate(plannedOn)}</span>}
           {watch && (
             <a href={watch.url} target="_blank" rel="noopener noreferrer" className={clsx(watch.source === 'lecture' && 'watch-exact')}
               title={watch.source === 'playlist' ? 'The exact video of this lecture was not found - opens the playlist; add your own link for it' : undefined}>

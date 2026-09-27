@@ -53,6 +53,7 @@ public class RefreshToken {
     public UUID getFamilyId() { return familyId; }
     public Instant getExpiresAt() { return expiresAt; }
     public boolean isRevoked() { return revokedAt != null; }
+    public Instant getRevokedAt() { return revokedAt; }
 
     public void revoke(Instant when) {
         if (revokedAt == null) {

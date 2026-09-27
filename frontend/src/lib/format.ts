@@ -26,3 +26,21 @@ export function initials(name: string) {
     .map((p) => p[0]!.toUpperCase())
     .join('');
 }
+
+/** yyyy-mm-dd of a local date plus n days. */
+export function addDaysIso(iso: string, days: number) {
+  const d = new Date(`${iso}T00:00:00`);
+  d.setDate(d.getDate() + days);
+  return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+}
+
+export function weekday(iso: string, style: 'short' | 'long' = 'short') {
+  return new Date(`${iso}T00:00:00`).toLocaleDateString(undefined, { weekday: style });
+}
+
+export function hoursLabel(h: number) {
+  const whole = Math.floor(h);
+  const minutes = Math.round((h - whole) * 60);
+  if (whole === 0) return `${minutes}m`;
+  return minutes ? `${whole}h ${minutes}m` : `${whole}h`;
+}

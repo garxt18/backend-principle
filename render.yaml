@@ -1,11 +1,12 @@
-# Render Blueprint: one click creates the web app + a PostgreSQL database.
-# Render dashboard -> New -> Blueprint -> pick this repository.
-databases:
-  - name: playground-db
-    plan: free
-    databaseName: playground
-    user: playground
-
+# Render Blueprint: Render dashboard -> New -> Blueprint -> pick this repository.
+#
+# Database: Render's FREE Postgres is deleted 30 days after creation, so this Blueprint does not create one.
+# Create a free Postgres at https://neon.tech (never expires, no card) and paste its connection string as
+# DATABASE_URL when Render asks. See docs/DEPLOYMENT.md.
+#
+# Sleeping: a free Render web service sleeps after 15 minutes without traffic and needs ~1 minute to wake up.
+# Keep it awake with a free cron-job.org / UptimeRobot ping to /actuator/health/liveness every 10 minutes
+# (one service running 24/7 fits in the 750 free instance hours a month). See docs/DEPLOYMENT.md.
 services:
   - type: web
     name: backend-playground
@@ -13,18 +14,16 @@ services:
     plan: free
     healthCheckPath: /actuator/health/readiness
     envVars:
-      - key: DATABASE_URL            # converted to a JDBC URL by DatabaseUrlEnvironmentPostProcessor
-        fromDatabase:
-          name: playground-db
-          property: connectionString
+      - key: DATABASE_URL            # postgresql://user:password@host/db?sslmode=require (from Neon)
+        sync: false
       - key: APP_JWT_SECRET
         generateValue: true          # Render creates a long random secret
       - key: APP_SECURE_COOKIE
         value: "true"
       - key: LOG_FORMAT
         value: ecs
-      - key: JAVA_OPTS
-        value: "-XX:MaxRAMPercentage=75 -XX:+ExitOnOutOfMemoryError -XX:TieredStopAtLevel=1"
+      - key: JAVA_OPTS               # small-memory JVM: 512 MB instance
+        value: "-XX:MaxRAMPercentage=70 -XX:+UseSerialGC -XX:TieredStopAtLevel=1 -XX:+ExitOnOutOfMemoryError"
       - key: APP_ADMIN_EMAIL
         sync: false                  # you type these in the dashboard when creating the Blueprint
       - key: APP_ADMIN_PASSWORD

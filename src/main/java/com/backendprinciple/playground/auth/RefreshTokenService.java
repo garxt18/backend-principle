@@ -55,6 +55,11 @@ public class RefreshTokenService {
         RefreshToken current = repository.findByTokenHash(hash(rawToken))
                 .orElseThrow(() -> ApiException.unauthorized("Session expired - please log in again"));
         Instant now = clock.instant();
+        if (current.isRevoked() && isConcurrentRefresh(current, now)) {
+            // Two tabs (or a restored browser session) refreshed with the same cookie a moment apart.
+            // That is not theft: the session is still alive, so give this tab a token of its own.
+            return issue(current.getUserId(), current.getFamilyId());
+        }
         if (current.isRevoked()) {
             int revoked = repository.revokeFamily(current.getFamilyId(), now);
             log.warn("Refresh token reuse detected for user {} - revoked {} tokens", current.getUserId(), revoked);
@@ -65,6 +70,15 @@ public class RefreshTokenService {
         }
         current.revoke(now);
         return issue(current.getUserId(), current.getFamilyId());
+    }
+
+    /**
+     * Grace window for refresh races: the token was rotated (not logged out - the family still has a live
+     * token) only a few seconds ago. Outside this window, reuse still revokes the whole family.
+     */
+    private boolean isConcurrentRefresh(RefreshToken token, Instant now) {
+        return token.getRevokedAt().isAfter(now.minus(props.refreshReuseGrace()))
+                && repository.existsByFamilyIdAndRevokedAtIsNullAndExpiresAtAfter(token.getFamilyId(), now);
     }
 
     @Transactional

@@ -1,0 +1,20 @@
+# Optional backup pinger for a free Render service (Render sleeps after 15 minutes without traffic).
+# Set the repository variable KEEP_AWAKE_URL (Settings -> Secrets and variables -> Actions -> Variables),
+# e.g. https://backend-playground.onrender.com - nothing runs until it is set.
+# GitHub may delay scheduled runs at busy times and pauses them in repos with no commits for 60 days,
+# so use cron-job.org or UptimeRobot as the main pinger (docs/DEPLOYMENT.md) and this as a fallback.
+name: Keep awake
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    if: ${{ vars.KEEP_AWAKE_URL != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Ping the liveness endpoint (does not touch the database)
+        run: curl --silent --show-error --max-time 90 --retry 2 "${{ vars.KEEP_AWAKE_URL }}/actuator/health/liveness"

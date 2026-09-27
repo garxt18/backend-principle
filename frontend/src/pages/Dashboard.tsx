@@ -7,7 +7,7 @@ import { Youtube } from '../components/icons';
 import { Button, Check, ErrorState, Field, PageSkeleton, Progress, Ring } from '../components/ui';
 import { api } from '../lib/api';
 import { useAuth } from '../lib/auth';
-import { formatDate, hours, pct, todayIso } from '../lib/format';
+import { formatDate, hours, hoursLabel, pct, todayIso } from '../lib/format';
 import { STRIVER_A2Z, STRIVER_PLAYLIST, followedFor, watchFor } from '../lib/learn';
 import { keys, useHeatmap, useMyResources, usePlan, useProgress, useRoadmap, useSetTopicStatus } from '../lib/queries';
 import { useToast } from '../lib/toast';
@@ -162,32 +162,32 @@ function ThisWeek({ plan, loading }: { plan: Plan | null; loading: boolean }) {
   if (!plan) {
     return (
       <div className="card stack">
-        <span className="card-title">This week</span>
-        <p className="muted">No plan yet. Planly turns the roadmap and your available hours into a week-by-week schedule.</p>
+        <span className="card-title">Today's plan</span>
+        <p className="muted">No plan yet. Tell Planly what to learn and by when - "Java Basics in 7 days", "Spring Boot in a month" - and it gives you a day-by-day schedule.</p>
         <div><Link to="/planly" className="btn btn-primary"><Target size={16} /> Create my plan</Link></div>
       </div>
     );
   }
-  const week = plan.weeks.find((w) => w.week === plan.currentWeek) ?? plan.weeks[0]!;
+  const today = plan.today;
   const delta = plan.scheduleDeltaHours;
   return (
     <div className="card">
       <div className="card-head">
         <div>
-          <span className="card-title">Week {week.week} of {plan.totalWeeks}</span>
-          <div className="tiny subtle">{formatDate(week.startDate)} – {formatDate(week.endDate)}</div>
+          <span className="card-title">Today's plan</span>
+          <div className="tiny subtle">{plan.name ?? 'Planly'} · {plan.topicsDone}/{plan.topicsTotal} topics · ends {formatDate(plan.endDate)}</div>
         </div>
         <span className={`badge ${delta < 0 ? 'badge-danger' : 'badge-success'}`}>{delta > 0 ? `${delta}h ahead` : delta < 0 ? `${-delta}h behind` : 'On track'}</span>
       </div>
-      {week.items.slice(0, 8).map((item) => (
+      {today.items.length === 0 && <p className="muted small">{today.studyDay ? 'Nothing planned for today.' : 'Rest day - recharge.'}</p>}
+      {today.items.map((item) => (
         <div key={`${item.topicId}-${item.plannedHours}`} className={`plan-item ${item.done ? 'done' : ''}`}>
           <Check checked={item.done} label={`Mark ${item.topicTitle} done`} onChange={(v) => setStatus.mutate({ topicId: item.topicId, status: v ? 'DONE' : 'IN_PROGRESS' })} />
-          <span className="pi-title grow truncate">{item.topicTitle}</span>
-          <span className="badge">L{item.levelNumber}</span>
-          <span className="small subtle nowrap">{item.plannedHours}h</span>
+          <span className="pi-title grow truncate">{item.lectureNumber && <span className="lecture-no">L{item.lectureNumber}</span>}{item.topicTitle}</span>
+          <span className="small subtle nowrap">{hoursLabel(item.plannedHours)}</span>
         </div>
       ))}
-      {week.items.length > 8 && <Link to="/planly" className="link small" style={{ display: 'inline-block', marginTop: 8 }}>+{week.items.length - 8} more this week</Link>}
+      {plan.overdue.length > 0 && <Link to="/planly" className="alert alert-info small" style={{ marginTop: 10 }}>{plan.overdue.length} earlier topic{plan.overdue.length === 1 ? '' : 's'} not done yet - catch up in Planly</Link>}
     </div>
   );
 }

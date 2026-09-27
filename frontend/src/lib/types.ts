@@ -108,13 +108,26 @@ export interface ProgressSummary {
   topics: TopicProgress[];
 }
 
+export type PaceMode = 'HOURS' | 'DEADLINE';
+export type Weekday = 'MONDAY' | 'TUESDAY' | 'WEDNESDAY' | 'THURSDAY' | 'FRIDAY' | 'SATURDAY' | 'SUNDAY';
+
 export interface PlanItem {
   topicId: number;
   topicTitle: string;
   levelNumber: number;
   levelTitle: string;
+  lectureNumber: number | null;
   plannedHours: number;
+  plannedDate: string;
   done: boolean;
+}
+
+export interface PlanDay {
+  date: string;
+  studyDay: boolean;
+  plannedHours: number;
+  minutesLogged: number;
+  items: PlanItem[];
 }
 
 export interface Week {
@@ -123,19 +136,56 @@ export interface Week {
   endDate: string;
   plannedHours: number;
   minutesLogged: number;
+  days: PlanDay[];
   items: PlanItem[];
 }
 
 export interface Plan {
   id: string;
+  name: string | null;
+  paceMode: PaceMode;
   startDate: string;
   endDate: string;
+  targetEndDate: string | null;
+  hoursPerDay: number;
   hoursPerWeek: number;
+  studyDays: Weekday[];
   totalWeeks: number;
   currentWeek: number;
   percentDone: number;
+  totalHours: number;
+  doneHours: number;
+  /** positive = ahead of plan, negative = behind */
   scheduleDeltaHours: number;
+  topicsTotal: number;
+  topicsDone: number;
+  projectedEndDate: string | null;
+  today: PlanDay;
+  overdue: PlanItem[];
   weeks: Week[];
+}
+
+export interface PlanPreview {
+  topics: number;
+  totalHours: number;
+  hoursPerDay: number;
+  studyDays: number;
+  startDate: string;
+  endDate: string;
+  weeks: number;
+  warning: string | null;
+}
+
+export interface PlanRequest {
+  name?: string;
+  startDate: string;
+  pace: PaceMode;
+  hoursPerDay?: number;
+  targetEndDate?: string;
+  studyDays: Weekday[];
+  levelNumbers: number[];
+  topicIds?: number[];
+  skipCompleted: boolean;
 }
 
 export interface StudySession {

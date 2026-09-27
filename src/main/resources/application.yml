@@ -59,6 +59,7 @@ app:
     access-token-ttl: ${APP_ACCESS_TTL:15m}
     refresh-token-ttl: ${APP_REFRESH_TTL:14d}
     secure-cookie: ${APP_SECURE_COOKIE:false}
+    refresh-reuse-grace: ${APP_REFRESH_REUSE_GRACE:30s}
   admin:
     email: ${APP_ADMIN_EMAIL:}
     password: ${APP_ADMIN_PASSWORD:}
