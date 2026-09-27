@@ -34,10 +34,6 @@ public class StudyPlan {
     @Column(name = "total_weeks", nullable = false)
     private int totalWeeks;
 
-    /** Planly's DSA target: problems to solve per week, on top of the roadmap hours. */
-    @Column(name = "dsa_per_week", nullable = false)
-    private int dsaPerWeek;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private PlanStatus status = PlanStatus.ACTIVE;
@@ -52,12 +48,11 @@ public class StudyPlan {
     protected StudyPlan() {
     }
 
-    public StudyPlan(UUID userId, LocalDate startDate, int hoursPerWeek, int dsaPerWeek, Instant createdAt) {
+    public StudyPlan(UUID userId, LocalDate startDate, int hoursPerWeek, Instant createdAt) {
         this.id = UUID.randomUUID();
         this.userId = userId;
         this.startDate = startDate;
         this.hoursPerWeek = hoursPerWeek;
-        this.dsaPerWeek = dsaPerWeek;
         this.createdAt = createdAt;
     }
 
@@ -78,7 +73,6 @@ public class StudyPlan {
     public LocalDate getStartDate() { return startDate; }
     public int getHoursPerWeek() { return hoursPerWeek; }
     public int getTotalWeeks() { return totalWeeks; }
-    public int getDsaPerWeek() { return dsaPerWeek; }
     public PlanStatus getStatus() { return status; }
     public Instant getCreatedAt() { return createdAt; }
     public List<PlanItem> getItems() { return items; }

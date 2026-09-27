@@ -2,9 +2,9 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api, ApiError } from './api';
 import type {
   DayMinutes,
-  DsaProblem,
-  DsaSheet,
   Level,
+  MyLink,
+  MyResources,
   Plan,
   ProgressSummary,
   StudySession,
@@ -18,7 +18,7 @@ export const keys = {
   plan: ['plan'] as const,
   sessions: ['sessions'] as const,
   heatmap: ['heatmap'] as const,
-  dsa: ['dsa'] as const,
+  myResources: ['me', 'resources'] as const,
   labProjects: ['lab', 'projects'] as const,
   labProject: (id: string) => ['lab', 'project', id] as const,
   labFile: (id: string) => ['lab', 'file', id] as const,
@@ -28,7 +28,7 @@ export const useRoadmap = () => useQuery({ queryKey: keys.roadmap, queryFn: () =
 export const useProgress = () => useQuery({ queryKey: keys.progress, queryFn: () => api<ProgressSummary>('/api/progress') });
 export const useSessions = () => useQuery({ queryKey: keys.sessions, queryFn: () => api<StudySession[]>('/api/sessions') });
 export const useHeatmap = () => useQuery({ queryKey: keys.heatmap, queryFn: () => api<DayMinutes[]>('/api/sessions/heatmap?days=140') });
-export const useDsaSheet = () => useQuery({ queryKey: keys.dsa, queryFn: () => api<DsaSheet>('/api/dsa/sheet') });
+export const useMyResources = () => useQuery({ queryKey: keys.myResources, queryFn: () => api<MyResources>('/api/me/resources') });
 
 /** "No plan yet" is a normal state, not an error: map 404 to null. */
 export const usePlan = () =>
@@ -75,39 +75,31 @@ function emptyProgress(topicId: number): TopicProgress {
   return { topicId, status: 'NOT_STARTED', confidence: null, notes: null, startedAt: null, completedAt: null, updatedAt: '' };
 }
 
-export function useUpdateProblem() {
+/** Follow one resource per level ("this is the one I'm going to follow"). null = stop following. */
+export function useFollow() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (v: { id: number; solved?: boolean; revision?: boolean; notes?: string }) =>
-      api<DsaProblem>(`/api/dsa/problems/${v.id}`, { method: 'PUT', body: v }),
-    onMutate: async (v) => {
-      await qc.cancelQueries({ queryKey: keys.dsa });
-      const previous = qc.getQueryData<DsaSheet>(keys.dsa);
-      if (previous) qc.setQueryData(keys.dsa, applyProblemChange(previous, v));
-      return { previous };
-    },
-    onError: (_e, _v, ctx) => ctx?.previous && qc.setQueryData(keys.dsa, ctx.previous),
-    onSettled: () => {
-      qc.invalidateQueries({ queryKey: keys.dsa });
-      qc.invalidateQueries({ queryKey: keys.plan });
-    },
+    mutationFn: (v: { levelId: number; resourceId?: number; userResourceId?: number } | { levelId: number; clear: true }) =>
+      'clear' in v
+        ? api<void>(`/api/me/resources/follow/${v.levelId}`, { method: 'DELETE' })
+        : api(`/api/me/resources/follow/${v.levelId}`, { method: 'PUT', body: { resourceId: v.resourceId ?? null, userResourceId: v.userResourceId ?? null } }),
+    onSettled: () => qc.invalidateQueries({ queryKey: keys.myResources }),
   });
 }
 
-function applyProblemChange(sheet: DsaSheet, v: { id: number; solved?: boolean; revision?: boolean; notes?: string }): DsaSheet {
-  const topics = sheet.topics.map((t) => {
-    if (!t.problems.some((p) => p.id === v.id)) return t;
-    const problems = t.problems.map((p) =>
-      p.id === v.id
-        ? { ...p, ...(v.solved !== undefined && { solved: v.solved }), ...(v.revision !== undefined && { revision: v.revision }), ...(v.notes !== undefined && { notes: v.notes }) }
-        : p,
-    );
-    return { ...t, problems, solved: problems.filter((p) => p.solved).length };
+export function useAddLink() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (v: { levelId?: number; topicId?: number; title: string; url: string; note?: string }) =>
+      api<MyLink>('/api/me/resources/links', { method: 'POST', body: v }),
+    onSettled: () => qc.invalidateQueries({ queryKey: keys.myResources }),
   });
-  const all = topics.flatMap((t) => t.problems);
-  const by = (d: string) => ({ total: all.filter((p) => p.difficulty === d).length, solved: all.filter((p) => p.difficulty === d && p.solved).length });
-  return {
-    stats: { ...sheet.stats, solved: all.filter((p) => p.solved).length, easy: by('EASY'), medium: by('MEDIUM'), hard: by('HARD'), revision: all.filter((p) => p.revision).length },
-    topics,
-  };
+}
+
+export function useDeleteLink() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: number) => api<void>(`/api/me/resources/links/${id}`, { method: 'DELETE' }),
+    onSettled: () => qc.invalidateQueries({ queryKey: keys.myResources }),
+  });
 }

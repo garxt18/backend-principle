@@ -21,7 +21,7 @@ export interface AuthResponse {
 }
 
 export type ResourceLang = 'HI' | 'EN';
-export type ResourceKind = 'PLAYLIST' | 'VIDEO' | 'CHANNEL' | 'COURSE' | 'DOCS' | 'SEARCH';
+export type ResourceKind = 'PLAYLIST' | 'VIDEO' | 'CHANNEL' | 'COURSE' | 'DOCS';
 
 export interface Resource {
   id: number;
@@ -44,6 +44,16 @@ export interface Topic {
   practice: string | null;
   estimatedHours: number;
   orderIndex: number;
+  /** Playlist levels: the lecture of the playlist that teaches this topic. */
+  lectureNumber: number | null;
+  /** Direct link to that lecture when known; null = open the playlist. */
+  videoUrl: string | null;
+}
+
+export interface Playlist {
+  name: string;
+  channel: string;
+  url: string;
 }
 
 export interface Level {
@@ -56,6 +66,8 @@ export interface Level {
   projectTitle: string | null;
   projectDescription: string | null;
   suggestedMonth: number | null;
+  /** Set for the Java and Spring Boot levels, which are taught lecture-by-lecture by one playlist. */
+  playlist: Playlist | null;
   totalHours: number;
   topics: Topic[];
   resources: Resource[];
@@ -111,8 +123,6 @@ export interface Week {
   endDate: string;
   plannedHours: number;
   minutesLogged: number;
-  dsaTarget: number;
-  dsaSolved: number;
   items: PlanItem[];
 }
 
@@ -121,7 +131,6 @@ export interface Plan {
   startDate: string;
   endDate: string;
   hoursPerWeek: number;
-  dsaPerWeek: number;
   totalWeeks: number;
   currentWeek: number;
   percentDone: number;
@@ -142,57 +151,30 @@ export interface DayMinutes {
   minutes: number;
 }
 
-export type Difficulty = 'EASY' | 'MEDIUM' | 'HARD';
-
-export interface DsaResource {
+export interface MyLink {
+  id: number;
+  levelId: number;
+  topicId: number | null;
   title: string;
   url: string;
-  channel: string | null;
-  language: ResourceLang;
+  note: string | null;
+  createdAt: string;
 }
 
-export interface DsaProblem {
-  id: number;
-  slug: string;
-  title: string;
-  difficulty: Difficulty;
-  url: string;
-  solved: boolean;
-  revision: boolean;
-  notes: string | null;
-  solvedAt: string | null;
+export interface ResourceChoice {
+  levelId: number;
+  resourceId: number | null;
+  userResourceId: number | null;
+  chosenAt: string;
 }
 
-export interface DsaTopic {
-  id: number;
-  slug: string;
-  title: string;
-  summary: string | null;
-  resources: DsaResource[];
-  total: number;
-  solved: number;
-  problems: DsaProblem[];
-}
-
-export interface Count {
-  total: number;
-  solved: number;
-}
-
-export interface DsaSheet {
-  stats: {
-    total: number;
-    solved: number;
-    easy: Count;
-    medium: Count;
-    hard: Count;
-    revision: number;
-    solvedLast7Days: number;
-  };
-  topics: DsaTopic[];
+export interface MyResources {
+  choices: ResourceChoice[];
+  links: MyLink[];
 }
 
 export type FileLayer = string;
+export type Track = 'BACKEND' | 'FRONTEND';
 
 export interface LabProject {
   id: string;
@@ -210,6 +192,7 @@ export interface LabFileEntry {
   language: string;
   layer: FileLayer;
   layerLabel: string;
+  track: Track;
   buildOrder: number;
   lineCount: number;
   linesCompleted: number;
@@ -232,22 +215,43 @@ export interface LabFile {
   layer: FileLayer;
   layerLabel: string;
   layerWhy: string;
+  track: Track;
   buildOrder: number;
+  positionInTrack: number;
+  filesInTrack: number;
   lineCount: number;
   linesCompleted: number;
   lines: string[];
   notes: Record<string, string>;
+  outline: FileOutline;
   previousFileId: string | null;
   nextFileId: string | null;
+}
+
+export interface FileOutline {
+  purpose: string;
+  items: { line: number; kind: string; name: string; summary: string }[];
 }
 
 export interface Explanation {
   lineNumber: number;
   code: string;
   kind: string;
+  /** What the line does. */
   summary: string;
+  /** Why you type it here / what breaks without it. */
+  why: string;
   context: string;
   notes: { term: string; text: string }[];
+}
+
+export interface SyncResult {
+  filesMatched: number;
+  filesAdvanced: number;
+  linesBefore: number;
+  linesAfter: number;
+  files: { path: string; before: number; after: number; lineCount: number; mismatchLine: number | null; expected: string | null; found: string | null }[];
+  unmatched: string[];
 }
 
 export interface Page<T> {

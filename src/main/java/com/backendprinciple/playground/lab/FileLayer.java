@@ -39,4 +39,11 @@ public enum FileLayer {
     public String why() {
         return why;
     }
+
+    /** The Rebuild Lab keeps backend + database files in the main track; frontend files are optional practice. */
+    public Track track() {
+        return this == FRONTEND ? Track.FRONTEND : Track.BACKEND;
+    }
+
+    public enum Track { BACKEND, FRONTEND }
 }

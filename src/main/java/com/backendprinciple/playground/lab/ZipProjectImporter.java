@@ -31,7 +31,8 @@ import org.springframework.stereotype.Component;
 public class ZipProjectImporter {
 
     private static final Set<String> IGNORED_DIRS = Set.of("target", "build", "out", "bin", ".git", ".idea",
-            ".vscode", ".gradle", "node_modules", ".mvn", "__MACOSX", ".settings", "dist", "logs");
+            ".vscode", ".gradle", "node_modules", ".mvn", "__MACOSX", ".settings", "dist", "logs",
+            "_reference"); // _reference = the originals inside a Rebuild Lab progress export
 
     private final LabProperties props;
 

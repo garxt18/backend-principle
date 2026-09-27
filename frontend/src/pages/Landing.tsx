@@ -1,11 +1,11 @@
-import { ArrowRight, CalendarCheck2, Hammer, ListChecks, Map } from 'lucide-react';
+import { ArrowRight, CalendarCheck2, Hammer, ListVideo, Map } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const FEATURES = [
-  { icon: Map, title: 'Backend roadmap', text: '17 levels from Java basics to Kubernetes and system design, 101 topics with hour estimates and hand-picked Hindi + English videos.' },
-  { icon: ListChecks, title: 'DSA sheet', text: '156 must-do LeetCode problems in 16 patterns. Tick them off, star them for revision and keep notes - with Hindi and English explanations one click away.' },
-  { icon: CalendarCheck2, title: 'Planly', text: 'Tell it your hours per week and a DSA target. Planly builds a week-by-week schedule and tells you honestly whether you are ahead or behind.' },
-  { icon: Hammer, title: 'Rebuild Lab', text: 'Upload any Spring Boot / Java project and retype it line by line in the order a senior engineer builds it - every line explained, in your own notes too.' },
+  { icon: ListVideo, title: 'Playlist-first Java & Spring', text: 'Java Basics, Advanced Java and Spring Boot follow Coder Army\'s playlists lecture by lecture - what each video teaches, a practice task and a direct link.' },
+  { icon: Map, title: 'Backend roadmap', text: '17 levels up to Kubernetes and system design. Pick the Hindi or English resource you will follow, or attach your own playlist to any level or topic.' },
+  { icon: CalendarCheck2, title: 'Planly', text: 'Tell it your hours per week. Planly builds a week-by-week schedule and tells you honestly whether you are ahead or behind.' },
+  { icon: Hammer, title: 'Rebuild Lab', text: 'Retype any Spring Boot project line by line in build order. Every line says what it does and why you type it. Download progress, keep going in your IDE, sync back.' },
 ];
 
 export default function Landing() {
@@ -18,7 +18,7 @@ export default function Landing() {
             Become a <em>production-ready</em> backend engineer.
           </h1>
           <p className="lead">
-            One place to follow the roadmap, crack DSA, plan every week, and rebuild real Spring Boot projects line by line until you understand every single line.
+            One place to follow the roadmap, plan every week, and rebuild real Spring Boot projects line by line until you understand every single line. DSA? Straight to Striver's A2Z sheet.
           </p>
           <div className="row">
             <Link to="/signup" className="btn btn-primary btn-lg">Start learning <ArrowRight size={18} /></Link>

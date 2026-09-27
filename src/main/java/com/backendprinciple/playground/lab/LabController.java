@@ -9,8 +9,12 @@ import jakarta.validation.constraints.Size;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.http.CacheControl;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,10 +32,12 @@ import org.springframework.web.multipart.MultipartFile;
 public class LabController {
 
     private final LabService lab;
+    private final LabSyncService sync;
     private final ZipProjectImporter importer;
 
-    public LabController(LabService lab, ZipProjectImporter importer) {
+    public LabController(LabService lab, LabSyncService sync, ZipProjectImporter importer) {
         this.lab = lab;
+        this.sync = sync;
         this.importer = importer;
     }
 
@@ -68,6 +74,27 @@ public class LabController {
         }
         var imported = importer.read(file.getInputStream());
         return lab.importProject(me.id(), name, description, imported);
+    }
+
+    /** Download your progress as a zip to continue on your own computer. */
+    @GetMapping("/projects/{id}/progress/export")
+    public ResponseEntity<byte[]> exportProgress(@CurrentUser AuthUser me, @PathVariable UUID id) {
+        LabSyncService.Export export = sync.export(me.id(), id);
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("application/zip"))
+                .header(HttpHeaders.CONTENT_DISPOSITION, ContentDisposition.attachment().filename(export.fileName()).build().toString())
+                .cacheControl(CacheControl.noStore())
+                .body(export.zip());
+    }
+
+    /** Upload the (zipped) folder you kept typing in; matching lines become your progress. */
+    @PostMapping(path = "/projects/{id}/progress/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public LabSyncService.SyncResult importProgress(@CurrentUser AuthUser me, @PathVariable UUID id,
+                                                    @RequestParam("file") MultipartFile file) throws IOException {
+        if (file.isEmpty()) {
+            throw ApiException.badRequest("Choose the .zip of your rebuild folder");
+        }
+        return sync.sync(me.id(), id, importer.read(file.getInputStream()).files());
     }
 
     @GetMapping("/projects/{id}")

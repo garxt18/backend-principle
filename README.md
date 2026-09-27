@@ -6,10 +6,10 @@ TypeScript, Docker and GitHub Actions.
 
 | Feature | What it does |
 |---|---|
-| **Roadmap** | The *Backend Engineering Roadmap 2026*: 17 levels, 101 topics with hour estimates, practice tasks, level projects and curated **Hindi + English** YouTube resources. Track status and notes per topic. |
-| **DSA Sheet** | 156 must-do LeetCode problems in 16 patterns (arrays -> DP -> graphs). Tick solved, star for revision, keep notes; every problem links to LeetCode plus Hindi and English video explanations. |
-| **Planly** | The study planner: your hours per week + a weekly DSA target become a week-by-week schedule. Shows whether you are ahead or behind, with study-time logging, streaks and a consistency heatmap. |
-| **Rebuild Lab** | Upload **any** Spring Boot / Java project as a `.zip` and retype it **line by line**, in the order a senior engineer would build it (`pom.xml` -> config -> SQL -> entities -> repositories -> DTOs -> services -> controllers -> tests -> Docker). Every line is explained instantly (annotations, keywords, Spring Data queries translated to SQL, YAML keys, Maven artifacts, SQL, Dockerfile), and you write your own explanation per line. Built-in templates: a small **Task Manager API** and **this app's own source**. |
+| **Roadmap** | The *Backend Engineering Roadmap 2026*: 17 levels, 170 topics with hour estimates, practice tasks and level projects. **Java Basics, Advanced Java and Spring Boot follow Coder Army's two playlists lecture by lecture** (what each lecture teaches, a practice task and a direct video link). Every other level has curated Hindi + English resources: mark the one you **follow**, or attach **your own links** to any level or lecture. |
+| **Dashboard** | "Continue with" your next lecture/topic and the resource you follow, streaks, weekly hours, level progress, and a direct link to **Striver's A2Z sheet** for DSA (no duplicate DSA sheet in the app). |
+| **Planly** | The study planner: your hours per week become a week-by-week schedule. Shows whether you are ahead or behind, with study-time logging, streaks and a consistency heatmap. |
+| **Rebuild Lab** | Upload **any** Spring Boot / Java project as a `.zip` and retype it **line by line**, in the order a senior engineer would build it (`pom.xml` -> config -> SQL -> entities -> repositories -> DTOs -> services -> controllers -> tests -> Docker). Backend + database files are the main track; frontend files (TSX/HTML/CSS/JS) sit in a separate optional section. Every line shows **what it does and why you type it** right under the line you are typing, and each file starts with an outline of what you are about to build. **Download your progress** as a zip, keep typing in your IDE, and **sync it back**. Built-in templates: a small **Task Manager API** and **this app's own source**. |
 
 Dark and light themes, responsive down to phone width, no API keys or paid services needed.
 
@@ -51,11 +51,10 @@ Backend packages (`com.backendprinciple.playground`, package-by-feature):
 |---|---|
 | `auth` | Register/login, JWT issuing, refresh-token rotation with reuse detection, security config |
 | `user`, `admin` | Profiles, password change, admin bootstrap, user management |
-| `roadmap` | Levels/topics/resources, JSON seeder, cached read API, admin resource CRUD |
+| `roadmap` | Levels/topics/resources (playlist levels with per-lecture links), JSON seeder that keeps the DB in sync, cached read API, admin resource CRUD, per-user followed resource and personal links |
 | `progress` | Per-user topic status, summary, streaks |
-| `dsa` | DSA sheet catalog (seeded from JSON), per-user solved/revision/notes, weekly counts |
-| `planly` | Plan generation algorithm, weekly view with DSA targets, study sessions, heatmap |
-| `lab` | Zip import (zip-slip & zip-bomb safe), file classification, build ordering, line explainer, line notes, templates |
+| `planly` | Plan generation algorithm, weekly view, study sessions, heatmap |
+| `lab` | Zip import (zip-slip & zip-bomb safe), file classification, build ordering, backend/frontend tracks, line explainer (what + why, file outline), line notes, progress export/sync, templates |
 | `common` | Error handling (RFC 9457), correlation ids, rate limiting, `@CurrentUser`, SPA routing, `DATABASE_URL` support |
 
 Frontend (`frontend/src`): React 19, React Router, TanStack Query (caching + optimistic updates), hand-written

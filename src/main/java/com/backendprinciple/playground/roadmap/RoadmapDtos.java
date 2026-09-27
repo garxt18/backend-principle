@@ -8,12 +8,20 @@ public final class RoadmapDtos {
     private RoadmapDtos() {
     }
 
+    /**
+     * @param lectureNumber for playlist levels, the lecture of the playlist that teaches this topic
+     * @param videoUrl      direct link to that lecture when known; null means "open the playlist"
+     */
     public record TopicDto(Long id, String slug, String title, String description, String practice,
-                           int estimatedHours, int orderIndex) {
+                           int estimatedHours, int orderIndex, Integer lectureNumber, String videoUrl) {
         static TopicDto from(Topic t) {
             return new TopicDto(t.getId(), t.getSlug(), t.getTitle(), t.getDescription(), t.getPractice(),
-                    t.getEstimatedHours(), t.getOrderIndex());
+                    t.getEstimatedHours(), t.getOrderIndex(), t.getLectureNumber(), t.getVideoUrl());
         }
+    }
+
+    /** The single playlist that teaches a whole level (null for levels with a list of resources). */
+    public record PlaylistDto(String name, String channel, String url) {
     }
 
     public record ResourceDto(Long id, Long levelId, String title, String url, String channel,
@@ -27,6 +35,6 @@ public final class RoadmapDtos {
 
     public record LevelDto(Long id, String slug, int levelNumber, String title, String summary, String whyItMatters,
                            String projectTitle, String projectDescription, Integer suggestedMonth,
-                           int totalHours, List<TopicDto> topics, List<ResourceDto> resources) {
+                           PlaylistDto playlist, int totalHours, List<TopicDto> topics, List<ResourceDto> resources) {
     }
 }

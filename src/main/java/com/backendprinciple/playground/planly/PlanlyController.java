@@ -31,7 +31,6 @@ public class PlanlyController {
 
     public record CreatePlanBody(LocalDate startDate,
                                  @Min(1) @Max(80) int hoursPerWeek,
-                                 @Min(0) @Max(70) int dsaPerWeek,
                                  @Min(0) @Max(99) Integer fromLevel,
                                  @Min(0) @Max(99) Integer toLevel,
                                  boolean skipCompleted) {
@@ -45,7 +44,7 @@ public class PlanlyController {
     @PostMapping("/api/plans")
     @ResponseStatus(HttpStatus.CREATED)
     public PlanlyService.PlanDto create(@CurrentUser AuthUser me, @Valid @RequestBody CreatePlanBody body) {
-        return planner.create(me.id(), new PlanlyService.CreatePlanRequest(body.startDate(), body.hoursPerWeek(), body.dsaPerWeek(),
+        return planner.create(me.id(), new PlanlyService.CreatePlanRequest(body.startDate(), body.hoursPerWeek(),
                 body.fromLevel() == null ? 0 : body.fromLevel(),
                 body.toLevel() == null ? 99 : body.toLevel(),
                 body.skipCompleted()));

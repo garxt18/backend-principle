@@ -48,7 +48,7 @@ public class LabService {
     }
 
     public record FileEntryDto(UUID id, String path, String language, FileLayer layer, String layerLabel,
-                               int buildOrder, int lineCount, int linesCompleted, boolean completed) {
+                               FileLayer.Track track, int buildOrder, int lineCount, int linesCompleted, boolean completed) {
     }
 
     public record LayerDto(FileLayer layer, String label, String why) {
@@ -58,9 +58,15 @@ public class LabService {
                                    List<FileEntryDto> files) {
     }
 
+    /**
+     * @param outline        "before you type": what the file is for and the members it contains
+     * @param previousFileId previous file in the same track (backend or frontend)
+     * @param positionInTrack 1-based position of this file within its track, out of {@code filesInTrack}
+     */
     public record FileDto(UUID id, UUID projectId, String path, String language, FileLayer layer, String layerLabel,
-                          String layerWhy, int buildOrder, int lineCount, int linesCompleted, List<String> lines,
-                          Map<Integer, String> notes, UUID previousFileId, UUID nextFileId) {
+                          String layerWhy, FileLayer.Track track, int buildOrder, int positionInTrack, int filesInTrack,
+                          int lineCount, int linesCompleted, List<String> lines, Map<Integer, String> notes,
+                          LineExplainer.Outline outline, UUID previousFileId, UUID nextFileId) {
     }
 
     public record ImportOutcome(ProjectDto project, List<String> skipped) {
@@ -84,7 +90,8 @@ public class LabService {
             LabFileProgress p = byFile.get(f.id());
             int lines = p == null ? 0 : p.getLinesCompleted();
             done += lines;
-            entries.add(new FileEntryDto(f.id(), f.path(), f.language(), f.layer(), f.layer().label(), f.buildOrder(),
+            entries.add(new FileEntryDto(f.id(), f.path(), f.language(), f.layer(), f.layer().label(), f.layer().track(),
+                    f.buildOrder(),
                     f.lineCount(), lines, p != null && p.isCompleted()));
         }
         List<LayerDto> layers = entries.stream().map(FileEntryDto::layer).distinct()
@@ -96,19 +103,24 @@ public class LabService {
     @Transactional(readOnly = true)
     public FileDto file(UUID userId, UUID fileId) {
         LabFile f = visibleFile(userId, fileId);
-        List<FileSummary> siblings = files.findSummaries(f.getProjectId());
+        FileLayer.Track track = f.getLayer().track();
+        List<FileSummary> siblings = files.findSummaries(f.getProjectId()).stream()
+                .filter(s -> s.layer().track() == track).toList();
         UUID prev = null;
         UUID next = null;
+        int position = 0;
         for (int i = 0; i < siblings.size(); i++) {
             if (siblings.get(i).id().equals(fileId)) {
                 prev = i > 0 ? siblings.get(i - 1).id() : null;
                 next = i < siblings.size() - 1 ? siblings.get(i + 1).id() : null;
+                position = i + 1;
             }
         }
         int done = progress.findByUserIdAndFileId(userId, fileId).map(LabFileProgress::getLinesCompleted).orElse(0);
+        List<String> lines = f.getContent().lines().toList();
         return new FileDto(f.getId(), f.getProjectId(), f.getPath(), f.getLanguage(), f.getLayer(), f.getLayer().label(),
-                f.getLayer().why(), f.getBuildOrder(), f.getLineCount(), done, f.getContent().lines().toList(),
-                notesOf(userId, fileId), prev, next);
+                f.getLayer().why(), track, f.getBuildOrder(), position, siblings.size(), f.getLineCount(), done, lines,
+                notesOf(userId, fileId), explainer.outline(lines, f.getLanguage(), f.getLayer()), prev, next);
     }
 
     @Transactional(readOnly = true)
@@ -118,7 +130,7 @@ public class LabService {
         if (lineNumber < 1 || lineNumber > lines.size()) {
             throw ApiException.badRequest("Line number out of range");
         }
-        return explainer.explain(lines, lineNumber, f.getLanguage());
+        return explainer.explain(lines, lineNumber, f.getLanguage(), f.getLayer());
     }
 
     private Map<Integer, String> notesOf(UUID userId, UUID fileId) {
@@ -201,7 +213,7 @@ public class LabService {
 
     // ---- ownership checks -------------------------------------------------------------------------
 
-    private LabProject visibleProject(UUID userId, UUID projectId) {
+    LabProject visibleProject(UUID userId, UUID projectId) {
         // Someone else's private project answers 404, not 403, so ids cannot be probed.
         return projects.findById(projectId).filter(p -> p.isVisibleTo(userId))
                 .orElseThrow(() -> ApiException.notFound("Project"));

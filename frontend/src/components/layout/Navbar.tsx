@@ -4,7 +4,6 @@ import {
   CalendarCheck2,
   Hammer,
   LayoutDashboard,
-  ListChecks,
   LogOut,
   Map,
   Menu,
@@ -24,7 +23,6 @@ import { Button } from '../ui';
 const LINKS = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/roadmap', label: 'Roadmap', icon: Map },
-  { to: '/dsa', label: 'DSA Sheet', icon: ListChecks },
   { to: '/planly', label: 'Planly', icon: CalendarCheck2 },
   { to: '/lab', label: 'Rebuild Lab', icon: Hammer },
 ];

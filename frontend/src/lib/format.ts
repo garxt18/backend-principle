@@ -18,11 +18,6 @@ export function pct(part: number, whole: number) {
   return whole === 0 ? 0 : Math.round((part * 100) / whole);
 }
 
-export function youtubeSearch(query: string, hindi: boolean) {
-  const q = encodeURIComponent(query.replace(/[&:/]/g, ' ') + (hindi ? ' in hindi' : ' tutorial'));
-  return `https://www.youtube.com/results?search_query=${q}`;
-}
-
 export function initials(name: string) {
   return name
     .split(/\s+/)

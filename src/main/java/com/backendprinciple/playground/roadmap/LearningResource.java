@@ -49,11 +49,16 @@ public class LearningResource {
     @Column(name = "order_index", nullable = false)
     private int orderIndex;
 
+    /** true = owned by roadmap.json (kept in sync on start); false = added by an admin through the API. */
+    @Column(nullable = false)
+    private boolean seeded;
+
     protected LearningResource() {
     }
 
-    public LearningResource(RoadmapLevel level) {
+    public LearningResource(RoadmapLevel level, boolean seeded) {
         this.level = level;
+        this.seeded = seeded;
     }
 
     public void update(String title, String url, String channel, ResourceLanguage language, ResourceKind kind,
@@ -78,4 +83,5 @@ public class LearningResource {
     public boolean isPrimaryPick() { return primaryPick; }
     public String getNote() { return note; }
     public int getOrderIndex() { return orderIndex; }
+    public boolean isSeeded() { return seeded; }
 }

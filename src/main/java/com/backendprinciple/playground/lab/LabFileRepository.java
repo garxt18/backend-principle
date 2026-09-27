@@ -16,4 +16,6 @@ public interface LabFileRepository extends JpaRepository<LabFile, UUID> {
                 f.id, f.path, f.language, f.layer, f.buildOrder, f.lineCount)
             from LabFile f where f.projectId = :projectId order by f.buildOrder""")
     List<FileSummary> findSummaries(UUID projectId);
+
+    List<LabFile> findByProjectIdOrderByBuildOrder(UUID projectId);
 }

@@ -1,92 +1,203 @@
 {
-  "version": 2,
+  "version": 3,
   "levels": [
     {
       "slug": "programming-fundamentals",
       "number": 0,
-      "title": "Programming Fundamentals (Java)",
-      "summary": "Before building APIs or connecting databases, master the foundations of programming and the Java platform.",
-      "whyItMatters": "Every Spring annotation, every JPA query and every thread pool sits on top of these basics. Weak fundamentals are the #1 reason people get stuck later.",
+      "title": "Java Basics",
+      "summary": "Coder Army Java Full Course, lectures 1-21: syntax, number storage, operators, control flow, arrays, functions and the complete OOP core.",
+      "whyItMatters": "Every Spring annotation and every JPA entity is just Java. Finishing these 21 lectures properly is what makes Spring Boot feel logical instead of magical.",
       "projectTitle": "CLI Task Manager",
       "projectDescription": "A command-line task manager: add/list/complete/delete tasks, save them to a file. Learn loops, file I/O, collections and basic object design without worrying about web layers.",
       "month": 1,
       "topics": [
         {
-          "slug": "java-syntax-control-flow",
-          "title": "Variables, data types, conditions & loops",
-          "hours": 6,
-          "description": "Primitive vs reference types, operators, if/switch (incl. switch expressions), for/while loops.",
-          "practice": "Write FizzBuzz, a number guessing game and a simple calculator."
+          "slug": "java-l01",
+          "title": "Introduction to Java",
+          "hours": 1,
+          "description": "What Java is, where it is used (backend, Android, big data), why it is platform independent and how this course is structured.",
+          "practice": "Install JDK 21 and an IDE (IntelliJ IDEA Community) and confirm `java -version` works.",
+          "lecture": 1,
+          "videoUrl": "https://www.youtube.com/watch?v=LBqE4YOvhyc"
         },
         {
-          "slug": "java-methods-arrays-strings",
-          "title": "Methods, arrays & strings",
-          "hours": 6,
-          "description": "Method signatures, overloading, pass-by-value, arrays, String/StringBuilder APIs.",
-          "practice": "Reverse words in a sentence, check palindromes, count character frequency."
-        },
-        {
-          "slug": "java-oop-basics",
-          "title": "Object-Oriented Programming",
-          "hours": 8,
-          "description": "Classes, objects, constructors, encapsulation, inheritance, polymorphism, abstraction.",
-          "practice": "Model a Library (Book, Member, Loan) with proper encapsulation."
-        },
-        {
-          "slug": "java-exceptions-basics",
-          "title": "Exception handling",
-          "hours": 3,
-          "description": "try/catch/finally, try-with-resources, checked vs unchecked exceptions, custom exceptions.",
-          "practice": "Read a file safely and handle missing-file and bad-number errors with clear messages."
-        },
-        {
-          "slug": "java-collections-generics-intro",
-          "title": "Collections & generics (intro)",
-          "hours": 6,
-          "description": "List, Set, Map, Queue; choosing the right one; generic types and methods.",
-          "practice": "Build a word-frequency counter with HashMap and sort results by count."
-        },
-        {
-          "slug": "algorithms-big-o",
-          "title": "Basic algorithms & Big O",
-          "hours": 8,
-          "description": "Linear/binary search, bubble/insertion/merge sort, time and space complexity.",
-          "practice": "Implement binary search and merge sort; state the Big O of each."
-        },
-        {
-          "slug": "jvm-memory-gc",
-          "title": "JVM basics: JDK vs JRE, stack vs heap, GC",
-          "hours": 4,
-          "description": "How javac and the JVM run your code, where objects live, what garbage collection does.",
-          "practice": "Explain with a diagram what happens in memory when you call a method that creates an object."
-        },
-        {
-          "slug": "java-core-contracts",
-          "title": "Interfaces vs abstract classes, String pool, equals/hashCode, immutability",
-          "hours": 5,
-          "description": "Contracts every Java developer is interviewed on.",
-          "practice": "Write an immutable Money class with correct equals/hashCode and use it as a HashMap key."
-        },
-        {
-          "slug": "java-streams-lambdas",
-          "title": "Streams API & lambda expressions",
-          "hours": 6,
-          "description": "Functional interfaces, lambdas, method references, map/filter/reduce/collect.",
-          "practice": "Rewrite 5 loop-based methods using streams."
-        },
-        {
-          "slug": "java-multithreading-basics",
-          "title": "Multithreading, ExecutorService & CompletableFuture",
-          "hours": 8,
-          "description": "Threads, race conditions, synchronized, thread pools, async composition.",
-          "practice": "Download/process 20 items in parallel with an ExecutorService and compare timings."
-        },
-        {
-          "slug": "debugging-techniques",
-          "title": "Debugging techniques",
+          "slug": "java-l02",
+          "title": "First Java program, JVM vs JDK vs JRE",
           "hours": 2,
-          "description": "Breakpoints, stepping, watches, reading stack traces, logging.",
-          "practice": "Deliberately break your CLI app and find the bug with the IntelliJ debugger."
+          "description": "Writing and running Hello World; compile (javac) vs run (java); bytecode; what the JVM, JRE and JDK each do; Java SE vs EE vs ME.",
+          "practice": "Compile and run a program from the terminal only, without the IDE's run button.",
+          "lecture": 2,
+          "videoUrl": "https://www.youtube.com/watch?v=pdS8_smlsXA"
+        },
+        {
+          "slug": "java-l03",
+          "title": "Variables, data types, identifiers, literals, keywords",
+          "hours": 2,
+          "description": "Primitive types (byte..double, char, boolean), reference types, naming rules, literals, reserved keywords.",
+          "practice": "Write a program that declares one variable of every primitive type and prints its size/range.",
+          "lecture": 3,
+          "videoUrl": "https://www.youtube.com/watch?v=NtmULLvsABc"
+        },
+        {
+          "slug": "java-l04",
+          "title": "How Java stores negative & floating-point numbers",
+          "hours": 2,
+          "description": "Binary, two's complement for negatives, IEEE-754 floats, why 0.1 + 0.2 != 0.3, overflow.",
+          "practice": "Print Integer.MAX_VALUE + 1 and 0.1 + 0.2 and explain both outputs in a comment.",
+          "lecture": 4,
+          "videoUrl": "https://www.youtube.com/watch?v=iV8hy9DdKFM"
+        },
+        {
+          "slug": "java-l05",
+          "title": "Type conversion & type promotion",
+          "hours": 1,
+          "description": "Implicit widening, explicit narrowing casts, promotion in expressions (byte + byte = int), data loss.",
+          "practice": "Write 5 casting expressions that lose data and predict the output before running.",
+          "lecture": 5,
+          "videoUrl": "https://www.youtube.com/watch?v=QpWha2cLS1c"
+        },
+        {
+          "slug": "java-l06",
+          "title": "Operators",
+          "hours": 2,
+          "description": "Arithmetic, relational, logical, bitwise, shift, assignment, ternary, increment/decrement, precedence.",
+          "practice": "Swap two numbers using XOR; check even/odd with a bitwise operator.",
+          "lecture": 6,
+          "videoUrl": "https://www.youtube.com/watch?v=Tdq4fmDCJH8"
+        },
+        {
+          "slug": "java-l07",
+          "title": "Conditional statements",
+          "hours": 1,
+          "description": "if / else-if / else, nested conditions, switch (classic and arrow syntax / switch expressions).",
+          "practice": "Grade calculator: marks to grade using both if-else and a switch expression.",
+          "lecture": 7,
+          "videoUrl": "https://www.youtube.com/watch?v=cdNhXVb5j7o"
+        },
+        {
+          "slug": "java-l08",
+          "title": "Loops & jump statements",
+          "hours": 2,
+          "description": "for, while, do-while, for-each, break, continue, labelled break, pattern printing.",
+          "practice": "Print a number pyramid and find all primes below 100.",
+          "lecture": 8,
+          "videoUrl": "https://www.youtube.com/watch?v=d6hNDJrj1bw"
+        },
+        {
+          "slug": "java-l09",
+          "title": "Arrays & introduction to Strings",
+          "hours": 2,
+          "description": "Declaring/initialising arrays, default values, traversal, 2D arrays basics, String basics.",
+          "practice": "Reverse an array in place; count vowels in a String.",
+          "lecture": 9,
+          "videoUrl": "https://www.youtube.com/watch?v=ajNs-dylWIM"
+        },
+        {
+          "slug": "java-l10",
+          "title": "Arrays & Strings in practice",
+          "hours": 2,
+          "description": "More array problems and String handling from the playlist's notes (link not auto-found - open the playlist at lecture 10).",
+          "practice": "Solve 3 easy array problems from Striver's A2Z (Arrays - easy).",
+          "lecture": 10
+        },
+        {
+          "slug": "java-l11",
+          "title": "Functions deep dive, recursion, overloading",
+          "hours": 2,
+          "description": "Method signature, parameters vs arguments, return types, call stack, recursion, method overloading.",
+          "practice": "Write factorial and fibonacci both iteratively and recursively.",
+          "lecture": 11,
+          "videoUrl": "https://www.youtube.com/watch?v=IhtjMWXwNCc"
+        },
+        {
+          "slug": "java-l12",
+          "title": "OOP: classes, objects & the new keyword",
+          "hours": 2,
+          "description": "Why OOP, class vs object, fields and methods, what `new` does in memory.",
+          "practice": "Model a BankAccount class with deposit/withdraw methods.",
+          "lecture": 12,
+          "videoUrl": "https://www.youtube.com/watch?v=tmXD7Kzun54"
+        },
+        {
+          "slug": "java-l13",
+          "title": "Constructors",
+          "hours": 1,
+          "description": "Default, parameterised and copy constructors, constructor chaining with this(), initialisation order.",
+          "practice": "Add three constructors to BankAccount and chain them with this().",
+          "lecture": 13,
+          "videoUrl": "https://www.youtube.com/watch?v=RADpqk79IzQ"
+        },
+        {
+          "slug": "java-l14",
+          "title": "Objects deep dive: call by value, shallow vs deep copy",
+          "hours": 2,
+          "description": "Java is always pass-by-value (of references), aliasing, shallow vs deep copy.",
+          "practice": "Show with code why modifying an object inside a method is visible outside but reassigning is not.",
+          "lecture": 14,
+          "videoUrl": "https://www.youtube.com/watch?v=7yd5qO2TPr0"
+        },
+        {
+          "slug": "java-l15",
+          "title": "static & final, String[] args",
+          "hours": 1,
+          "description": "Static fields/methods/blocks, final variables/methods/classes, command-line arguments.",
+          "practice": "Count how many objects of a class were created using a static counter.",
+          "lecture": 15,
+          "videoUrl": "https://www.youtube.com/watch?v=Lyg4ZcrjUBw"
+        },
+        {
+          "slug": "java-l16",
+          "title": "Encapsulation, inheritance, packages & super",
+          "hours": 2,
+          "description": "Access modifiers, getters/setters, extends, method overriding, super, packages & imports.",
+          "practice": "Create Vehicle -> Car -> ElectricCar with overridden methods across packages.",
+          "lecture": 16,
+          "videoUrl": "https://www.youtube.com/watch?v=jfLpzL1VW7Q"
+        },
+        {
+          "slug": "java-l17",
+          "title": "Abstraction & polymorphism, abstract class vs interface",
+          "hours": 2,
+          "description": "Compile-time vs runtime polymorphism, abstract classes, interfaces, when to use which.",
+          "practice": "Design a Shape hierarchy with area() and print areas through a Shape[] array.",
+          "lecture": 17,
+          "videoUrl": "https://www.youtube.com/watch?v=-L9BcU6Xk2c"
+        },
+        {
+          "slug": "java-l18",
+          "title": "One public class per file, wrapper classes & autoboxing",
+          "hours": 1,
+          "description": "Why a file has one public class, wrapper types, autoboxing/unboxing, Integer cache pitfalls.",
+          "practice": "Explain why Integer a=127,b=127 a==b is true but 128 is false.",
+          "lecture": 18,
+          "videoUrl": "https://www.youtube.com/watch?v=crVwHNW-fX8"
+        },
+        {
+          "slug": "java-l19",
+          "title": "Nested classes",
+          "hours": 1,
+          "description": "Static nested, inner, local and anonymous classes; when each is useful.",
+          "practice": "Implement a LinkedList with a private static Node class.",
+          "lecture": 19,
+          "videoUrl": "https://www.youtube.com/watch?v=0LaBK28_470"
+        },
+        {
+          "slug": "java-l20",
+          "title": "Java I/O deep dive",
+          "hours": 2,
+          "description": "Streams vs readers/writers, File, BufferedReader/Writer, try-with-resources, Scanner.",
+          "practice": "Read a text file and write its word count to another file.",
+          "lecture": 20,
+          "videoUrl": "https://www.youtube.com/watch?v=yfMWLZGEPwo"
+        },
+        {
+          "slug": "java-l21",
+          "title": "Immutable classes",
+          "hours": 1,
+          "description": "Rules for immutability, final fields, defensive copies, why String is immutable, records.",
+          "practice": "Make an immutable Money class and prove it cannot be changed.",
+          "lecture": 21,
+          "videoUrl": "https://www.youtube.com/watch?v=vgQVz5OdFws"
         },
         {
           "slug": "project-cli-task-manager",
@@ -98,46 +209,22 @@
       ],
       "resources": [
         {
-          "title": "Java Full Course 2026 (your main Java playlist)",
+          "title": "Java Full Course 2026 - lectures 1 to 21",
           "url": "https://www.youtube.com/playlist?list=PLQEaRBV9gAFsR15tNo2QLF9d2qc-c018p",
           "channel": "Coder Army",
           "language": "HI",
           "kind": "PLAYLIST",
           "primary": true,
-          "note": "Follow in order; code along in IntelliJ, don't just watch."
-        },
-        {
-          "title": "Java Basics to Advanced",
-          "url": "https://www.youtube.com/playlist?list=PL6W8uoQQ2c63f469AyV78np0rbxRFppkx",
-          "channel": "Concept && Coding (Shrayansh Jain)",
-          "language": "HI",
-          "kind": "PLAYLIST",
-          "note": "Great for 'under the hood' topics: JVM memory, collections, multithreading."
-        },
-        {
-          "title": "Striver's A2Z DSA Course",
-          "url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
-          "channel": "take U forward",
-          "language": "EN",
-          "kind": "PLAYLIST",
-          "note": "Use for Big O, sorting and searching. Keep solving 1-2 problems a day for interview prep."
-        },
-        {
-          "title": "Telusko (Java in English)",
-          "url": "https://www.youtube.com/@Telusko",
-          "channel": "Telusko",
-          "language": "EN",
-          "kind": "CHANNEL",
-          "note": "Short, clear English explanations of individual Java concepts."
-        },
-        {
-          "title": "Dev.java - official Java learning path",
-          "url": "https://dev.java/learn/",
-          "channel": "Oracle",
-          "language": "EN",
-          "kind": "DOCS"
+          "note": "Your chosen playlist. Each topic below links to its exact lecture."
         }
-      ]
+      ],
+      "playlist": {
+        "name": "Java Full Course 2026",
+        "channel": "Coder Army",
+        "url": "https://www.youtube.com/playlist?list=PLQEaRBV9gAFsR15tNo2QLF9d2qc-c018p",
+        "fromLecture": 1,
+        "toLecture": 21
+      }
     },
     {
       "slug": "git-developer-tools",
@@ -204,79 +291,344 @@
           "primary": true
         },
         {
-          "title": "Linux command line for beginners (Hindi search)",
-          "url": "https://www.youtube.com/results?search_query=linux+commands+for+beginners+hindi",
-          "channel": null,
-          "language": "HI",
-          "kind": "SEARCH"
-        },
-        {
-          "title": "Linux command line full course (English search)",
-          "url": "https://www.youtube.com/results?search_query=linux+command+line+full+course+beginners",
-          "channel": null,
-          "language": "EN",
-          "kind": "SEARCH"
-        },
-        {
           "title": "Pro Git book (free)",
           "url": "https://git-scm.com/book/en/v2",
           "channel": "git-scm.com",
           "language": "EN",
           "kind": "DOCS"
+        },
+        {
+          "title": "Linux Command Line in One Video: 100 commands (Hindi)",
+          "url": "https://www.youtube.com/watch?v=Byx4sgLR88E",
+          "channel": "MPrashant",
+          "language": "HI",
+          "kind": "VIDEO"
+        },
+        {
+          "title": "Introduction to Linux - Full Course for Beginners",
+          "url": "https://www.youtube.com/watch?v=sWbUDq4S6Y8",
+          "channel": "freeCodeCamp.org",
+          "language": "EN",
+          "kind": "VIDEO"
         }
       ]
     },
     {
       "slug": "core-java",
       "number": 2,
-      "title": "Core Backend Language (Java deep dive)",
-      "summary": "Frameworks change, language fundamentals remain. Go deep on the parts backend code relies on.",
-      "whyItMatters": "Writing clean, efficient, thread-safe code is the difference between a junior and a mid-level engineer.",
+      "title": "Advanced Java",
+      "summary": "Coder Army Java Full Course, lectures 22-57: Object class, enums, String internals, generics, collections, functional programming and streams, exceptions, JVM memory and multithreading.",
+      "whyItMatters": "Collections, streams, exceptions and concurrency are in every service you will write and in every Java interview.",
       "projectTitle": "Multithreaded log processor",
       "projectDescription": "Read a large log file, parse lines in parallel with an ExecutorService, aggregate stats with ConcurrentHashMap and print a report.",
       "month": 1,
       "topics": [
         {
-          "slug": "oop-deep-dive",
-          "title": "OOP deep dive: composition, SOLID preview",
-          "hours": 5,
-          "description": "Composition over inheritance, interfaces as contracts, polymorphism in real code.",
-          "practice": "Refactor an inheritance-heavy design to composition."
+          "slug": "java-l22",
+          "title": "The Object class",
+          "hours": 1,
+          "description": "equals, hashCode, toString, the equals/hashCode contract, getClass, clone.",
+          "practice": "Override equals/hashCode for a Student and put it in a HashSet.",
+          "lecture": 22
         },
         {
-          "slug": "collections-internals",
-          "title": "Collections under the hood",
-          "hours": 6,
-          "description": "How HashMap hashing/buckets/resizing work, ArrayList vs LinkedList, TreeMap, ConcurrentHashMap.",
-          "practice": "Implement a tiny HashMap yourself with separate chaining."
+          "slug": "java-l23",
+          "title": "Enums",
+          "hours": 1,
+          "description": "Enum constants, fields/constructors in enums, switch on enums, values(), EnumMap basics.",
+          "practice": "Model OrderStatus as an enum with a method canTransitionTo().",
+          "lecture": 23
         },
         {
-          "slug": "generics-deep-dive",
-          "title": "Generics deep dive",
-          "hours": 3,
-          "description": "Bounded types, wildcards (? extends / ? super), type erasure.",
-          "practice": "Write a generic Result<T> type and a generic cache."
+          "slug": "java-l24",
+          "title": "Interfaces in depth",
+          "hours": 1,
+          "description": "Default & static methods, multiple inheritance of type, the diamond problem, functional interfaces.",
+          "practice": "Solve a diamond-problem conflict between two default methods.",
+          "lecture": 24
         },
         {
-          "slug": "functional-java",
-          "title": "Streams & functional programming in practice",
-          "hours": 5,
-          "description": "Collectors.groupingBy, flatMap, Optional done right, records.",
-          "practice": "Refactor old loop code to streams and records."
+          "slug": "java-l25",
+          "title": "String pool, immutability & internals",
+          "hours": 1,
+          "description": "String pool, new String vs literal, intern(), == vs equals, why Strings are immutable.",
+          "practice": "Predict the output of 6 String == comparisons, then run them.",
+          "lecture": 25
         },
         {
-          "slug": "exception-architecture",
-          "title": "Exception handling architecture",
-          "hours": 3,
-          "description": "Where to catch, where to throw, custom exception hierarchies, never swallow exceptions.",
-          "practice": "Design an exception hierarchy for a banking app."
+          "slug": "java-l26",
+          "title": "String methods, StringBuilder & StringBuffer",
+          "hours": 1,
+          "description": "Common String API, StringBuilder vs StringBuffer, performance of concatenation in loops.",
+          "practice": "Reverse words in a sentence using StringBuilder.",
+          "lecture": 26
         },
         {
-          "slug": "concurrency-deep-dive",
-          "title": "Concurrency: locks, atomics, concurrent collections, virtual threads",
-          "hours": 10,
-          "description": "Visibility, volatile, ReentrantLock, AtomicInteger, BlockingQueue, deadlocks, Java 21 virtual threads.",
-          "practice": "Build a producer-consumer pipeline with BlockingQueue."
+          "slug": "java-l27",
+          "title": "Type casting of objects & introduction to Generics",
+          "hours": 2,
+          "description": "Upcasting/downcasting, instanceof (with pattern matching), why generics exist, generic classes.",
+          "practice": "Write a generic Box<T> and a generic method that swaps two array elements.",
+          "lecture": 27
+        },
+        {
+          "slug": "java-l28",
+          "title": "Wildcards in Generics",
+          "hours": 1,
+          "description": "? extends, ? super, PECS rule, unbounded wildcards.",
+          "practice": "Write sum(List<? extends Number>) and addAll(List<? super Integer>).",
+          "lecture": 28,
+          "videoUrl": "https://www.youtube.com/watch?v=Opb2q2WSyes"
+        },
+        {
+          "slug": "java-l29",
+          "title": "Generics in depth",
+          "hours": 1,
+          "description": "Bounded types, generic methods, type erasure and its limits (notes-only lecture - open the playlist at lecture 29).",
+          "practice": "Try creating new T() and explain the compiler error (type erasure).",
+          "lecture": 29
+        },
+        {
+          "slug": "java-l30",
+          "title": "Iterable interface",
+          "hours": 1,
+          "description": "How for-each works, Iterator, implementing Iterable for your own collection.",
+          "practice": "Make your LinkedList from L19 work in a for-each loop.",
+          "lecture": 30,
+          "videoUrl": "https://www.youtube.com/watch?v=LVwpxEZ6uMQ"
+        },
+        {
+          "slug": "java-l31",
+          "title": "Collection interface",
+          "hours": 1,
+          "description": "The Collections Framework hierarchy, Collection methods, Collections utility class.",
+          "practice": "Draw the hierarchy (Collection -> List/Set/Queue) from memory.",
+          "lecture": 31,
+          "videoUrl": "https://www.youtube.com/watch?v=cazzzwdLAkQ"
+        },
+        {
+          "slug": "java-l32",
+          "title": "List interface",
+          "hours": 2,
+          "description": "ArrayList vs LinkedList internals, time complexity, ListIterator, common pitfalls.",
+          "practice": "Benchmark add-at-front on ArrayList vs LinkedList for 100k items.",
+          "lecture": 32,
+          "videoUrl": "https://www.youtube.com/watch?v=OfNtIOGDqzY"
+        },
+        {
+          "slug": "java-l33",
+          "title": "Set & Map interfaces",
+          "hours": 2,
+          "description": "HashSet/LinkedHashSet/TreeSet, HashMap/LinkedHashMap/TreeMap, how hashing works.",
+          "practice": "Count word frequencies in a paragraph with a HashMap, print sorted with TreeMap.",
+          "lecture": 33
+        },
+        {
+          "slug": "java-l34",
+          "title": "Set & Map methods, EnumMap, IdentityHashMap",
+          "hours": 1,
+          "description": "Map API (getOrDefault, merge, computeIfAbsent), EnumMap, IdentityHashMap, WeakHashMap.",
+          "practice": "Rewrite the word count using merge() in one line.",
+          "lecture": 34,
+          "videoUrl": "https://www.youtube.com/watch?v=b1Uj_2MPBwA"
+        },
+        {
+          "slug": "java-l35",
+          "title": "Queue interface, PriorityQueue & heap",
+          "hours": 2,
+          "description": "Queue/Deque, ArrayDeque, PriorityQueue as a binary heap, custom ordering.",
+          "practice": "Find the k largest numbers in an array with a PriorityQueue.",
+          "lecture": 35,
+          "videoUrl": "https://www.youtube.com/watch?v=zj0-JIc5oPw"
+        },
+        {
+          "slug": "java-l36",
+          "title": "Comparable",
+          "hours": 1,
+          "description": "Natural ordering, compareTo contract, sorting custom objects.",
+          "practice": "Sort Students by marks using Comparable.",
+          "lecture": 36
+        },
+        {
+          "slug": "java-l37",
+          "title": "Comparator & lambda basics",
+          "hours": 1,
+          "description": "Comparator, comparing().thenComparing(), reversed(), lambda syntax.",
+          "practice": "Sort Students by marks desc, then name asc, in one Comparator chain.",
+          "lecture": 37
+        },
+        {
+          "slug": "java-l38",
+          "title": "Lambdas & functional interfaces",
+          "hours": 1,
+          "description": "Function, Predicate, Consumer, Supplier, method references, effectively final.",
+          "practice": "Replace 3 anonymous classes in your code with lambdas / method references.",
+          "lecture": 38,
+          "videoUrl": "https://www.youtube.com/watch?v=IsC0Ms2iFi8"
+        },
+        {
+          "slug": "java-l39",
+          "title": "Introduction to Streams",
+          "hours": 2,
+          "description": "What a stream is, source -> intermediate -> terminal, laziness, filter/map/forEach.",
+          "practice": "From a list of employees, print names of those earning > 50k.",
+          "lecture": 39,
+          "videoUrl": "https://www.youtube.com/watch?v=-jHyDEXHr_U"
+        },
+        {
+          "slug": "java-l40",
+          "title": "Stream operations & collectors",
+          "hours": 2,
+          "description": "flatMap, sorted, distinct, reduce, collect, groupingBy, partitioningBy, joining.",
+          "practice": "Group employees by department and compute the average salary per department.",
+          "lecture": 40
+        },
+        {
+          "slug": "java-l41",
+          "title": "Optional",
+          "hours": 1,
+          "description": "Why null is dangerous, Optional creation, map/orElse/orElseThrow, when not to use Optional.",
+          "practice": "Refactor a method returning null to return Optional.",
+          "lecture": 41
+        },
+        {
+          "slug": "java-l42",
+          "title": "Parallel streams",
+          "hours": 1,
+          "description": "parallelStream, forEachOrdered, Spliterator, when parallel streams are slower.",
+          "practice": "Compare sequential vs parallel sum of 10M numbers and explain the result.",
+          "lecture": 42
+        },
+        {
+          "slug": "java-l43",
+          "title": "Exception handling from scratch",
+          "hours": 1,
+          "description": "Checked vs unchecked, try/catch/finally, multi-catch, try-with-resources.",
+          "practice": "Handle NumberFormatException when parsing user input in a loop until valid.",
+          "lecture": 43,
+          "videoUrl": "https://www.youtube.com/watch?v=mJg9iQZJEpw"
+        },
+        {
+          "slug": "java-l44",
+          "title": "Exception hierarchy, throw vs throws, custom exceptions",
+          "hours": 1,
+          "description": "Throwable/Error/Exception tree, throw vs throws, creating custom exceptions, chaining.",
+          "practice": "Create InsufficientBalanceException for BankAccount.withdraw().",
+          "lecture": 44,
+          "videoUrl": "https://www.youtube.com/watch?v=xTxscoajikw"
+        },
+        {
+          "slug": "java-l45",
+          "title": "Memory management: stack, heap, method area & PC",
+          "hours": 1,
+          "description": "JVM memory areas, what lives where, object lifecycle, StackOverflowError vs OutOfMemoryError.",
+          "practice": "Trigger a StackOverflowError on purpose and read the stack trace.",
+          "lecture": 45,
+          "videoUrl": "https://www.youtube.com/watch?v=kjETbH63Pco"
+        },
+        {
+          "slug": "java-l46",
+          "title": "Garbage collection",
+          "hours": 1,
+          "description": "How the JVM frees memory, reachability, generations (young/old), GC roots (open the playlist at lecture 46).",
+          "practice": "Run a program with -Xlog:gc and watch collections happen.",
+          "lecture": 46
+        },
+        {
+          "slug": "java-l47",
+          "title": "Multithreading intro: process vs thread",
+          "hours": 1,
+          "description": "Concurrency vs parallelism, process vs thread, why backends are multithreaded.",
+          "practice": "List 3 places in a web server where threads are used.",
+          "lecture": 47,
+          "videoUrl": "https://www.youtube.com/watch?v=fyAW0W526RM"
+        },
+        {
+          "slug": "java-l48",
+          "title": "Thread creation & lifecycle",
+          "hours": 1,
+          "description": "Extending Thread vs Runnable, start vs run, thread states.",
+          "practice": "Start 3 threads that print their names and states.",
+          "lecture": 48,
+          "videoUrl": "https://www.youtube.com/watch?v=cVRdeQFP5IM"
+        },
+        {
+          "slug": "java-l49",
+          "title": "Thread methods",
+          "hours": 1,
+          "description": "sleep, join, yield, interrupt, daemon threads, priorities.",
+          "practice": "Use join() so main waits for 3 worker threads.",
+          "lecture": 49,
+          "videoUrl": "https://www.youtube.com/watch?v=ZPxJby0GeOQ"
+        },
+        {
+          "slug": "java-l50",
+          "title": "Problems in multithreading",
+          "hours": 1,
+          "description": "Race conditions, visibility problems, deadlock, livelock, starvation.",
+          "practice": "Write a counter incremented by 2 threads and show the lost-update bug.",
+          "lecture": 50
+        },
+        {
+          "slug": "java-l51",
+          "title": "Synchronization",
+          "hours": 1,
+          "description": "synchronized methods/blocks, intrinsic locks, volatile, happens-before.",
+          "practice": "Fix the lost-update counter with synchronized, then with AtomicInteger.",
+          "lecture": 51
+        },
+        {
+          "slug": "java-l52",
+          "title": "Inter-thread communication",
+          "hours": 2,
+          "description": "wait/notify/notifyAll, producer-consumer problem.",
+          "practice": "Implement producer-consumer with a bounded buffer using wait/notify.",
+          "lecture": 52,
+          "videoUrl": "https://www.youtube.com/watch?v=EZS19NLnsvc"
+        },
+        {
+          "slug": "java-l53",
+          "title": "Java locks",
+          "hours": 1,
+          "description": "ReentrantLock, tryLock, fairness, ReadWriteLock, Condition.",
+          "practice": "Rewrite producer-consumer with ReentrantLock + Condition.",
+          "lecture": 53,
+          "videoUrl": "https://www.youtube.com/watch?v=JW6-TCU0iS4"
+        },
+        {
+          "slug": "java-l54",
+          "title": "Lock-free concurrency (atomics)",
+          "hours": 1,
+          "description": "Why count++ is not atomic, AtomicInteger/AtomicLong/AtomicReference.",
+          "practice": "Replace a synchronized counter with AtomicLong and compare speed.",
+          "lecture": 54
+        },
+        {
+          "slug": "java-l55",
+          "title": "Lock-free concurrency 2: CAS & the ABA problem",
+          "hours": 1,
+          "description": "Compare-and-swap, spin loops, ABA problem, AtomicStampedReference.",
+          "practice": "Explain ABA in your own words with a diagram.",
+          "lecture": 55,
+          "videoUrl": "https://www.youtube.com/watch?v=2nBJPpERul4"
+        },
+        {
+          "slug": "java-l56",
+          "title": "Executor framework",
+          "hours": 2,
+          "description": "Thread pools, ExecutorService, Callable/Future, fixed vs cached pools, shutdown.",
+          "practice": "Download 10 'URLs' (simulated with sleep) using a fixed pool of 3.",
+          "lecture": 56,
+          "videoUrl": "https://www.youtube.com/watch?v=VPtaTUSaBOM"
+        },
+        {
+          "slug": "java-l57",
+          "title": "CompletableFuture, Fork-Join, ThreadLocal, virtual threads",
+          "hours": 2,
+          "description": "Async pipelines, thenApply/thenCombine, ForkJoinPool, ThreadLocal, Java 21 virtual threads.",
+          "practice": "Call 3 slow services in parallel with CompletableFuture and combine the results.",
+          "lecture": 57,
+          "videoUrl": "https://www.youtube.com/watch?v=FGN225TiXaE"
         },
         {
           "slug": "project-log-processor",
@@ -288,122 +640,382 @@
       ],
       "resources": [
         {
-          "title": "Java Full Course 2026 (advanced sections)",
+          "title": "Java Full Course 2026 - lectures 22 to 57",
           "url": "https://www.youtube.com/playlist?list=PLQEaRBV9gAFsR15tNo2QLF9d2qc-c018p",
           "channel": "Coder Army",
           "language": "HI",
           "kind": "PLAYLIST",
-          "primary": true
-        },
-        {
-          "title": "Java Basics to Advanced (multithreading, collections internals)",
-          "url": "https://www.youtube.com/playlist?list=PL6W8uoQQ2c63f469AyV78np0rbxRFppkx",
-          "channel": "Concept && Coding (Shrayansh Jain)",
-          "language": "HI",
-          "kind": "PLAYLIST"
-        },
-        {
-          "title": "Java concurrency & multithreading (English search)",
-          "url": "https://www.youtube.com/results?search_query=java+concurrency+multithreading+executorservice+completablefuture+tutorial",
-          "channel": null,
-          "language": "EN",
-          "kind": "SEARCH"
-        },
-        {
-          "title": "Java virtual threads (JEP 444)",
-          "url": "https://openjdk.org/jeps/444",
-          "channel": "OpenJDK",
-          "language": "EN",
-          "kind": "DOCS"
+          "primary": true,
+          "note": "Your chosen playlist. Each topic below links to its exact lecture."
         }
-      ]
+      ],
+      "playlist": {
+        "name": "Java Full Course 2026",
+        "channel": "Coder Army",
+        "url": "https://www.youtube.com/playlist?list=PLQEaRBV9gAFsR15tNo2QLF9d2qc-c018p",
+        "fromLecture": 22,
+        "toLecture": 57
+      }
     },
     {
       "slug": "spring-boot",
       "number": 3,
-      "title": "Backend Framework (Spring Boot)",
-      "summary": "Spring Boot is the industry standard for Java backends. It handles boilerplate so you can focus on business logic.",
+      "title": "Spring Boot",
+      "summary": "Spring Boot Full Course 2026, lectures 1-40: IoC/DI, beans, Maven, configuration, REST CRUD, Spring MVC internals, DTOs, validation, errors, filters, interceptors, AOP, JDBC, Hibernate, JPA, transactions, Security, JWT, OAuth2 and testing.",
       "whyItMatters": "Most Java backend jobs are Spring Boot jobs. Understanding the request flow Controller -> Service -> Repository -> Database is the core skill.",
       "projectTitle": "E-Commerce Backend API",
       "projectDescription": "User registration, login (JWT), product CRUD, cart, orders. Stack: Java, Spring Boot, PostgreSQL. Rebuild your own project in the Rebuild Lab while you learn.",
       "month": 2,
       "topics": [
         {
-          "slug": "spring-ioc-di",
-          "title": "Spring basics: IoC & Dependency Injection",
-          "hours": 5,
-          "description": "Why a container creates your objects; constructor injection; @Component/@Service/@Repository.",
-          "practice": "Wire 3 classes by hand, then let Spring wire them - compare."
-        },
-        {
-          "slug": "spring-beans-context",
-          "title": "Beans, ApplicationContext & bean lifecycle",
-          "hours": 4,
-          "description": "@Configuration + @Bean, scopes, @PostConstruct, how auto-configuration decides what to create.",
-          "practice": "Run with --debug and read the auto-configuration report."
-        },
-        {
-          "slug": "spring-config-profiles",
-          "title": "Configuration & profiles",
-          "hours": 3,
-          "description": "application.yml, @Value, @ConfigurationProperties, profiles (dev/prod), env overrides.",
-          "practice": "Add a 'prod' profile that changes the DB URL and log format."
-        },
-        {
-          "slug": "spring-rest-controllers",
-          "title": "REST controllers & services",
-          "hours": 6,
-          "description": "@RestController, @GetMapping/@PostMapping, @PathVariable, @RequestParam, @RequestBody, ResponseEntity.",
-          "practice": "Build full CRUD for Product with proper status codes."
-        },
-        {
-          "slug": "spring-data-jpa",
-          "title": "Repositories & Spring Data JPA",
-          "hours": 6,
-          "description": "JpaRepository, derived queries, @Query, pagination and sorting.",
-          "practice": "Add search by name + price range with pagination."
-        },
-        {
-          "slug": "spring-dtos",
-          "title": "DTOs (Data Transfer Objects)",
-          "hours": 3,
-          "description": "Why entities should not be your API; request/response records; mapping.",
-          "practice": "Replace entity-returning endpoints with DTOs."
-        },
-        {
-          "slug": "spring-validation-errors",
-          "title": "Validation & global exception handling",
-          "hours": 4,
-          "description": "@Valid, Bean Validation annotations, @RestControllerAdvice, ProblemDetail.",
-          "practice": "Return a consistent JSON error for every failure case."
-        },
-        {
-          "slug": "hibernate-orm",
-          "title": "Hibernate & ORM relationships",
-          "hours": 8,
-          "description": "@Entity, @OneToMany/@ManyToOne, fetch types, N+1 problem, dirty checking.",
-          "practice": "Model Order -> OrderItems -> Product and fix an N+1 query."
-        },
-        {
-          "slug": "spring-transactions",
-          "title": "Database transactions (@Transactional)",
-          "hours": 4,
-          "description": "Propagation, rollback rules, readOnly, why self-invocation skips the proxy.",
-          "practice": "Place an order that decrements stock atomically; prove rollback on failure."
-        },
-        {
-          "slug": "spring-security-basics",
-          "title": "Spring Security basics",
-          "hours": 4,
-          "description": "Filter chain, authentication vs authorization, password encoding.",
-          "practice": "Protect admin endpoints with a role."
-        },
-        {
-          "slug": "spring-actuator",
-          "title": "Spring Boot Actuator & health checks",
+          "slug": "spring-l01",
+          "title": "Spring Framework & Spring Boot introduction",
           "hours": 1,
-          "description": "/actuator/health, readiness/liveness, metrics.",
-          "practice": "Expose health and metrics; add a custom health indicator."
+          "description": "Why Spring was created, the problems of plain Java EE, what Spring Boot adds on top.",
+          "practice": "Write down in 5 lines: Spring vs Spring Boot.",
+          "lecture": 1,
+          "videoUrl": "https://www.youtube.com/watch?v=Q04sTEwC7Kg"
+        },
+        {
+          "slug": "spring-l02",
+          "title": "Your first Spring Boot app & REST API",
+          "hours": 2,
+          "description": "start.spring.io, project structure, @SpringBootApplication, a first @RestController endpoint.",
+          "practice": "Create a /hello endpoint and call it from the browser and from curl.",
+          "lecture": 2,
+          "videoUrl": "https://www.youtube.com/watch?v=PVreyET_Q6I"
+        },
+        {
+          "slug": "spring-l03",
+          "title": "Apache Maven",
+          "hours": 2,
+          "description": "pom.xml, dependencies, scopes, lifecycle (compile/test/package), the Maven wrapper.",
+          "practice": "Add a dependency and run ./mvnw package; open the jar with `jar tf`.",
+          "lecture": 3,
+          "videoUrl": "https://www.youtube.com/watch?v=N2EXGMJVwUU"
+        },
+        {
+          "slug": "spring-l04",
+          "title": "Dependency Injection & IoC",
+          "hours": 1,
+          "description": "Tight vs loose coupling, inversion of control, constructor/setter/field injection.",
+          "practice": "Refactor a class that does `new EmailService()` to receive it via its constructor.",
+          "lecture": 4,
+          "videoUrl": "https://www.youtube.com/watch?v=dT10m_5POfs"
+        },
+        {
+          "slug": "spring-l05",
+          "title": "IoC container, beans, @Component, @Autowired & @Bean",
+          "hours": 2,
+          "description": "ApplicationContext, bean definitions, component scanning, @Bean methods.",
+          "practice": "Create one bean with @Component and one with @Bean and inject both.",
+          "lecture": 5,
+          "videoUrl": "https://www.youtube.com/watch?v=Az9tIgCdaRU"
+        },
+        {
+          "slug": "spring-l06",
+          "title": "Circular dependency, bean scope, lazy & eager",
+          "hours": 1,
+          "description": "singleton vs prototype (and web scopes), @Lazy, why circular dependencies fail.",
+          "practice": "Create a circular dependency on purpose, read the error, fix it.",
+          "lecture": 6,
+          "videoUrl": "https://www.youtube.com/watch?v=ass8cR52Cf8"
+        },
+        {
+          "slug": "spring-l07",
+          "title": "Bean lifecycle",
+          "hours": 1,
+          "description": "Instantiation -> DI -> init -> use -> destroy, @PostConstruct, @PreDestroy, BeanPostProcessor.",
+          "practice": "Log a message in @PostConstruct and @PreDestroy of a bean.",
+          "lecture": 7,
+          "videoUrl": "https://www.youtube.com/watch?v=WXg3uyZPqYI"
+        },
+        {
+          "slug": "spring-l08",
+          "title": "Spring XML configuration",
+          "hours": 1,
+          "description": "Configuring beans in XML (the old way) to understand what annotations replace.",
+          "practice": "Wire two beans in XML, then rewrite them with annotations.",
+          "lecture": 8,
+          "videoUrl": "https://www.youtube.com/watch?v=HqBh9hV7rik"
+        },
+        {
+          "slug": "spring-l09",
+          "title": "Spring Boot core: @SpringBootApplication & auto-configuration",
+          "hours": 2,
+          "description": "Java/annotation config (@Configuration), what @SpringBootApplication combines, how auto-configuration decides what to create.",
+          "practice": "Run with --debug and read the auto-configuration report.",
+          "lecture": 9,
+          "videoUrl": "https://www.youtube.com/watch?v=a06KMY209AA"
+        },
+        {
+          "slug": "spring-l10",
+          "title": "application.properties, @Value & runner interfaces",
+          "hours": 1,
+          "description": "Externalised config, @Value, @ConfigurationProperties, CommandLineRunner / ApplicationRunner.",
+          "practice": "Bind payment.* properties to a @ConfigurationProperties class.",
+          "lecture": 10,
+          "videoUrl": "https://www.youtube.com/watch?v=4naCY3vCSfk"
+        },
+        {
+          "slug": "spring-l11",
+          "title": "CRUD project from scratch: API & architecture",
+          "hours": 2,
+          "description": "Controller -> Service -> Repository layers, designing endpoints for a Student API.",
+          "practice": "Sketch the layers for a Book API before writing code.",
+          "lecture": 11,
+          "videoUrl": "https://www.youtube.com/watch?v=6kCCIdLLGRs"
+        },
+        {
+          "slug": "spring-l12",
+          "title": "CRUD with a real database: Spring Data JPA methods",
+          "hours": 3,
+          "description": "Connecting MySQL/Postgres, @Entity, JpaRepository save/findAll/findById/deleteById.",
+          "practice": "Build Book CRUD against Postgres (docker run postgres).",
+          "lecture": 12,
+          "videoUrl": "https://www.youtube.com/watch?v=uRr8_0x_HYw"
+        },
+        {
+          "slug": "spring-l13",
+          "title": "CRUD part 3: PATCH & soft delete",
+          "hours": 2,
+          "description": "Partial updates with PATCH, soft delete with an active flag instead of deleting rows.",
+          "practice": "Add PATCH /books/{id} and soft delete to your Book API.",
+          "lecture": 13
+        },
+        {
+          "slug": "spring-l14",
+          "title": "How Java web apps work: Servlets, Tomcat & WAR files",
+          "hours": 2,
+          "description": "Servlet API, servlet container, request/response lifecycle, WAR vs executable JAR.",
+          "practice": "Write a plain HttpServlet and compare it with a @RestController.",
+          "lecture": 14,
+          "videoUrl": "https://www.youtube.com/watch?v=TSHrq65q5dw"
+        },
+        {
+          "slug": "spring-l15",
+          "title": "Spring MVC architecture: DispatcherServlet & HandlerMapping",
+          "hours": 2,
+          "description": "Front controller pattern, DispatcherServlet, HandlerMapping, view resolution (JSP flow).",
+          "practice": "Draw the request flow from browser to controller and back.",
+          "lecture": 15,
+          "videoUrl": "https://www.youtube.com/watch?v=M7_XxF6Zczw"
+        },
+        {
+          "slug": "spring-l16",
+          "title": "DTOs & validation",
+          "hours": 2,
+          "description": "Why not expose entities, request/response DTOs, Bean Validation (@Valid, @NotBlank, @Size).",
+          "practice": "Add a CreateBookRequest DTO with validation to your Book API.",
+          "lecture": 16,
+          "videoUrl": "https://www.youtube.com/watch?v=vXA78rtCeTY"
+        },
+        {
+          "slug": "spring-l17",
+          "title": "Exception handling for professional APIs",
+          "hours": 2,
+          "description": "ResponseEntity & status codes, @ExceptionHandler, @RestControllerAdvice, error response body.",
+          "practice": "Return 404 with a JSON error when a book is not found.",
+          "lecture": 17,
+          "videoUrl": "https://www.youtube.com/watch?v=1au7XK_b1sI"
+        },
+        {
+          "slug": "spring-l18",
+          "title": "Profiles & YAML: dev vs prod config",
+          "hours": 1,
+          "description": "application.yml, profile-specific files, spring.profiles.active, environment variables.",
+          "practice": "Create dev and prod profiles with different database URLs.",
+          "lecture": 18,
+          "videoUrl": "https://www.youtube.com/watch?v=K3H-rqhndEM"
+        },
+        {
+          "slug": "spring-l19",
+          "title": "Filters: FilterChain, logging, auth & request flow",
+          "hours": 2,
+          "description": "Servlet filters, OncePerRequestFilter, filter order, logging and auth filters.",
+          "practice": "Write a filter that logs method, path and time taken for every request.",
+          "lecture": 19,
+          "videoUrl": "https://www.youtube.com/watch?v=ma-macdL9DI"
+        },
+        {
+          "slug": "spring-l20",
+          "title": "Filters part 2: registration, ordering & response filters",
+          "hours": 2,
+          "description": "FilterRegistrationBean, URL patterns, ordering multiple filters, modifying responses/headers.",
+          "practice": "Add a filter that sets an X-Request-Id header on every response.",
+          "lecture": 20
+        },
+        {
+          "slug": "spring-l21",
+          "title": "Interceptors: preHandle, postHandle & afterCompletion",
+          "hours": 1,
+          "description": "HandlerInterceptor, WebMvcConfigurer, filter vs interceptor.",
+          "practice": "Write an interceptor that rejects requests without an API key header.",
+          "lecture": 21,
+          "videoUrl": "https://www.youtube.com/watch?v=XE4xsgbArCQ"
+        },
+        {
+          "slug": "spring-l22",
+          "title": "AOP: cross-cutting concerns & proxies",
+          "hours": 1,
+          "description": "What AOP solves, aspects, join points, advice, how Spring uses proxies.",
+          "practice": "List 5 cross-cutting concerns in a real backend.",
+          "lecture": 22,
+          "videoUrl": "https://www.youtube.com/watch?v=s4B-WbUWEFs"
+        },
+        {
+          "slug": "spring-l23",
+          "title": "AOP advice types: @Before, @After, @Around",
+          "hours": 1,
+          "description": "All advice types, when each executes, ProceedingJoinPoint.",
+          "practice": "Measure execution time of every service method with @Around.",
+          "lecture": 23,
+          "videoUrl": "https://www.youtube.com/watch?v=hMsALeV_uG0"
+        },
+        {
+          "slug": "spring-l24",
+          "title": "AOP pointcuts & types of proxies",
+          "hours": 1,
+          "description": "Pointcut expressions (execution, within, @annotation), JDK dynamic proxy vs CGLIB.",
+          "practice": "Write a pointcut that matches only methods in your service package.",
+          "lecture": 24,
+          "videoUrl": "https://www.youtube.com/watch?v=Kf2V2QYikVY"
+        },
+        {
+          "slug": "spring-l25",
+          "title": "Custom annotations with AOP",
+          "hours": 1,
+          "description": "Creating @LogExecutionTime-style annotations and binding them in advice.",
+          "practice": "Create @Audited and log the arguments of every annotated method.",
+          "lecture": 25,
+          "videoUrl": "https://www.youtube.com/watch?v=TT-b9ob-lN8"
+        },
+        {
+          "slug": "spring-l26",
+          "title": "JDBC from scratch",
+          "hours": 2,
+          "description": "DriverManager, Connection, PreparedStatement, ResultSet, SQL injection, closing resources.",
+          "practice": "Do CRUD on a table with plain JDBC - feel the boilerplate.",
+          "lecture": 26,
+          "videoUrl": "https://www.youtube.com/watch?v=IbCHISQOMUA"
+        },
+        {
+          "slug": "spring-l27",
+          "title": "Spring JDBC: JdbcTemplate, DataSource & HikariCP",
+          "hours": 2,
+          "description": "JdbcTemplate, RowMapper, DataSource, connection pooling with HikariCP.",
+          "practice": "Rewrite your JDBC CRUD with JdbcTemplate and compare the line count.",
+          "lecture": 27,
+          "videoUrl": "https://www.youtube.com/watch?v=OPjnbYbcb2E"
+        },
+        {
+          "slug": "spring-l28",
+          "title": "Hibernate fundamentals: CRUD & entity mapping",
+          "hours": 2,
+          "description": "ORM idea, @Entity/@Table/@Id/@GeneratedValue/@Column, Session vs EntityManager.",
+          "practice": "Map a Product entity and let Hibernate create the table (ddl-auto) once.",
+          "lecture": 28,
+          "videoUrl": "https://www.youtube.com/watch?v=XVQ27D8IIWU"
+        },
+        {
+          "slug": "spring-l29",
+          "title": "Hibernate internals: persistence context, L1 cache & transactions",
+          "hours": 2,
+          "description": "Entity states, dirty checking, first-level cache, flush, why updates happen without save().",
+          "practice": "Change a managed entity inside @Transactional and watch the UPDATE in the logs.",
+          "lecture": 29,
+          "videoUrl": "https://www.youtube.com/watch?v=0Ko1Ux1otqE"
+        },
+        {
+          "slug": "spring-l30",
+          "title": "JPA relationships part 1",
+          "hours": 2,
+          "description": "@OneToOne and @ManyToOne/@OneToMany, owning side, @JoinColumn, fetch types.",
+          "practice": "Map User-Profile (1:1) and Department-Student (1:N).",
+          "lecture": 30
+        },
+        {
+          "slug": "spring-l31",
+          "title": "JPA relationships part 2",
+          "hours": 2,
+          "description": "Bidirectional mappings, mappedBy, cascade, orphanRemoval, @ManyToMany, N+1 problem.",
+          "practice": "Map Student-Course (N:M) and fix an N+1 query with a fetch join.",
+          "lecture": 31
+        },
+        {
+          "slug": "spring-l32",
+          "title": "Spring Data JPA: JpaRepository, JPQL & pagination",
+          "hours": 2,
+          "description": "Derived query methods, @Query (JPQL/native), Pageable & Sort.",
+          "practice": "Add paginated, sorted GET /books?page=0&size=10&sort=title.",
+          "lecture": 32,
+          "videoUrl": "https://www.youtube.com/watch?v=xugZno16FgQ"
+        },
+        {
+          "slug": "spring-l33",
+          "title": "Transactions part 1: @Transactional",
+          "hours": 2,
+          "description": "ACID, @Transactional on service methods, rollback rules, a money transfer example.",
+          "practice": "Implement transfer(from, to, amount) and prove a failure rolls back both updates.",
+          "lecture": 33
+        },
+        {
+          "slug": "spring-l34",
+          "title": "Transactions part 2: propagation & isolation",
+          "hours": 2,
+          "description": "REQUIRED vs REQUIRES_NEW (audit logs), isolation levels, self-invocation pitfall.",
+          "practice": "Save a payment audit row in REQUIRES_NEW that survives a rollback.",
+          "lecture": 34
+        },
+        {
+          "slug": "spring-l35",
+          "title": "Spring Security: authentication, authorization & SecurityContext",
+          "hours": 2,
+          "description": "Security filter chain, Authentication, AuthenticationManager, SecurityContextHolder.",
+          "practice": "Secure your API with basic auth and read the logged-in user in a controller.",
+          "lecture": 35,
+          "videoUrl": "https://www.youtube.com/watch?v=KVJuG95JSpM"
+        },
+        {
+          "slug": "spring-l36",
+          "title": "Spring Security practical: users & roles in the database",
+          "hours": 2,
+          "description": "User/Role entities, password hashing with BCrypt, registration endpoint, SecurityConfig.",
+          "practice": "Add /register that stores a BCrypt-hashed password.",
+          "lecture": 36
+        },
+        {
+          "slug": "spring-l37",
+          "title": "UserDetailsService & role-based access",
+          "hours": 2,
+          "description": "CustomUserDetails, CustomUserDetailsService, hasRole/hasAuthority rules.",
+          "practice": "Allow DELETE only for ADMIN users.",
+          "lecture": 37
+        },
+        {
+          "slug": "spring-l38",
+          "title": "JWT authentication",
+          "hours": 3,
+          "description": "Login endpoint, generating and validating JWTs, a JWT filter, stateless sessions.",
+          "practice": "Issue a JWT on login and protect /api/** with it.",
+          "lecture": 38
+        },
+        {
+          "slug": "spring-l39",
+          "title": "OAuth 2.0 & OpenID Connect: Login with Google",
+          "hours": 2,
+          "description": "OAuth2 roles and flows, OIDC, PKCE, spring-boot-starter-oauth2-client.",
+          "practice": "Add 'Login with Google' to a demo app.",
+          "lecture": 39,
+          "videoUrl": "https://www.youtube.com/watch?v=t9kRN4wMVk0"
+        },
+        {
+          "slug": "spring-l40",
+          "title": "Testing Spring Boot apps",
+          "hours": 2,
+          "description": "Unit tests with JUnit 5 & Mockito, @WebMvcTest, @DataJpaTest, @SpringBootTest.",
+          "practice": "Write a unit test for a service and a @WebMvcTest for its controller.",
+          "lecture": 40
         },
         {
           "slug": "project-ecommerce-api",
@@ -415,52 +1027,22 @@
       ],
       "resources": [
         {
-          "title": "Spring Boot Full Course 2026 (your main Spring Boot playlist)",
+          "title": "Spring Boot Full Course 2026 - lectures 1 to 40",
           "url": "https://www.youtube.com/playlist?list=PLEYgx5hMdopw",
           "channel": "Coder Army",
           "language": "HI",
           "kind": "PLAYLIST",
           "primary": true,
-          "note": "Your chosen playlist. Pair each video with the matching file in the Rebuild Lab."
-        },
-        {
-          "title": "Spring Boot from Basics to Advanced",
-          "url": "https://www.youtube.com/playlist?list=PL6W8uoQQ2c60g6_fcjDCLHSx1LBeVYqyZ",
-          "channel": "Concept && Coding (Shrayansh Jain)",
-          "language": "HI",
-          "kind": "PLAYLIST",
-          "note": "Deep 'how it works internally' explanations - great second source."
-        },
-        {
-          "title": "Engineering Digest (Spring Boot in Hindi)",
-          "url": "https://www.youtube.com/@EngineeringDigest",
-          "channel": "Engineering Digest",
-          "language": "HI",
-          "kind": "CHANNEL"
-        },
-        {
-          "title": "Spring Boot Tutorial - Full Course",
-          "url": "https://www.youtube.com/watch?v=9SGDpanrc8U",
-          "channel": "Amigoscode",
-          "language": "EN",
-          "kind": "VIDEO",
-          "primary": true
-        },
-        {
-          "title": "Spring Boot reference documentation",
-          "url": "https://docs.spring.io/spring-boot/index.html",
-          "channel": "spring.io",
-          "language": "EN",
-          "kind": "DOCS"
-        },
-        {
-          "title": "Spring Guides (short hands-on tutorials)",
-          "url": "https://spring.io/guides",
-          "channel": "spring.io",
-          "language": "EN",
-          "kind": "DOCS"
+          "note": "Your chosen playlist. Each topic below links to its exact lecture."
         }
-      ]
+      ],
+      "playlist": {
+        "name": "Spring Boot Full Course 2026",
+        "channel": "Coder Army",
+        "url": "https://www.youtube.com/playlist?list=PLEYgx5hMdopw",
+        "fromLecture": 1,
+        "toLecture": 40
+      }
     },
     {
       "slug": "apis-web-fundamentals",
@@ -517,14 +1099,8 @@
           "channel": "Chai aur Code (Hitesh Choudhary)",
           "language": "HI",
           "kind": "PLAYLIST",
-          "note": "Uses Node.js, but the HTTP/API/auth concepts transfer 1:1 to Spring Boot."
-        },
-        {
-          "title": "REST API design best practices (Hindi search)",
-          "url": "https://www.youtube.com/results?search_query=rest+api+design+best+practices+hindi",
-          "channel": null,
-          "language": "HI",
-          "kind": "SEARCH"
+          "note": "Uses Node.js, but the HTTP/API/auth concepts transfer 1:1 to Spring Boot.",
+          "primary": true
         },
         {
           "title": "MDN - An overview of HTTP",
@@ -537,6 +1113,19 @@
           "title": "springdoc-openapi",
           "url": "https://springdoc.org/",
           "channel": "springdoc",
+          "language": "EN",
+          "kind": "DOCS"
+        },
+        {
+          "title": "REST API Best Practices: clean, secure & scalable APIs (Hindi + English)",
+          "url": "https://www.youtube.com/watch?v=Nua_rCoeG70",
+          "language": "HI",
+          "kind": "VIDEO"
+        },
+        {
+          "title": "Microsoft REST API design best practices",
+          "url": "https://learn.microsoft.com/en-us/azure/architecture/best-practices/api-design",
+          "channel": "Microsoft Learn",
           "language": "EN",
           "kind": "DOCS"
         }
@@ -621,13 +1210,6 @@
           "note": "Search his channel for indexes, isolation levels and ACID."
         },
         {
-          "title": "MongoDB tutorial (Hindi search)",
-          "url": "https://www.youtube.com/results?search_query=mongodb+tutorial+hindi",
-          "channel": null,
-          "language": "HI",
-          "kind": "SEARCH"
-        },
-        {
           "title": "Use The Index, Luke (free SQL indexing book)",
           "url": "https://use-the-index-luke.com/",
           "channel": "Markus Winand",
@@ -640,6 +1222,19 @@
           "channel": "postgresql.org",
           "language": "EN",
           "kind": "DOCS"
+        },
+        {
+          "title": "Master MongoDB in One Video - beginner to advanced (Hindi)",
+          "url": "https://www.youtube.com/watch?v=tww-gbNPOcA",
+          "language": "HI",
+          "kind": "VIDEO"
+        },
+        {
+          "title": "MongoDB University - free courses",
+          "url": "https://learn.mongodb.com/",
+          "channel": "MongoDB",
+          "language": "EN",
+          "kind": "COURSE"
         }
       ]
     },
@@ -708,13 +1303,6 @@
           "note": "Uses the same OAuth2 Resource Server approach as this playground."
         },
         {
-          "title": "OAuth 2.0 explained (Hindi search)",
-          "url": "https://www.youtube.com/results?search_query=oauth+2.0+explained+hindi",
-          "channel": null,
-          "language": "HI",
-          "kind": "SEARCH"
-        },
-        {
           "title": "OWASP Top 10",
           "url": "https://owasp.org/www-project-top-ten/",
           "channel": "OWASP",
@@ -727,6 +1315,27 @@
           "channel": "spring.io",
           "language": "EN",
           "kind": "DOCS"
+        },
+        {
+          "title": "OAuth 2.0 explained (Hindi)",
+          "url": "https://www.youtube.com/watch?v=sjvL24fciQg",
+          "channel": "MBSA",
+          "language": "HI",
+          "kind": "VIDEO"
+        },
+        {
+          "title": "Spring Security (Spring Boot Full Course #35) - from your playlist",
+          "url": "https://www.youtube.com/watch?v=KVJuG95JSpM",
+          "channel": "Coder Army",
+          "language": "HI",
+          "kind": "VIDEO"
+        },
+        {
+          "title": "OAuth 2.0 & OIDC: Login with Google (Spring Boot Full Course #39)",
+          "url": "https://www.youtube.com/watch?v=t9kRN4wMVk0",
+          "channel": "Coder Army",
+          "language": "HI",
+          "kind": "VIDEO"
         }
       ]
     },
@@ -786,26 +1395,12 @@
           "primary": true
         },
         {
-          "title": "Spring Boot testing with JUnit 5 & Mockito (English search)",
-          "url": "https://www.youtube.com/results?search_query=spring+boot+testing+junit+5+mockito+testcontainers",
-          "channel": null,
-          "language": "EN",
-          "kind": "SEARCH",
-          "primary": true
-        },
-        {
-          "title": "Spring Boot JUnit Mockito (Hindi search)",
-          "url": "https://www.youtube.com/results?search_query=spring+boot+junit+mockito+hindi",
-          "channel": null,
-          "language": "HI",
-          "kind": "SEARCH"
-        },
-        {
           "title": "Christopher Okhravi - design patterns",
           "url": "https://www.youtube.com/@ChristopherOkhravi",
           "channel": "Christopher Okhravi",
           "language": "EN",
-          "kind": "CHANNEL"
+          "kind": "CHANNEL",
+          "primary": true
         },
         {
           "title": "Testcontainers for Java - getting started",
@@ -813,6 +1408,32 @@
           "channel": "testcontainers.com",
           "language": "EN",
           "kind": "DOCS"
+        },
+        {
+          "title": "Master Unit Testing in Spring Boot with JUnit 5 & Mockito",
+          "url": "https://www.youtube.com/watch?v=zK1O8pIx_oM",
+          "language": "EN",
+          "kind": "VIDEO"
+        },
+        {
+          "title": "Spring Boot testing: Zero to Hero (Spring I/O talk)",
+          "url": "https://www.youtube.com/watch?v=u5foQULTxHM",
+          "channel": "Daniel Garnier-Moiroux",
+          "language": "EN",
+          "kind": "VIDEO"
+        },
+        {
+          "title": "Spring Boot 3 integration testing with Testcontainers",
+          "url": "https://www.youtube.com/watch?v=Q-0Z6KZF1xM",
+          "channel": "Java Techie",
+          "language": "EN",
+          "kind": "VIDEO"
+        },
+        {
+          "title": "Unit Testing in a Spring Boot project in one video (Hindi)",
+          "url": "https://www.youtube.com/watch?v=qpK1AoFWY8k",
+          "language": "HI",
+          "kind": "VIDEO"
         }
       ]
     },
@@ -879,26 +1500,31 @@
           "kind": "CHANNEL"
         },
         {
-          "title": "Redis crash course (English search)",
-          "url": "https://www.youtube.com/results?search_query=redis+crash+course",
-          "channel": null,
-          "language": "EN",
-          "kind": "SEARCH",
-          "primary": true
-        },
-        {
-          "title": "Spring Boot Redis cache (Hindi search)",
-          "url": "https://www.youtube.com/results?search_query=spring+boot+redis+cache+hindi",
-          "channel": null,
-          "language": "HI",
-          "kind": "SEARCH"
-        },
-        {
           "title": "Redis documentation",
           "url": "https://redis.io/docs/latest/",
           "channel": "redis.io",
           "language": "EN",
-          "kind": "DOCS"
+          "kind": "DOCS",
+          "primary": true
+        },
+        {
+          "title": "Redis Crash Course (2025)",
+          "url": "https://www.youtube.com/watch?v=Xw1Lv66noEY",
+          "language": "EN",
+          "kind": "VIDEO"
+        },
+        {
+          "title": "Spring Boot API with MySQL & Redis cache (Hindi)",
+          "url": "https://www.youtube.com/watch?v=RiWbgJJTC-Q",
+          "language": "HI",
+          "kind": "VIDEO"
+        },
+        {
+          "title": "Redis University - free courses",
+          "url": "https://university.redis.io/",
+          "channel": "Redis",
+          "language": "EN",
+          "kind": "COURSE"
         }
       ]
     },
@@ -966,18 +1592,18 @@
           "kind": "PLAYLIST"
         },
         {
-          "title": "Spring Boot Kafka (Hindi search)",
-          "url": "https://www.youtube.com/results?search_query=spring+boot+kafka+hindi",
-          "channel": null,
-          "language": "HI",
-          "kind": "SEARCH"
-        },
-        {
           "title": "Confluent Developer courses",
           "url": "https://developer.confluent.io/courses/",
           "channel": "Confluent",
           "language": "EN",
           "kind": "DOCS"
+        },
+        {
+          "title": "Kafka consumer with Spring Boot microservices (Hindi)",
+          "url": "https://www.youtube.com/watch?v=r3WW-nMLUSc",
+          "channel": "Amit Goyal",
+          "language": "HI",
+          "kind": "VIDEO"
         }
       ]
     },
@@ -1045,18 +1671,17 @@
           "primary": true
         },
         {
-          "title": "Spring Boot microservices (Hindi search)",
-          "url": "https://www.youtube.com/results?search_query=spring+boot+microservices+hindi+full+course",
-          "channel": null,
-          "language": "HI",
-          "kind": "SEARCH"
-        },
-        {
           "title": "microservices.io patterns",
           "url": "https://microservices.io/patterns/",
           "channel": "Chris Richardson",
           "language": "EN",
           "kind": "DOCS"
+        },
+        {
+          "title": "Microservices using Spring Boot in one video (Hindi)",
+          "url": "https://www.youtube.com/watch?v=ubHa5I3yP70",
+          "language": "HI",
+          "kind": "VIDEO"
         }
       ]
     },
@@ -1239,18 +1864,18 @@
           "note": "Indian-English explanations, very practical."
         },
         {
-          "title": "AWS for beginners (Hindi search)",
-          "url": "https://www.youtube.com/results?search_query=aws+tutorial+for+beginners+hindi",
-          "channel": null,
-          "language": "HI",
-          "kind": "SEARCH"
-        },
-        {
           "title": "Docker docs - get started",
           "url": "https://docs.docker.com/get-started/",
           "channel": "docker.com",
           "language": "EN",
           "kind": "DOCS"
+        },
+        {
+          "title": "AWS in One Video for beginners 2026 (Hindi)",
+          "url": "https://www.youtube.com/watch?v=N4sJj-SxX00",
+          "channel": "MPrashant",
+          "language": "HI",
+          "kind": "VIDEO"
         }
       ]
     },
@@ -1325,18 +1950,17 @@
           "kind": "CHANNEL"
         },
         {
-          "title": "GitHub Actions in Hindi (search)",
-          "url": "https://www.youtube.com/results?search_query=github+actions+ci+cd+hindi",
-          "channel": null,
-          "language": "HI",
-          "kind": "SEARCH"
-        },
-        {
           "title": "Kubernetes docs - tutorials",
           "url": "https://kubernetes.io/docs/tutorials/",
           "channel": "kubernetes.io",
           "language": "EN",
           "kind": "DOCS"
+        },
+        {
+          "title": "GitHub Actions full course (Hindi)",
+          "url": "https://www.youtube.com/watch?v=je1u_ugTW6Y",
+          "language": "HI",
+          "kind": "VIDEO"
         }
       ]
     },
@@ -1396,19 +2020,18 @@
           "kind": "CHANNEL"
         },
         {
-          "title": "Prometheus + Grafana (Hindi search)",
-          "url": "https://www.youtube.com/results?search_query=prometheus+grafana+tutorial+hindi",
-          "channel": null,
-          "language": "HI",
-          "kind": "SEARCH",
-          "primary": true
-        },
-        {
           "title": "OpenTelemetry docs - Java",
           "url": "https://opentelemetry.io/docs/languages/java/",
           "channel": "opentelemetry.io",
           "language": "EN",
           "kind": "DOCS"
+        },
+        {
+          "title": "Prometheus & Grafana for DevOps - observability (Hindi)",
+          "url": "https://www.youtube.com/watch?v=DXZUunEeHqM",
+          "language": "HI",
+          "kind": "VIDEO",
+          "primary": true
         }
       ]
     },
@@ -1461,7 +2084,7 @@
           "slug": "interview-dsa",
           "title": "Interview prep: DSA",
           "hours": 20,
-          "description": "Arrays & strings, HashMap, two pointers & sliding window, stack & queue, binary search, trees & graphs, heaps, DP basics.",
+          "description": "Arrays, strings, hashing, two pointers, sliding window, trees, graphs, DP. Follow Striver's A2Z sheet on takeUforward (linked on your dashboard) - no need to duplicate it here.",
           "practice": "2 problems a day from Striver's sheet."
         },
         {
@@ -1482,33 +2105,19 @@
           "primary": true
         },
         {
-          "title": "Striver's A2Z DSA Course",
-          "url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
-          "channel": "take U forward",
-          "language": "EN",
-          "kind": "PLAYLIST",
-          "primary": true
-        },
-        {
-          "title": "Striver's A2Z DSA sheet",
-          "url": "https://takeuforward.org/dsa/strivers-a2z-sheet-learn-dsa-a-to-z",
-          "channel": "takeUforward",
-          "language": "EN",
-          "kind": "DOCS"
-        },
-        {
-          "title": "Spring Boot project from scratch (Hindi search)",
-          "url": "https://www.youtube.com/results?search_query=spring+boot+project+from+scratch+hindi",
-          "channel": null,
-          "language": "HI",
-          "kind": "SEARCH"
-        },
-        {
           "title": "roadmap.sh - backend project ideas",
           "url": "https://roadmap.sh/backend/projects",
           "channel": "roadmap.sh",
           "language": "EN",
-          "kind": "DOCS"
+          "kind": "DOCS",
+          "primary": true
+        },
+        {
+          "title": "Engineering Digest - Spring Boot project playlists (Hindi)",
+          "url": "https://www.youtube.com/@EngineeringDigest/playlists",
+          "channel": "Engineering Digest",
+          "language": "HI",
+          "kind": "CHANNEL"
         }
       ]
     },
@@ -1568,19 +2177,18 @@
           "kind": "VIDEO"
         },
         {
-          "title": "Spring AI in Hindi (search)",
-          "url": "https://www.youtube.com/results?search_query=spring+ai+tutorial+hindi",
-          "channel": null,
-          "language": "HI",
-          "kind": "SEARCH",
-          "primary": true
-        },
-        {
           "title": "Spring AI reference documentation",
           "url": "https://docs.spring.io/spring-ai/reference/",
           "channel": "spring.io",
           "language": "EN",
           "kind": "DOCS"
+        },
+        {
+          "title": "Spring AI Full Course - build real AI apps with Spring Boot (Hindi)",
+          "url": "https://www.youtube.com/watch?v=KN58GwRRu28",
+          "language": "HI",
+          "kind": "VIDEO",
+          "primary": true
         }
       ]
     }

@@ -157,35 +157,84 @@ class ApiFlowIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    void dsaSheetTracksSolvedProblemsAndFeedsPlanly() throws Exception {
+    void javaAndSpringLevelsAreLectureByLecturePlaylists() throws Exception {
+        JsonNode roadmap = body(mvc.perform(get("/api/roadmap")).andExpect(status().isOk()).andReturn());
+        JsonNode basics = roadmap.get(0);
+        assertThat(basics.get("title").asText()).isEqualTo("Java Basics");
+        assertThat(basics.get("playlist").get("url").asText()).contains("PLQEaRBV9gAFsR15tNo2QLF9d2qc-c018p");
+        assertThat(basics.get("resources")).hasSize(1);
+        JsonNode lecture1 = basics.get("topics").get(0);
+        assertThat(lecture1.get("lectureNumber").asInt()).isEqualTo(1);
+        assertThat(lecture1.get("videoUrl").asText()).startsWith("https://www.youtube.com/watch?v=");
+
+        JsonNode spring = roadmap.valueStream().filter(l -> l.get("slug").asText().equals("spring-boot"))
+                .findFirst().orElseThrow();
+        assertThat(spring.get("playlist").get("url").asText()).contains("PLEYgx5hMdopw");
+        assertThat(spring.get("topics").valueStream().filter(t -> !t.get("lectureNumber").isNull()).count())
+                .isEqualTo(40);
+
+        // No resource anywhere sends people to a YouTube search page.
+        assertThat(roadmap.valueStream().flatMap(l -> l.get("resources").valueStream())
+                .noneMatch(r -> r.get("url").asText().contains("results?search_query"))).isTrue();
+    }
+
+    @Test
+    void learnersFollowOneResourcePerLevelAndAttachTheirOwnLinks() throws Exception {
         Session s = register("tara");
-        JsonNode sheet = body(mvc.perform(get("/api/dsa/sheet").header("Authorization", s.bearer()))
-                .andExpect(status().isOk()).andReturn());
-        assertThat(sheet.get("stats").get("total").asInt()).isGreaterThan(100);
-        long twoSum = sheet.get("topics").get(0).get("problems").get(0).get("id").asLong();
+        JsonNode roadmap = body(mvc.perform(get("/api/roadmap")).andReturn());
+        JsonNode docker = roadmap.valueStream().filter(l -> l.get("slug").asText().equals("docker-cloud"))
+                .findFirst().orElseThrow();
+        long levelId = docker.get("id").asLong();
+        long resourceId = docker.get("resources").get(1).get("id").asLong();
+        long topicId = roadmap.get(0).get("topics").get(9).get("id").asLong(); // Java lecture 10
 
-        mvc.perform(put("/api/dsa/problems/" + twoSum).header("Authorization", s.bearer())
-                        .contentType(MediaType.APPLICATION_JSON).content("{\"solved\":true,\"revision\":true,\"notes\":\"HashMap of seen values\"}"))
+        mvc.perform(put("/api/me/resources/follow/" + levelId).header("Authorization", s.bearer())
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"resourceId\":" + resourceId + "}"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.solved").value(true))
-                .andExpect(jsonPath("$.solvedAt").exists());
-        mvc.perform(get("/api/dsa/sheet").header("Authorization", s.bearer()))
-                .andExpect(jsonPath("$.stats.solved").value(1))
-                .andExpect(jsonPath("$.stats.revision").value(1))
-                .andExpect(jsonPath("$.stats.easy.solved").value(1))
-                .andExpect(jsonPath("$.topics[0].problems[0].notes").value("HashMap of seen values"));
+                .andExpect(jsonPath("$.resourceId").value(resourceId));
+        // A resource from another level cannot be followed here.
+        long otherLevelResource = roadmap.get(1).get("resources").get(0).get("id").asLong();
+        mvc.perform(put("/api/me/resources/follow/" + levelId).header("Authorization", s.bearer())
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"resourceId\":" + otherLevelResource + "}"))
+                .andExpect(status().isBadRequest());
 
-        // Planly counts problems solved during the current week against the weekly DSA target.
-        mvc.perform(post("/api/plans").header("Authorization", s.bearer()).contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"hoursPerWeek\":15,\"dsaPerWeek\":10}"))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.dsaPerWeek").value(10))
-                .andExpect(jsonPath("$.weeks[0].dsaTarget").value(10))
-                .andExpect(jsonPath("$.weeks[0].dsaSolved").value(1));
+        // Own link on one lecture: the level is derived from the topic.
+        JsonNode link = body(mvc.perform(post("/api/me/resources/links").header("Authorization", s.bearer())
+                        .contentType(MediaType.APPLICATION_JSON).content("""
+                                {"topicId":%d,"title":"Lecture 10 video","url":"https://www.youtube.com/watch?v=abc"}"""
+                                .formatted(topicId)))
+                .andExpect(status().isCreated()).andReturn());
+        assertThat(link.get("levelId").asLong()).isEqualTo(roadmap.get(0).get("id").asLong());
+        // Only http(s) links are accepted.
+        mvc.perform(post("/api/me/resources/links").header("Authorization", s.bearer())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"levelId\":" + levelId + ",\"title\":\"x\",\"url\":\"javascript:alert(1)\"}"))
+                .andExpect(status().isBadRequest());
 
-        // Another learner's sheet is untouched.
-        mvc.perform(get("/api/dsa/sheet").header("Authorization", register("uma").bearer()))
-                .andExpect(jsonPath("$.stats.solved").value(0));
+        // Own level link can be followed too.
+        long ownId = body(mvc.perform(post("/api/me/resources/links").header("Authorization", s.bearer())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"levelId\":" + levelId + ",\"title\":\"My Docker playlist\",\"url\":\"https://www.youtube.com/playlist?list=PLx\"}"))
+                .andExpect(status().isCreated()).andReturn()).get("id").asLong();
+        mvc.perform(put("/api/me/resources/follow/" + levelId).header("Authorization", s.bearer())
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"userResourceId\":" + ownId + "}"))
+                .andExpect(status().isOk());
+        mvc.perform(get("/api/me/resources").header("Authorization", s.bearer()))
+                .andExpect(jsonPath("$.links.length()").value(2))
+                .andExpect(jsonPath("$.choices[0].userResourceId").value(ownId));
+
+        // Links are private: another learner can neither see nor delete them.
+        Session other = register("uma");
+        mvc.perform(get("/api/me/resources").header("Authorization", other.bearer()))
+                .andExpect(jsonPath("$.links.length()").value(0));
+        mvc.perform(delete("/api/me/resources/links/" + ownId).header("Authorization", other.bearer()))
+                .andExpect(status().isNotFound());
+
+        // Deleting the followed link also clears the choice (ON DELETE CASCADE).
+        mvc.perform(delete("/api/me/resources/links/" + ownId).header("Authorization", s.bearer()))
+                .andExpect(status().isNoContent());
+        mvc.perform(get("/api/me/resources").header("Authorization", s.bearer()))
+                .andExpect(jsonPath("$.choices.length()").value(0));
     }
 
     @Test
@@ -213,6 +262,62 @@ class ApiFlowIntegrationTest extends AbstractIntegrationTest {
                 .andExpect(jsonPath("$.notes['3']").doesNotExist());
         mvc.perform(put("/api/lab/files/" + fileId + "/lines/99999/note").header("Authorization", a.bearer())
                 .contentType(MediaType.APPLICATION_JSON).content("{\"note\":\"x\"}")).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void labProgressRoundTripsThroughAZipOnYourComputer() throws Exception {
+        Session s = register("kiran");
+        JsonNode projects = body(mvc.perform(get("/api/lab/projects").header("Authorization", s.bearer())).andReturn());
+        JsonNode template = projects.valueStream().filter(p -> p.get("template").asBoolean())
+                .min(java.util.Comparator.comparingInt(p -> p.get("fileCount").asInt())).orElseThrow();
+        String projectId = template.get("id").asText();
+        JsonNode detail = body(mvc.perform(get("/api/lab/projects/" + projectId).header("Authorization", s.bearer())).andReturn());
+        JsonNode first = detail.get("files").get(0);
+        assertThat(first.get("track").asText()).isEqualTo("BACKEND");
+        String fileId = first.get("id").asText();
+        String path = first.get("path").asText();
+        mvc.perform(put("/api/lab/files/" + fileId + "/progress").header("Authorization", s.bearer())
+                .contentType(MediaType.APPLICATION_JSON).content("{\"linesCompleted\":5}")).andExpect(status().isOk());
+
+        // Export: typed lines + the full original under _reference/ + a manifest.
+        MvcResult export = mvc.perform(get("/api/lab/projects/" + projectId + "/progress/export").header("Authorization", s.bearer()))
+                .andExpect(status().isOk()).andReturn();
+        assertThat(export.getResponse().getHeader("Content-Disposition")).contains("rebuild-progress.zip");
+        java.util.Map<String, String> entries = new java.util.LinkedHashMap<>();
+        try (var zin = new java.util.zip.ZipInputStream(new java.io.ByteArrayInputStream(export.getResponse().getContentAsByteArray()))) {
+            for (ZipEntry e; (e = zin.getNextEntry()) != null; ) {
+                entries.put(e.getName(), new String(zin.readAllBytes(), StandardCharsets.UTF_8));
+            }
+        }
+        String root = entries.keySet().iterator().next().split("/")[0] + "/";
+        assertThat(entries).containsKey(root + ".rebuild-progress.json").containsKey(root + "_reference/" + path);
+        String typed = entries.get(root + path);
+        assertThat(typed.lines().count()).isEqualTo(5);
+
+        // Keep typing "locally": 10 correct lines, then a typo.
+        java.util.List<String> original = entries.get(root + "_reference/" + path).lines().toList();
+        String local = String.join("\n", original.subList(0, 10)) + "\nthis line has a typo\n";
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try (ZipOutputStream zos = new ZipOutputStream(out)) {
+            add(zos, root + path, local);
+            add(zos, root + "_reference/" + path, entries.get(root + "_reference/" + path));
+            add(zos, root + ".rebuild-progress.json", entries.get(root + ".rebuild-progress.json"));
+        }
+        mvc.perform(multipart("/api/lab/projects/" + projectId + "/progress/import")
+                        .file(new MockMultipartFile("file", "rebuild.zip", "application/zip", out.toByteArray()))
+                        .header("Authorization", s.bearer()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.filesMatched").value(1))
+                .andExpect(jsonPath("$.files[0].before").value(5))
+                .andExpect(jsonPath("$.files[0].after").value(10))
+                .andExpect(jsonPath("$.files[0].found").value("this line has a typo"));
+        mvc.perform(get("/api/lab/files/" + fileId).header("Authorization", s.bearer()))
+                .andExpect(jsonPath("$.linesCompleted").value(10))
+                .andExpect(jsonPath("$.outline.items").isArray());
+
+        // Someone else's progress is untouched.
+        mvc.perform(get("/api/lab/files/" + fileId).header("Authorization", register("lata").bearer()))
+                .andExpect(jsonPath("$.linesCompleted").value(0));
     }
 
     @Test

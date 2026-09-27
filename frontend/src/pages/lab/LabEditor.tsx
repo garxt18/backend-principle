@@ -1,13 +1,13 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { clsx } from 'clsx';
-import { ArrowLeft, ArrowRight, BookOpenText, Eye, EyeOff, Keyboard, PartyPopper, RotateCcw, Search, SkipForward, Undo2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, BookOpenText, ChevronDown, Eye, EyeOff, HelpCircle, Keyboard, ListTree, PartyPopper, RotateCcw, Search, SkipForward, Undo2, Wrench } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Button, Chips, ErrorState, PageSkeleton, Progress } from '../../components/ui';
 import { api } from '../../lib/api';
 import { keys } from '../../lib/queries';
 import { useToast } from '../../lib/toast';
-import type { Explanation, LabFile } from '../../lib/types';
+import type { Explanation, FileOutline, LabFile } from '../../lib/types';
 
 type Mode = 'type' | 'read';
 const normalize = (s: string) => s.trim().replace(/\s+/g, ' ');
@@ -132,7 +132,11 @@ function Editor({ file }: { file: LabFile }) {
       </div>
       <div className="page-header" style={{ marginBottom: 16 }}>
         <div style={{ minWidth: 0 }}>
-          <div className="row" style={{ marginBottom: 6 }}><span className="badge badge-accent">Step {file.buildOrder + 1} · {file.layerLabel}</span><span className="badge">{file.language}</span></div>
+          <div className="row" style={{ marginBottom: 6 }}>
+            <span className="badge badge-accent">{file.track === 'FRONTEND' ? 'Frontend (optional)' : 'Backend'} · file {file.positionInTrack} of {file.filesInTrack}</span>
+            <span className="badge">{file.layerLabel}</span>
+            <span className="badge">{file.language}</span>
+          </div>
           <h1 className="mono" style={{ fontSize: '1.05rem', overflowWrap: 'anywhere', fontWeight: 600 }}>{file.path}</h1>
           <p className="small">{file.layerWhy}</p>
         </div>
@@ -140,6 +144,7 @@ function Editor({ file }: { file: LabFile }) {
 
       <div className="editor-layout">
         <div className="stack" style={{ minWidth: 0 }}>
+          <OutlineCard outline={file.outline} startOpen={file.linesCompleted === 0} onJump={(line) => { setMode('read'); setSelected(line - 1); }} />
           <div className="card" style={{ padding: 14 }}>
             <div className="row-between">
               <Chips<Mode> label="Mode" value={mode} onChange={setMode} options={[{ value: 'type', label: <span className="row" style={{ gap: 6 }}><Keyboard size={14} /> Type</span> }, { value: 'read', label: <span className="row" style={{ gap: 6 }}><BookOpenText size={14} /> Read</span> }]} />
@@ -201,6 +206,7 @@ function Editor({ file }: { file: LabFile }) {
                   <Button size="sm" variant="ghost" onClick={advance}><SkipForward size={14} /> Skip line</Button>
                   <Button size="sm" variant="ghost" onClick={back} disabled={cursor === 0}><Undo2 size={14} /> Back</Button>
                 </div>
+                <InlineExplain fileId={file.id} line={cursor + 1} nextLine={cursor + 2 <= lines.length ? cursor + 2 : null} hidden={blind && !matched} />
               </div>
             )
           )}
@@ -229,7 +235,11 @@ function Editor({ file }: { file: LabFile }) {
         </div>
 
         <aside className="side-panel stack">
-          <ExplainPanel fileId={file.id} line={selected + 1} hidden={mode === 'type' && blind && selected >= cursor} />
+          {mode === 'type' && selected === cursor && !done ? (
+            <div className="card small muted">The explanation of the line you are typing is right under it. Click any other line in the code to see its explanation here.</div>
+          ) : (
+            <ExplainPanel fileId={file.id} line={selected + 1} hidden={mode === 'type' && blind && selected >= cursor} />
+          )}
           <NotePanel fileId={file.id} line={selected + 1} value={notes[String(selected + 1)] ?? ''} onSaved={(text) => setNotes((n) => {
             const copy = { ...n };
             if (text) copy[String(selected + 1)] = text; else delete copy[String(selected + 1)];
@@ -242,11 +252,7 @@ function Editor({ file }: { file: LabFile }) {
 }
 
 function ExplainPanel({ fileId, line, hidden }: { fileId: string; line: number; hidden: boolean }) {
-  const explain = useQuery({
-    queryKey: ['lab', 'explain', fileId, line],
-    queryFn: () => api<Explanation>(`/api/lab/files/${fileId}/lines/${line}/explain`),
-    staleTime: Infinity,
-  });
+  const explain = useExplanation(fileId, line);
   const ex = explain.data;
   const googleFor = useMemo(() => (term: string) => `https://www.google.com/search?q=${encodeURIComponent(`${term} java spring boot`)}`, []);
   if (hidden) {
@@ -265,7 +271,8 @@ function ExplainPanel({ fileId, line, hidden }: { fileId: string; line: number; 
         <>
           <div className="explain-code">{ex.code.trim() || '(blank line)'}</div>
           <p style={{ marginTop: 12 }}>{ex.summary}</p>
-          {ex.context && <p className="small subtle" style={{ marginTop: 6 }}>Context: {ex.context}</p>}
+          {ex.why && <div className="explain-why"><strong>Why you type it</strong>{ex.why}</div>}
+          {ex.context && <p className="small subtle" style={{ marginTop: 8 }}>Context: {ex.context}</p>}
           {ex.notes.length > 0 && <div className="divider" />}
           {ex.notes.map((n) => (
             <div key={n.term} className="explain-note">
@@ -311,6 +318,84 @@ function NotePanel({ fileId, line, value, onSaved }: { fileId: string; line: num
         <Button size="sm" variant="primary" disabled={!dirty} loading={busy} onClick={save}>Save note</Button>
         {value && <span className="tiny subtle">Saved · marked with a dot in the code</span>}
       </div>
+    </div>
+  );
+}
+
+function useExplanation(fileId: string, line: number | null) {
+  return useQuery({
+    queryKey: ['lab', 'explain', fileId, line],
+    queryFn: () => api<Explanation>(`/api/lab/files/${fileId}/lines/${line}/explain`),
+    staleTime: Infinity,
+    enabled: line !== null,
+  });
+}
+
+/** The explanation right under the line you are typing: what it does and why it has to be there. */
+function InlineExplain({ fileId, line, nextLine, hidden }: { fileId: string; line: number; nextLine: number | null; hidden: boolean }) {
+  const ex = useExplanation(fileId, line);
+  useExplanation(fileId, nextLine); // prefetch so the next line's explanation appears instantly
+  const [term, setTerm] = useState<string | null>(null);
+  useEffect(() => setTerm(null), [line]);
+  if (hidden) {
+    return <div className="line-explain"><span className="le-label"><HelpCircle size={12} /> Blind mode</span><p className="muted">Type it from memory first - the explanation appears as soon as the line is correct.</p></div>;
+  }
+  if (ex.isPending) return <div className="line-explain"><div className="skeleton" style={{ height: 14 }} /><div className="skeleton" style={{ height: 14, width: '70%' }} /></div>;
+  if (ex.error || !ex.data) return null;
+  const e = ex.data;
+  const active = e.notes.find((n) => n.term === term);
+  return (
+    <div className="line-explain" key={line}>
+      <div>
+        <span className="le-label"><BookOpenText size={12} /> What this line does</span>
+        <p>{e.summary}</p>
+      </div>
+      {e.why && (
+        <div className="le-why">
+          <span className="le-label"><Wrench size={12} /> Why you type it</span>
+          <p>{e.why}</p>
+        </div>
+      )}
+      {e.notes.length > 0 && (
+        <>
+          <div className="le-terms">
+            {e.notes.map((n) => (
+              <button key={n.term} type="button" className={clsx('le-term', term === n.term && 'on')} onClick={() => setTerm((t) => (t === n.term ? null : n.term))}>{n.term}</button>
+            ))}
+          </div>
+          {active && <div className="le-term-text">{active.text}</div>}
+        </>
+      )}
+    </div>
+  );
+}
+
+/** "Before you type": what the file is for and the members you are about to write. */
+function OutlineCard({ outline, startOpen, onJump }: { outline: FileOutline; startOpen: boolean; onJump: (line: number) => void }) {
+  const [open, setOpen] = useState(startOpen);
+  return (
+    <div className="card outline-card">
+      <button type="button" className="outline-head" onClick={() => setOpen((o) => !o)} aria-expanded={open}>
+        <ListTree size={16} style={{ color: 'var(--accent)', flex: 'none' }} />
+        <span className="grow">
+          <span style={{ fontWeight: 650, display: 'block' }}>Before you type: what this file does</span>
+          <span className="tiny subtle">{outline.purpose}</span>
+        </span>
+        <ChevronDown size={17} className={clsx('acc-chevron', open && 'rot')} />
+      </button>
+      {open && outline.items.length > 0 && (
+        <div className="outline-body">
+          {outline.items.map((item, i) => (
+            <button key={`${item.line}-${i}`} type="button" className="outline-item" onClick={() => onJump(item.line)} title="Show this line in read mode">
+              <span className="o-line">L{item.line}</span>
+              <span style={{ minWidth: 0 }}>
+                <span className="o-name"><span className="o-kind">{item.kind}</span>{item.name}</span>
+                <span className="o-sum" style={{ display: 'block' }}>{item.summary}</span>
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

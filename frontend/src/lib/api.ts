@@ -99,3 +99,33 @@ export async function api<T>(path: string, { method = 'GET', body, form, retry =
   if (!res.ok) throw new ApiError(res.status, data as Record<string, unknown>);
   return data as T;
 }
+
+/** Authenticated file download (e.g. the Rebuild Lab progress zip): fetch as a blob, then save it via a temporary link. */
+export async function downloadFile(path: string, fallbackName: string, retry = true): Promise<void> {
+  const headers: Record<string, string> = {};
+  if (accessToken) headers.Authorization = `Bearer ${accessToken}`;
+  const res = await fetch(path, { headers, credentials: 'same-origin' });
+  if (res.status === 401 && retry) {
+    if (await refreshSession()) return downloadFile(path, fallbackName, false);
+    onSessionExpired();
+    throw new ApiError(401, { detail: 'Your session expired. Please log in again.' });
+  }
+  if (!res.ok) {
+    let body: Record<string, unknown> | null = null;
+    try {
+      body = (await res.json()) as Record<string, unknown>;
+    } catch {
+      body = { detail: nonJsonMessage(res.status) };
+    }
+    throw new ApiError(res.status, body);
+  }
+  const name = /filename="?([^";]+)"?/.exec(res.headers.get('Content-Disposition') ?? '')?.[1] ?? fallbackName;
+  const url = URL.createObjectURL(await res.blob());
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+}

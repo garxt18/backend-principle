@@ -5,7 +5,7 @@ in IntelliJ and use this map to find working, tested examples of each roadmap le
 
 | Level | Concept | Where to look |
 |---|---|---|
-| L0/L2 | Records, enums, streams, `Optional`, `Collectors.groupingBy` | `roadmap/RoadmapDtos.java`, `progress/ProgressService.java`, `dsa/DsaService.java` |
+| L0/L2 | Records, enums, streams, `Optional`, `Collectors.groupingBy` | `roadmap/RoadmapDtos.java`, `progress/ProgressService.java`, `lab/JavaFileModel.java` |
 | L2 | Thread safety, `synchronized`, concurrent caches | `common/ratelimit/TokenBucket.java`, `common/ratelimit/RateLimiter.java` |
 | L2 | Pure algorithms (greedy scheduling, topological sort, Kahn's algorithm) | `planly/PlanGenerator.java`, `lab/BuildOrderPlanner.java` |
 | L3 | Dependency injection (constructor injection everywhere), `@Configuration` + `@Bean` | `common/config/AppConfig.java`, `auth/SecurityConfig.java` |
@@ -20,15 +20,17 @@ in IntelliJ and use this map to find working, tested examples of each roadmap le
 | L4 | Rate limiting (token bucket, `Retry-After`) | `common/ratelimit/RateLimitFilter.java` |
 | L4 | OpenAPI / Swagger | `common/config/AppConfig.java` -> http://localhost:8080/swagger-ui.html |
 | L5 | Schema design, constraints, partial unique index, cascades | `src/main/resources/db/migration/V1__init_schema.sql` |
-| L5 | Versioned migrations (never edit an applied one), partial indexes, CHECK constraints | `db/migration/V2__dsa_sheet_planly_line_notes.sql` |
+| L5 | Versioned migrations (never edit an applied one), partial indexes, CHECK constraints ("exactly one of two columns") | `db/migration/V2__dsa_sheet_planly_line_notes.sql`, `db/migration/V3__playlist_roadmap_personal_resources.sql` |
+| L5 | Keeping seed data in sync with the database (upsert by natural key, delete what left the seed) | `roadmap/RoadmapSeeder.java` |
 | L6 | JWT (OAuth2 Resource Server), BCrypt, refresh-token rotation and reuse detection | `auth/*` |
 | L6 | HttpOnly/SameSite cookies, CORS, CSP headers, timing-safe login | `auth/AuthController.java`, `auth/SecurityConfig.java`, `auth/AuthService.java#login` |
 | L6 | Authorization: roles, ownership checks, 404-not-403 | `lab/LabService.java#visibleProject`, `planly/StudySessionService.java#delete` |
-| L6 | Hostile-upload handling (zip slip, zip bomb) | `lab/ZipProjectImporter.java` |
-| L7 | Unit tests (pure functions), parameterized tests | `src/test/.../planner`, `.../lab`, `.../common` |
+| L6 | Hostile-upload handling (zip slip, zip bomb), only-http(s) user links | `lab/ZipProjectImporter.java`, `roadmap/PersonalResourceController.java` |
+| L4 | File download (`Content-Disposition`) and multipart upload endpoints | `lab/LabController.java` (`/progress/export`, `/progress/import`), `lab/LabSyncService.java` |
+| L7 | Unit tests (pure functions), parameterized tests | `src/test/.../planly`, `.../lab`, `.../common` |
 | L7 | Integration tests with Testcontainers + MockMvc | `AbstractIntegrationTest.java`, `ApiFlowIntegrationTest.java` |
 | L7 | Parsing tests for config helpers | `common/config/DatabaseUrlEnvironmentPostProcessorTest.java` |
-| L8 | Cache-aside with `@Cacheable` / `@CacheEvict` | `roadmap/RoadmapService.java`, `dsa/DsaService.java` (Caffeine; swap to Redis as an exercise) |
+| L8 | Cache-aside with `@Cacheable` / `@CacheEvict`, and keeping per-user data out of a shared cache | `roadmap/RoadmapService.java` vs `roadmap/PersonalResourceService.java` (Caffeine; swap to Redis as an exercise) |
 | L12 | Multi-stage Dockerfile, non-root user, compose with health checks, HTTPS reverse proxy | `Dockerfile`, `docker-compose.yml`, `docker-compose.prod.yml`, `deploy/Caddyfile` |
 | L12 | 12-factor config: one `DATABASE_URL` from the platform | `common/config/DatabaseUrlEnvironmentPostProcessor.java`, `render.yaml` |
 | L13 | CI pipeline | `.github/workflows/ci.yml` |
@@ -41,7 +43,7 @@ in IntelliJ and use this map to find working, tested examples of each roadmap le
 1. **L8** - Replace Caffeine with Redis (`spring-boot-starter-data-redis`, `spring.cache.type=redis`) and move
    the rate limiter's buckets into Redis so several app instances share limits.
 2. **L9** - Publish a `TopicCompleted` event when progress changes to DONE and consume it to send a weekly summary.
-3. **L10** - Extract the DSA sheet into its own service behind an API gateway.
+3. **L10** - Extract the Rebuild Lab into its own service behind an API gateway.
 4. **L13** - Write Kubernetes manifests using `/actuator/health/readiness` and `/liveness` as probes.
 5. **L14** - Add Grafana dashboards for `http_server_requests_seconds` (p95 latency, error rate).
 6. **Spring AI (bonus)** - Add an optional "explain this line" button backed by a free local Ollama model.

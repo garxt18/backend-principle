@@ -14,7 +14,7 @@ import org.springframework.web.servlet.resource.PathResourceResolver;
  * Serves the React single-page app (built by Vite into classpath:/static).
  * <ul>
  *   <li>/assets/* files have content hashes in their names, so browsers may cache them for a year.</li>
- *   <li>Any other path that is not a real file (e.g. /dsa or /lab/p/123 after a page refresh) returns
+ *   <li>Any other path that is not a real file (e.g. /roadmap or /lab/p/123 after a page refresh) returns
  *       index.html, and React Router renders the right page. /api/** is never rewritten.</li>
  * </ul>
  */

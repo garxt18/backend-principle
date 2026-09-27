@@ -2,6 +2,7 @@ package com.backendprinciple.playground.roadmap;
 
 import com.backendprinciple.playground.common.error.ApiException;
 import com.backendprinciple.playground.roadmap.RoadmapDtos.LevelDto;
+import com.backendprinciple.playground.roadmap.RoadmapDtos.PlaylistDto;
 import com.backendprinciple.playground.roadmap.RoadmapDtos.ResourceDto;
 import com.backendprinciple.playground.roadmap.RoadmapDtos.TopicDto;
 import java.util.List;
@@ -40,6 +41,8 @@ public class RoadmapService {
         return levels.findAllWithTopics().stream()
                 .map(l -> new LevelDto(l.getId(), l.getSlug(), l.getLevelNumber(), l.getTitle(), l.getSummary(),
                         l.getWhyItMatters(), l.getProjectTitle(), l.getProjectDescription(), l.getSuggestedMonth(),
+                        l.getPlaylistUrl() == null ? null
+                                : new PlaylistDto(l.getPlaylistName(), l.getPlaylistChannel(), l.getPlaylistUrl()),
                         l.getTopics().stream().mapToInt(Topic::getEstimatedHours).sum(),
                         l.getTopics().stream().map(TopicDto::from).toList(),
                         resourcesByLevel.getOrDefault(l.getId(), List.of())))
@@ -66,7 +69,7 @@ public class RoadmapService {
     @Transactional
     public ResourceDto createResource(ResourceRequest req) {
         RoadmapLevel level = levels.findById(req.levelId()).orElseThrow(() -> ApiException.notFound("Level"));
-        LearningResource r = new LearningResource(level);
+        LearningResource r = new LearningResource(level, false);
         apply(r, req);
         return ResourceDto.from(resources.save(r));
     }

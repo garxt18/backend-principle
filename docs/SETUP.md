@@ -115,7 +115,7 @@ docker compose up --build         # rebuild after you change code
    ```
 4. Open http://localhost:8080. API docs: http://localhost:8080/swagger-ui.html
 
-Flyway creates all tables automatically; the roadmap, DSA sheet and Rebuild Lab templates are loaded on startup.
+Flyway creates all tables automatically; the roadmap (with the Java and Spring Boot lecture lists) and the Rebuild Lab templates are loaded on startup.
 
 ### Editing the React UI with live reload
 

@@ -41,6 +41,14 @@ public class Topic {
     @Column(name = "order_index", nullable = false)
     private int orderIndex;
 
+    /** For playlist levels: which lecture of the level's playlist teaches this topic. */
+    @Column(name = "lecture_number")
+    private Integer lectureNumber;
+
+    /** Direct link to that lecture's video, when known (otherwise the UI falls back to the playlist). */
+    @Column(name = "video_url", length = 500)
+    private String videoUrl;
+
     protected Topic() {
     }
 
@@ -49,12 +57,15 @@ public class Topic {
         this.slug = slug;
     }
 
-    public void update(String title, String description, String practice, int estimatedHours, int orderIndex) {
+    public void update(String title, String description, String practice, int estimatedHours, int orderIndex,
+                       Integer lectureNumber, String videoUrl) {
         this.title = title;
         this.description = description;
         this.practice = practice;
         this.estimatedHours = estimatedHours;
         this.orderIndex = orderIndex;
+        this.lectureNumber = lectureNumber;
+        this.videoUrl = videoUrl;
     }
 
     public Long getId() { return id; }
@@ -65,4 +76,6 @@ public class Topic {
     public String getPractice() { return practice; }
     public int getEstimatedHours() { return estimatedHours; }
     public int getOrderIndex() { return orderIndex; }
+    public Integer getLectureNumber() { return lectureNumber; }
+    public String getVideoUrl() { return videoUrl; }
 }

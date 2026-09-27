@@ -95,4 +95,62 @@ class LineExplainerTest {
                 .contains("ON DELETE CASCADE", "NOT NULL", "REFERENCES");
         assertThat(terms(explainer.explain(List.of("USER app"), 1, "dockerfile"))).containsExactly("USER");
     }
+
+    @Test
+    void everyLineSaysWhyItIsThere() {
+        assertThat(line(3).why()).contains("line 5 uses Service");
+        assertThat(line(5).why()).contains("the class OrderService").contains("No qualifying bean");
+        assertThat(line(8).why()).contains("database access");
+        assertThat(line(11).why()).contains("NullPointerException");
+        assertThat(line(16).why()).contains("goes to the database").contains("Line 17 uses 'order'");
+        assertThat(line(15).why()).contains("ONE database transaction");
+        assertThat(line(18).summary()).isEqualTo("Closes the method get().");
+        assertThat(line(19).summary()).startsWith("Closes the class OrderService");
+    }
+
+    @Test
+    void controllerMethodsNameTheirEndpointAndSteps() {
+        List<String> controller = """
+                @RestController
+                @RequestMapping("/api/orders")
+                public class OrderController {
+                    private final OrderService orderService;
+
+                    public OrderController(OrderService orderService) {
+                        this.orderService = orderService;
+                    }
+
+                    @GetMapping("/{id}")
+                    public OrderResponse get(@PathVariable Long id) {
+                        return orderService.get(id);
+                    }
+                }
+                """.lines().toList();
+        Explanation mapping = explainer.explain(controller, 10, "java", FileLayer.CONTROLLER);
+        assertThat(mapping.summary()).startsWith("Maps HTTP GET /api/orders/{id} to the method get()");
+        Explanation method = explainer.explain(controller, 11, "java", FileLayer.CONTROLLER);
+        assertThat(method.summary()).contains("Endpoint GET /api/orders/{id}").contains("returns orderService.get(id)");
+        assertThat(method.why()).contains("GET /api/orders/{id} request arrives");
+        assertThat(explainer.explain(controller, 12, "java", FileLayer.CONTROLLER).why()).contains("delegated to OrderService.get");
+
+        var outline = explainer.outline(controller, "java", FileLayer.CONTROLLER);
+        assertThat(outline.items()).extracting(LineExplainer.OutlineItem::kind).contains("class", "field", "constructor", "method");
+    }
+
+    @Test
+    void entityConstructorsAreNotCalledInjection() {
+        List<String> entity = """
+                @Entity
+                public class Product {
+                    private String name;
+
+                    public Product(String name) {
+                        this.name = name;
+                    }
+                }
+                """.lines().toList();
+        Explanation ctor = explainer.explain(entity, 5, "java", FileLayer.DOMAIN);
+        assertThat(ctor.summary()).contains("to create a Product you must pass String name").doesNotContain("injection");
+        assertThat(explainer.explain(entity, 3, "java", FileLayer.DOMAIN).why()).contains("VARCHAR");
+    }
 }

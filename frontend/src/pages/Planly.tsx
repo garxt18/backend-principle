@@ -24,7 +24,7 @@ export default function Planly() {
         <div>
           <div className="eyebrow">Planly</div>
           <h1>Your study plan</h1>
-          <p>Roadmap hours and a DSA target, spread week by week. Tick topics off here or in the Roadmap - both stay in sync.</p>
+          <p>Your roadmap hours, spread week by week. Tick topics off here or in the Roadmap - both stay in sync.</p>
         </div>
       </div>
       {!plan.data || editing ? (
@@ -42,7 +42,6 @@ function PlanForm({ levels, existing, onDone }: { levels: Level[]; existing: Pla
   const toast = useToast();
   const [start, setStart] = useState(todayIso());
   const [hoursPerWeek, setHours] = useState(existing?.hoursPerWeek ?? 20);
-  const [dsaPerWeek, setDsa] = useState(existing?.dsaPerWeek ?? 10);
   const [from, setFrom] = useState(0);
   const [to, setTo] = useState(levels.at(-1)?.levelNumber ?? 16);
   const [skip, setSkip] = useState(true);
@@ -50,7 +49,7 @@ function PlanForm({ levels, existing, onDone }: { levels: Level[]; existing: Pla
   const weeks = Math.ceil(total / Math.max(1, hoursPerWeek));
 
   const create = useMutation({
-    mutationFn: () => api<Plan>('/api/plans', { method: 'POST', body: { startDate: start, hoursPerWeek, dsaPerWeek, fromLevel: from, toLevel: to, skipCompleted: skip } }),
+    mutationFn: () => api<Plan>('/api/plans', { method: 'POST', body: { startDate: start, hoursPerWeek, fromLevel: from, toLevel: to, skipCompleted: skip } }),
     onSuccess: (plan) => {
       qc.setQueryData(keys.plan, plan);
       toast(`Planly created a ${plan.totalWeeks}-week plan`);
@@ -69,14 +68,13 @@ function PlanForm({ levels, existing, onDone }: { levels: Level[]; existing: Pla
       <div className="row-between">
         <div>
           <h2>{existing ? 'Re-plan' : 'Create your plan'}</h2>
-          <p className="small muted" style={{ marginTop: 4 }}>{existing ? 'Your current plan will be archived. Topic and DSA progress is kept.' : 'You can re-plan any time - life happens.'}</p>
+          <p className="small muted" style={{ marginTop: 4 }}>{existing ? 'Your current plan will be archived. Topic progress is kept.' : 'You can re-plan any time - life happens.'}</p>
         </div>
         <CalendarCheck2 size={28} color="var(--accent)" />
       </div>
       <div className="grid grid-3">
         <Field label="Start date"><input className="input" type="date" value={start} onChange={(e) => setStart(e.target.value)} required /></Field>
         <Field label="Study hours per week" hint="20h/week ≈ the roadmap's 6 months"><input className="input" type="number" min={1} max={80} value={hoursPerWeek} onChange={(e) => setHours(Number(e.target.value))} required /></Field>
-        <Field label="DSA problems per week" hint="10/week finishes the sheet in ~4 months"><input className="input" type="number" min={0} max={70} value={dsaPerWeek} onChange={(e) => setDsa(Number(e.target.value))} required /></Field>
         <Field label="From level">
           <select className="select" value={from} onChange={(e) => setFrom(Number(e.target.value))}>
             {levels.map((l) => <option key={l.id} value={l.levelNumber}>L{l.levelNumber} · {l.title}</option>)}
@@ -92,7 +90,7 @@ function PlanForm({ levels, existing, onDone }: { levels: Level[]; existing: Pla
         </label>
       </div>
       <div className="alert alert-info">
-        About <strong>&nbsp;{total}h&nbsp;</strong> of roadmap work → roughly <strong>&nbsp;{weeks} weeks&nbsp;</strong> ({Math.max(1, Math.round(weeks / 4.3))} months) at {hoursPerWeek}h/week{dsaPerWeek > 0 ? `, plus ${dsaPerWeek} DSA problems every week` : ''}.
+        About <strong>&nbsp;{total}h&nbsp;</strong> of roadmap work → roughly <strong>&nbsp;{weeks} weeks&nbsp;</strong> ({Math.max(1, Math.round(weeks / 4.3))} months) at {hoursPerWeek}h/week. DSA practice runs alongside on Striver's A2Z sheet (linked on your dashboard).
       </div>
       <div className="row">
         <Button type="submit" variant="primary" loading={create.isPending}>Generate plan</Button>
@@ -125,7 +123,7 @@ function PlanView({ plan, onReplan }: { plan: Plan; onReplan: () => void }) {
           <div>
             <h2>{plan.totalWeeks}-week plan</h2>
             <div className="small muted" style={{ marginTop: 4 }}>
-              {formatDate(plan.startDate, { year: 'numeric' })} → {formatDate(plan.endDate, { year: 'numeric' })} · {plan.hoursPerWeek}h/week · {plan.dsaPerWeek} DSA/week · week {plan.currentWeek}
+              {formatDate(plan.startDate, { year: 'numeric' })} → {formatDate(plan.endDate, { year: 'numeric' })} · {plan.hoursPerWeek}h/week · week {plan.currentWeek}
             </div>
           </div>
           <div className="row">
@@ -162,12 +160,6 @@ function PlanView({ plan, onReplan }: { plan: Plan; onReplan: () => void }) {
                   <span className="small subtle nowrap">{item.plannedHours}h</span>
                 </div>
               ))}
-              {w.dsaTarget > 0 && (
-                <div style={{ marginTop: 12 }}>
-                  <div className="row-between small"><span className="muted">DSA problems</span><span>{w.dsaSolved} / {w.dsaTarget}</span></div>
-                  <Progress value={pct(w.dsaSolved, w.dsaTarget)} tone="success" className="progress-thin" />
-                </div>
-              )}
             </div>
           </Accordion>
         );
@@ -175,7 +167,7 @@ function PlanView({ plan, onReplan }: { plan: Plan; onReplan: () => void }) {
       {confirm && (
         <ConfirmDialog
           title="Archive this plan?"
-          body="Your topic progress, DSA progress and study sessions are kept. You can create a new plan right after."
+          body="Your topic progress and study sessions are kept. You can create a new plan right after."
           confirmLabel="Archive plan"
           danger
           onClose={() => setConfirm(false)}

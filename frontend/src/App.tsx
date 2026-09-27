@@ -9,7 +9,6 @@ const Landing = lazy(() => import('./pages/Landing'));
 const AuthPage = lazy(() => import('./pages/AuthPage'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Roadmap = lazy(() => import('./pages/Roadmap'));
-const DsaSheet = lazy(() => import('./pages/DsaSheet'));
 const Planly = lazy(() => import('./pages/Planly'));
 const LabHome = lazy(() => import('./pages/lab/LabHome'));
 const LabProject = lazy(() => import('./pages/lab/LabProject'));
@@ -21,7 +20,6 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 const TITLES: [RegExp, string][] = [
   [/^\/dashboard/, 'Dashboard'],
   [/^\/roadmap/, 'Roadmap'],
-  [/^\/dsa/, 'DSA Sheet'],
   [/^\/planly/, 'Planly'],
   [/^\/lab/, 'Rebuild Lab'],
   [/^\/settings/, 'Settings'],
@@ -53,7 +51,6 @@ export function App() {
             <Route element={<RequireAuth />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/roadmap" element={<Roadmap />} />
-              <Route path="/dsa" element={<DsaSheet />} />
               <Route path="/planly" element={<Planly />} />
               <Route path="/lab" element={<LabHome />} />
               <Route path="/lab/p/:projectId" element={<LabProject />} />

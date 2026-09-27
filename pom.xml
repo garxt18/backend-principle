@@ -15,7 +15,7 @@
     <artifactId>playground</artifactId>
     <version>1.0.0</version>
     <name>Backend Playground</name>
-    <description>Multi-user roadmap tracker, Planly study planner, DSA sheet and line-by-line code Rebuild Lab</description>
+    <description>Multi-user roadmap tracker, Planly study planner, and line-by-line code Rebuild Lab</description>
 
     <properties>
         <java.version>21</java.version>
@@ -210,7 +210,6 @@
                                         <include>src/main/java/**</include>
                                         <include>src/main/resources/application.yml</include>
                                         <include>src/main/resources/db/migration/**</include>
-                                        <include>src/main/resources/dsa/**</include>
                                         <include>frontend/package.json</include>
                                         <include>frontend/vite.config.ts</include>
                                         <include>frontend/index.html</include>

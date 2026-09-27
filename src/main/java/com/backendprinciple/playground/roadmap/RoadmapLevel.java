@@ -44,6 +44,16 @@ public class RoadmapLevel {
     @Column(name = "suggested_month")
     private Integer suggestedMonth;
 
+    /** Set when the whole level is taught by one playlist (Java and Spring Boot levels). */
+    @Column(name = "playlist_name")
+    private String playlistName;
+
+    @Column(name = "playlist_channel")
+    private String playlistChannel;
+
+    @Column(name = "playlist_url", length = 500)
+    private String playlistUrl;
+
     /** mappedBy = the field on Topic that owns the foreign key. Order is enforced in SQL, not in Java. */
     @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("orderIndex ASC")
@@ -71,6 +81,12 @@ public class RoadmapLevel {
         this.suggestedMonth = suggestedMonth;
     }
 
+    public void updatePlaylist(String name, String channel, String url) {
+        this.playlistName = name;
+        this.playlistChannel = channel;
+        this.playlistUrl = url;
+    }
+
     public Long getId() { return id; }
     public String getSlug() { return slug; }
     public int getLevelNumber() { return levelNumber; }
@@ -80,6 +96,9 @@ public class RoadmapLevel {
     public String getProjectTitle() { return projectTitle; }
     public String getProjectDescription() { return projectDescription; }
     public Integer getSuggestedMonth() { return suggestedMonth; }
+    public String getPlaylistName() { return playlistName; }
+    public String getPlaylistChannel() { return playlistChannel; }
+    public String getPlaylistUrl() { return playlistUrl; }
     public List<Topic> getTopics() { return topics; }
     public List<LearningResource> getResources() { return resources; }
 }

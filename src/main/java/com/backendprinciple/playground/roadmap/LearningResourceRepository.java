@@ -8,6 +8,4 @@ public interface LearningResourceRepository extends JpaRepository<LearningResour
 
     @Query("select r from LearningResource r join fetch r.level order by r.level.levelNumber, r.orderIndex")
     List<LearningResource> findAllOrdered();
-
-    boolean existsByLevelId(Long levelId);
 }
