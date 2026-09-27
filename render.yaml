@@ -12,6 +12,7 @@ services:
     name: backend-playground
     runtime: docker
     plan: free
+    region: singapore                # closest Render region to India; create the Neon DB in AWS Singapore too
     healthCheckPath: /actuator/health/readiness
     envVars:
       - key: DATABASE_URL            # postgresql://user:password@host/db?sslmode=require (from Neon)
