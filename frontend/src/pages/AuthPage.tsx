@@ -1,5 +1,7 @@
+import { useQuery } from '@tanstack/react-query';
 import { useState, type FormEvent } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { GoogleG } from '../components/icons';
 import { Button, Chips, Field } from '../components/ui';
 import { api, ApiError } from '../lib/api';
 import { useAuth } from '../lib/auth';
@@ -16,6 +18,18 @@ export default function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
   const [error, setError] = useState<ApiError | null>(null);
   const [busy, setBusy] = useState(false);
   const isSignup = mode === 'signup';
+  const providers = useQuery({
+    queryKey: ['auth-providers'],
+    queryFn: () => api<{ google: boolean }>('/api/auth/providers'),
+    staleTime: Infinity,
+    retry: false,
+  });
+  // Set by the server when "Continue with Google" did not work out.
+  const googleError = {
+    google: 'Google sign-in was cancelled or failed. Please try again.',
+    unverified: 'Your Google account email is not verified, so we cannot use it to sign in.',
+    disabled: 'This account is disabled. Contact the admin.',
+  }[new URLSearchParams(location.search).get('error') ?? ''];
 
   async function submit(e: FormEvent) {
     e.preventDefault();
@@ -41,7 +55,16 @@ export default function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
           <h1>{isSignup ? 'Create your account' : 'Welcome back'}</h1>
           <p className="muted">{isSignup ? 'Free, takes 20 seconds. Your progress is private to you.' : 'Log in to continue where you left off.'}</p>
         </div>
-        {error && <div className="alert alert-danger" role="alert">{error.message}</div>}
+        {(error || googleError) && <div className="alert alert-danger" role="alert">{error?.message ?? googleError}</div>}
+        {providers.data?.google && (
+          <>
+            {/* A full-page navigation, not fetch: the OAuth flow redirects to Google and back. */}
+            <a className="btn btn-outline btn-lg google-btn" href="/oauth2/authorization/google">
+              <GoogleG /> Continue with Google
+            </a>
+            <div className="or-divider"><span>or with email</span></div>
+          </>
+        )}
         {isSignup && (
           <Field label="Your name" error={error?.fieldErrors.displayName}>
             <input className="input" value={name} onChange={(e) => setName(e.target.value)} required minLength={2} maxLength={80} autoComplete="name" autoFocus />

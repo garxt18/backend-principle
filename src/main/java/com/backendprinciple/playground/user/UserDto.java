@@ -5,10 +5,11 @@ import java.util.UUID;
 
 /** What the API exposes about a user. The entity (with its password hash) never leaves the service layer. */
 public record UserDto(UUID id, String email, String displayName, Role role,
-                      PreferredLanguage preferredLanguage, boolean enabled, Instant createdAt) {
+                      PreferredLanguage preferredLanguage, boolean enabled, Instant createdAt,
+                      boolean hasPassword, boolean googleLinked) {
 
     public static UserDto from(User u) {
         return new UserDto(u.getId(), u.getEmail(), u.getDisplayName(), u.getRole(),
-                u.getPreferredLanguage(), u.isEnabled(), u.getCreatedAt());
+                u.getPreferredLanguage(), u.isEnabled(), u.getCreatedAt(), u.hasPassword(), u.getGoogleSubject() != null);
     }
 }

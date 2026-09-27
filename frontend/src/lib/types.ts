@@ -11,6 +11,9 @@ export interface User {
   preferredLanguage: Language;
   enabled: boolean;
   createdAt: string;
+  /** false = signs in with Google only, until a password is set in Settings */
+  hasPassword: boolean;
+  googleLinked: boolean;
 }
 
 export interface AuthResponse {

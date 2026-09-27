@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,10 +30,21 @@ public class AuthController {
 
     private final AuthService authService;
     private final JwtProperties props;
+    private final GoogleLoginProperties google;
 
-    public AuthController(AuthService authService, JwtProperties props) {
+    public AuthController(AuthService authService, JwtProperties props, GoogleLoginProperties google) {
         this.authService = authService;
         this.props = props;
+        this.google = google;
+    }
+
+    /** Which sign-in buttons the login page should show. */
+    public record Providers(boolean google) {
+    }
+
+    @GetMapping("/providers")
+    public Providers providers() {
+        return new Providers(google.enabled());
     }
 
     public record RegisterRequest(
@@ -97,6 +109,11 @@ public class AuthController {
     }
 
     private ResponseCookie cookie(String value, long maxAgeSeconds) {
+        return refreshCookie(props, value, maxAgeSeconds);
+    }
+
+    /** The one place the refresh cookie is built - also used after "Continue with Google". */
+    static ResponseCookie refreshCookie(JwtProperties props, String value, long maxAgeSeconds) {
         return ResponseCookie.from(REFRESH_COOKIE, value)
                 .httpOnly(true)
                 .secure(props.secureCookie())

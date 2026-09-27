@@ -34,6 +34,9 @@ services:
       APP_SECURE_COOKIE: "true"
       APP_ADMIN_EMAIL: ${APP_ADMIN_EMAIL:-}
       APP_ADMIN_PASSWORD: ${APP_ADMIN_PASSWORD:-}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}          # optional "Continue with Google"
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      APP_PUBLIC_URL: ${APP_PUBLIC_URL:-}
       LOG_FORMAT: ecs
     # no 'ports:' - only Caddy talks to the app
 

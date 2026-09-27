@@ -54,6 +54,10 @@ public class AuthService {
         // Always run one BCrypt comparison so response time does not reveal whether the email exists.
         String hash = found.map(User::getPasswordHash).orElse(dummyHash);
         boolean ok = passwordEncoder.matches(password, hash);
+        if (found.isPresent() && !found.get().hasPassword()) {
+            throw ApiException.unauthorized("This account signs in with Google - use \"Continue with Google\" "
+                    + "(you can add a password later in Settings)");
+        }
         if (found.isEmpty() || !ok) {
             throw ApiException.unauthorized("Invalid email or password");
         }
@@ -62,6 +66,54 @@ public class AuthService {
             throw ApiException.unauthorized("This account is disabled");
         }
         return startSession(user);
+    }
+
+    /**
+     * "Continue with Google": called after Spring Security has verified Google's signed ID token.
+     * <ol>
+     *   <li>Known Google account (by its stable "sub") -> that user.</li>
+     *   <li>Otherwise an existing account with the same (Google-verified) email is linked. Its password is
+     *       reset and its sessions are ended - see {@link User#linkGoogle}.</li>
+     *   <li>Otherwise a new account is created.</li>
+     * </ol>
+     */
+    @Transactional
+    public Session loginWithGoogle(String subject, String email, boolean emailVerified, String name) {
+        if (!emailVerified || email == null || email.isBlank()) {
+            throw ApiException.unauthorized("Your Google account's email is not verified");
+        }
+        User user = users.findByGoogleSubject(subject).orElse(null);
+        if (user == null) {
+            String normalized = User.normalizeEmail(email);
+            user = users.findByEmail(normalized).orElse(null);
+            if (user != null) {
+                user.linkGoogle(subject, unusablePasswordHash());
+                refreshTokens.revokeAllForUser(user.getId());
+            } else {
+                user = new User(normalized, unusablePasswordHash(), displayNameFor(name, normalized), Role.USER);
+                user.linkGoogle(subject, user.getPasswordHash());
+                users.save(user);
+            }
+        }
+        if (!user.isEnabled()) {
+            throw ApiException.unauthorized("This account is disabled");
+        }
+        return startSession(user);
+    }
+
+    /** A BCrypt hash of 32 random bytes nobody knows - "no password" without a nullable column. */
+    private String unusablePasswordHash() {
+        byte[] random = new byte[32];
+        new java.security.SecureRandom().nextBytes(random);
+        return passwordEncoder.encode(java.util.HexFormat.of().formatHex(random));
+    }
+
+    private static String displayNameFor(String name, String email) {
+        String n = name == null || name.isBlank() ? email.substring(0, email.indexOf('@')) : name.strip();
+        if (n.length() < 2) {
+            n = n + " (Google)";
+        }
+        return n.length() > 80 ? n.substring(0, 80) : n;
     }
 
     @Transactional(noRollbackFor = ApiException.class)

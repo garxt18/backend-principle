@@ -11,7 +11,7 @@ TypeScript, Docker and GitHub Actions.
 | **Planly** | Day-by-day study plans for any levels or lectures: **finish by a date** ("Java Basics in 7 days", "Spring Boot in 30 days") or **at your pace** (hours per day, chosen weekdays). Live preview, Today / Week / full schedule, catch-up re-planning, one-click time logging. Ticks are shared with the Roadmap and Dashboard - it is one record. |
 | **Rebuild Lab** | Upload **any** Spring Boot / Java project as a `.zip` and retype it **line by line**, in the order a senior engineer would build it (`pom.xml` -> config -> SQL -> entities -> repositories -> DTOs -> services -> controllers -> tests -> Docker). Backend + database files are the main track; frontend files (TSX/HTML/CSS/JS) sit in a separate optional section. Every line shows **what it does and why you type it** right under the line you are typing, and each file starts with an outline of what you are about to build. **Download your progress** as a zip, keep typing in your IDE, and **sync it back**. Built-in templates: a small **Task Manager API** and **this app's own source**. |
 
-Dark and light themes, responsive down to phone width, no API keys or paid services needed.
+Sign in with email + password or **Continue with Google** (optional, see docs/DEPLOYMENT.md). Dark and light themes, responsive down to phone width, no paid services needed.
 
 ## Quick start
 

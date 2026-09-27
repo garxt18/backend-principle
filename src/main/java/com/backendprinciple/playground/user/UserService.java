@@ -34,10 +34,12 @@ public class UserService {
         return user; // dirty checking: Hibernate flushes the change when the transaction commits
     }
 
+    /** Accounts that sign in with Google (no password yet) can set one without a current password. */
     @Transactional
     public void changePassword(UUID id, String currentPassword, String newPassword) {
         User user = get(id);
-        if (!passwordEncoder.matches(currentPassword, user.getPasswordHash())) {
+        if (user.hasPassword() && (currentPassword == null
+                || !passwordEncoder.matches(currentPassword, user.getPasswordHash()))) {
             throw ApiException.badRequest("Current password is incorrect");
         }
         user.changePassword(passwordEncoder.encode(newPassword));

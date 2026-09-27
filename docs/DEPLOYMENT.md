@@ -78,6 +78,39 @@ out-of-memory restarts in the logs, move to a paid instance (option D).
 
 ---
 
+## Google sign-in ("Continue with Google") - optional, 10 minutes
+
+The app uses Spring Security's OAuth 2.0 / OpenID Connect login. It stays hidden until you give it a
+Google client id and secret.
+
+1. Open https://console.cloud.google.com and create a project, e.g. **Backend Playground**.
+2. **APIs & Services -> OAuth consent screen** (called *Google Auth Platform* in newer consoles):
+   - App name `Backend Playground`, your email as support and developer contact.
+   - Audience: **External**.
+   - Scopes: nothing extra is needed - the app only asks for `openid`, `email` and `profile`, which do not
+     need Google's app verification.
+   - Click **Publish app** so any Google account can sign in. (While it is in *Testing*, only the test users
+     you list can.)
+3. **Credentials / Clients -> Create credentials -> OAuth client ID -> Web application**:
+   - **Authorized JavaScript origins**: `https://<your-app>.onrender.com`
+   - **Authorized redirect URIs**: `https://<your-app>.onrender.com/login/oauth2/code/google`
+   - For local testing add `http://localhost:8080` and `http://localhost:8080/login/oauth2/code/google` too.
+   - Create, then copy the **Client ID** and **Client secret**.
+4. Render -> your web service -> **Environment** -> add `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` ->
+   **Save, rebuild and deploy**. (Render provides `RENDER_EXTERNAL_URL`, which the app uses to build the
+   redirect URL. On other hosts set `APP_PUBLIC_URL`, e.g. `https://learn.example.com`.)
+5. Open the login page: **Continue with Google** appears above the email form.
+
+How accounts are matched:
+- New Google user -> a new account (no password; one can be set later in **Settings**).
+- Someone who already signed up with the same email -> the Google account is linked to it and all progress
+  is kept. Because email + password signups are not email-verified, the old password is reset and other
+  sessions are logged out at that moment (the owner can set a new password in Settings).
+- Error `redirect_uri_mismatch` from Google = the redirect URI in step 3 does not match your site address
+  exactly (https, no trailing slash).
+
+---
+
 ## Option B - Oracle Cloud "Always Free" VM (never sleeps, free)
 
 Oracle's Always Free tier includes Ampere (ARM) VMs with up to 4 cores and 24 GB RAM in total - far more than
@@ -163,6 +196,7 @@ Any platform that runs a Dockerfile works. Give it:
 | `APP_SECURE_COOKIE` | `true` (the platform serves HTTPS) |
 | `PORT` | usually set by the platform automatically; the app listens on it |
 | `APP_ADMIN_EMAIL`, `APP_ADMIN_PASSWORD` | optional first admin |
+| `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `APP_PUBLIC_URL` | optional "Continue with Google" (see above) |
 
 Health check path: `/actuator/health/readiness`.
 

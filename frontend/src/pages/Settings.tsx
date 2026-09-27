@@ -23,8 +23,14 @@ export default function Settings() {
     onError: (e) => toast(e.message, 'error'),
   });
   const password = useMutation({
-    mutationFn: () => api('/api/me/password', { method: 'PUT', body: { currentPassword: current, newPassword: next } }),
-    onSuccess: () => { setCurrent(''); setNext(''); toast('Password changed - other devices were logged out'); },
+    mutationFn: () => api('/api/me/password', { method: 'PUT', body: { currentPassword: user!.hasPassword ? current : null, newPassword: next } }),
+    onSuccess: () => {
+      const firstPassword = !user!.hasPassword;
+      setCurrent('');
+      setNext('');
+      setUser({ ...user!, hasPassword: true });
+      toast(firstPassword ? 'Password set - you can now also log in with email + password' : 'Password changed - other devices were logged out');
+    },
     onError: (e) => toast(e.message, 'error'),
   });
 
@@ -55,12 +61,17 @@ export default function Settings() {
           <div><Button type="submit" variant="primary" loading={profile.isPending}>Save profile</Button></div>
         </form>
         <form className="card stack" onSubmit={(e: FormEvent) => { e.preventDefault(); password.mutate(); }}>
-          <span className="card-title">Change password</span>
+          <span className="card-title">{user!.hasPassword ? 'Change password' : 'Set a password'}</span>
+          {user!.googleLinked && (
+            <p className="small muted" style={{ marginTop: -4 }}>
+              {user!.hasPassword ? 'Linked to Google - you can use "Continue with Google" or your password.' : 'You sign in with Google. Set a password if you also want to log in with email + password.'}
+            </p>
+          )}
           <div className="grid grid-2">
-            <Field label="Current password"><input className="input" type="password" autoComplete="current-password" value={current} onChange={(e) => setCurrent(e.target.value)} required /></Field>
+            {user!.hasPassword && <Field label="Current password"><input className="input" type="password" autoComplete="current-password" value={current} onChange={(e) => setCurrent(e.target.value)} required /></Field>}
             <Field label="New password" hint="At least 8 characters"><input className="input" type="password" autoComplete="new-password" minLength={8} value={next} onChange={(e) => setNext(e.target.value)} required /></Field>
           </div>
-          <div><Button type="submit" loading={password.isPending}>Change password</Button></div>
+          <div><Button type="submit" loading={password.isPending}>{user!.hasPassword ? 'Change password' : 'Set password'}</Button></div>
         </form>
       </div>
     </div>

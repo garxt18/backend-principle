@@ -25,6 +25,10 @@ services:
         value: ecs
       - key: JAVA_OPTS               # small-memory JVM: 512 MB instance
         value: "-XX:MaxRAMPercentage=70 -XX:+UseSerialGC -XX:TieredStopAtLevel=1 -XX:+ExitOnOutOfMemoryError"
+      - key: GOOGLE_CLIENT_ID        # optional "Continue with Google" - see docs/DEPLOYMENT.md
+        sync: false                  # (Render sets RENDER_EXTERNAL_URL, used for Google's redirect URL)
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
       - key: APP_ADMIN_EMAIL
         sync: false                  # you type these in the dashboard when creating the Blueprint
       - key: APP_ADMIN_PASSWORD

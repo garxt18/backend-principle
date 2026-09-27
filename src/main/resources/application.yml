@@ -60,6 +60,12 @@ app:
     refresh-token-ttl: ${APP_REFRESH_TTL:14d}
     secure-cookie: ${APP_SECURE_COOKIE:false}
     refresh-reuse-grace: ${APP_REFRESH_REUSE_GRACE:30s}
+  # "Continue with Google" (optional). Create an OAuth client in Google Cloud Console - see docs/DEPLOYMENT.md.
+  google:
+    client-id: ${GOOGLE_CLIENT_ID:}
+    client-secret: ${GOOGLE_CLIENT_SECRET:}
+    # Public address used for Google's redirect URL. Render sets RENDER_EXTERNAL_URL automatically.
+    public-url: ${APP_PUBLIC_URL:${RENDER_EXTERNAL_URL:}}
   admin:
     email: ${APP_ADMIN_EMAIL:}
     password: ${APP_ADMIN_PASSWORD:}

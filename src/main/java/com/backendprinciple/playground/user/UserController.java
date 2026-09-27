@@ -31,7 +31,8 @@ public class UserController {
                                        PreferredLanguage preferredLanguage) {
     }
 
-    public record ChangePasswordRequest(@NotBlank String currentPassword,
+    /** currentPassword may be empty only for Google-only accounts setting their first password. */
+    public record ChangePasswordRequest(String currentPassword,
                                         @NotBlank @Size(min = 8, max = 128) String newPassword) {
     }
 

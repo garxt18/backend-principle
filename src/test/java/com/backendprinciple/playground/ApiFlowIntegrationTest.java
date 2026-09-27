@@ -93,6 +93,8 @@ class ApiFlowIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void loginWorksCaseInsensitivelyAndWrongPasswordsAreRejected() throws Exception {
+        // Without GOOGLE_CLIENT_ID/SECRET the Google button is hidden and its URL is not an OAuth endpoint.
+        mvc.perform(get("/api/auth/providers")).andExpect(jsonPath("$.google").value(false));
         String email = "Case-" + UUID.randomUUID() + "@Example.com";
         mvc.perform(post("/api/auth/register").contentType(MediaType.APPLICATION_JSON)
                 .content("{\"email\":\"%s\",\"password\":\"password123\",\"displayName\":\"Case\"}".formatted(email)))

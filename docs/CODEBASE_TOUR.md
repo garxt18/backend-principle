@@ -23,6 +23,7 @@ in IntelliJ and use this map to find working, tested examples of each roadmap le
 | L5 | Versioned migrations (never edit an applied one), partial indexes, CHECK constraints ("exactly one of two columns") | `db/migration/V2__dsa_sheet_planly_line_notes.sql`, `db/migration/V3__playlist_roadmap_personal_resources.sql` |
 | L5 | Keeping seed data in sync with the database (upsert by natural key, delete what left the seed) | `roadmap/RoadmapSeeder.java` |
 | L6 | JWT (OAuth2 Resource Server), BCrypt, refresh-token rotation and reuse detection | `auth/*` |
+| L6 | OAuth 2.0 + OpenID Connect login ("Continue with Google"), a second security filter chain, safe account linking | `auth/GoogleLoginConfig.java`, `auth/AuthService.java#loginWithGoogle` |
 | L6 | HttpOnly/SameSite cookies, CORS, CSP headers, timing-safe login | `auth/AuthController.java`, `auth/SecurityConfig.java`, `auth/AuthService.java#login` |
 | L6 | Authorization: roles, ownership checks, 404-not-403 | `lab/LabService.java#visibleProject`, `planly/StudySessionService.java#delete` |
 | L6 | Hostile-upload handling (zip slip, zip bomb), only-http(s) user links | `lab/ZipProjectImporter.java`, `roadmap/PersonalResourceController.java` |

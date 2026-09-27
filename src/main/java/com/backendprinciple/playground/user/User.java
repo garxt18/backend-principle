@@ -40,6 +40,14 @@ public class User {
     @Column(nullable = false)
     private boolean enabled = true;
 
+    /** OpenID Connect "sub" of the linked Google account (null = not linked). */
+    @Column(name = "google_subject", unique = true)
+    private String googleSubject;
+
+    /** false = signs in with Google only, until a password is set in Settings. */
+    @Column(name = "has_password", nullable = false)
+    private boolean hasPassword = true;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
@@ -86,7 +94,23 @@ public class User {
     public boolean isEnabled() { return enabled; }
     public Instant getCreatedAt() { return createdAt; }
 
-    public void changePassword(String newHash) { this.passwordHash = newHash; }
+    public String getGoogleSubject() { return googleSubject; }
+    public boolean hasPassword() { return hasPassword; }
+
+    public void changePassword(String newHash) {
+        this.passwordHash = newHash;
+        this.hasPassword = true;
+    }
+
+    /**
+     * Links a Google account. {@code unusableHash} replaces the password: this app never verified the email
+     * of a password account, so whoever typed it first must not keep access once Google proves who owns it.
+     */
+    public void linkGoogle(String subject, String unusableHash) {
+        this.googleSubject = subject;
+        this.passwordHash = unusableHash;
+        this.hasPassword = false;
+    }
     public void rename(String displayName) { this.displayName = displayName.strip(); }
     public void setPreferredLanguage(PreferredLanguage language) { this.preferredLanguage = language; }
     public void setRole(Role role) { this.role = role; }
