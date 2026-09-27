@@ -216,6 +216,13 @@ class ApiFlowIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
+    void malformedRequestsGetJsonErrorsNotTomcatHtml() throws Exception {
+        mvc.perform(get("/api/roadmap;jsessionid=abc"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("request_rejected"));
+    }
+
+    @Test
     void unknownApiPathsAre404NotTheSpa() throws Exception {
         Session s = register("hari");
         mvc.perform(get("/api/does-not-exist").header("Authorization", s.bearer())).andExpect(status().isNotFound());

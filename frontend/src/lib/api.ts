@@ -51,6 +51,14 @@ export function refreshSession(): Promise<AuthResponse | null> {
   return refreshing;
 }
 
+function nonJsonMessage(status: number) {
+  if (status === 400 || status === 431) {
+    return 'The server rejected this request (headers too large). Clear the cookies for this site, or open it in a private window, then log in again.';
+  }
+  if (status === 502 || status === 503 || status === 504) return 'The server is starting or unavailable. Try again in a moment.';
+  return `Request failed (${status}).`;
+}
+
 interface Options {
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   body?: unknown;
@@ -84,7 +92,8 @@ export async function api<T>(path: string, { method = 'GET', body, form, retry =
     try {
       data = JSON.parse(text);
     } catch {
-      data = { detail: text };
+      // Not our JSON (e.g. an HTML error page from the web server or a proxy): never show raw HTML to the user.
+      data = { detail: nonJsonMessage(res.status) };
     }
   }
   if (!res.ok) throw new ApiError(res.status, data as Record<string, unknown>);

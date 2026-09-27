@@ -42,6 +42,9 @@ spring:
 server:
   port: ${PORT:8080}
   shutdown: graceful
+  # Browsers send every cookie set for "localhost" by ANY app you ever ran on it. Tomcat's default 8 KB header
+  # limit is easy to exceed in development (the symptom is a bare "HTTP Status 400" page), so allow more.
+  max-http-request-header-size: ${MAX_HTTP_HEADER_SIZE:64KB}
   error:
     include-stacktrace: never
   # native = Tomcat's RemoteIpValve: X-Forwarded-For is only honoured when the request comes from a

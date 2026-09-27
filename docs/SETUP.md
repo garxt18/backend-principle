@@ -165,4 +165,5 @@ TEST_DB_URL=jdbc:postgresql://localhost:5432/playground_test ./mvnw verify
 | Docker says "Cannot connect to the Docker daemon" | Start Docker Desktop and wait until it says "running" |
 | `JAVA_HOME is not set` / wrong Java version | Install JDK 21 and point IntelliJ (File -> Project Structure -> SDK) at it |
 | Build fails in the `frontend` step behind a proxy | Build only the backend with `-Dskip.frontend=true`, or configure npm's proxy |
+| Page shows `HTTP Status 400 – Bad Request` after logging in | Old cookies from other apps you ran on `localhost` made the request too big. Fixed in the code (limit raised to 64 KB); on an older copy, clear cookies for `localhost` (browser settings → Cookies → localhost → Delete) or use a private window |
 | Logged out after restarting the app | Normal in dev if `APP_JWT_SECRET` changed; just log in again |

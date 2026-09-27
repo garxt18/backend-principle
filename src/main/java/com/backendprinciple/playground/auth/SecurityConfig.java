@@ -24,6 +24,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.firewall.RequestRejectedHandler;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -109,6 +110,23 @@ public class SecurityConfig {
         NimbusJwtDecoder decoder = NimbusJwtDecoder.withSecretKey(key).macAlgorithm(MacAlgorithm.HS256).build();
         decoder.setJwtValidator(JwtValidators.createDefaultWithIssuer(props.issuer()));
         return decoder;
+    }
+
+    /**
+     * Spring Security's firewall rejects malformed requests (control characters in headers, "//" in paths...).
+     * By default it calls sendError(400), which re-runs the same rejected request through the error page and ends
+     * in Tomcat's bare HTML page. Answer with our normal JSON error instead.
+     */
+    @Bean
+    RequestRejectedHandler requestRejectedHandler() {
+        return (request, response, ex) -> {
+            response.setStatus(400);
+            response.setContentType("application/problem+json");
+            response.getWriter().write("""
+                    {"type":"https://backend-playground.dev/errors/bad_request","title":"Bad Request","status":400,\
+                    "code":"request_rejected","detail":"The browser sent a malformed request (bad header or URL). \
+                    Try clearing this site's cookies."}""");
+        };
     }
 
     /** BCrypt by default, with a "{bcrypt}" prefix so the algorithm can be upgraded later (e.g. Argon2). */
