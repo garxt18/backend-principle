@@ -50,14 +50,37 @@ class ZipProjectImporterTest {
         for (int i = 0; i < 8; i++) {
             entries.put("F" + i + ".java", "y".repeat(900));
         }
-        assertThatThrownBy(() -> importer.read(zip(entries))).isInstanceOf(ApiException.class)
-                .hasMessageContaining("too large");
+        // 8 x 900 bytes > the 5000-byte project cap: the first files are kept, the rest reported, no failure.
+        var capped = importer.read(zip(entries));
+        assertThat(capped.files()).hasSize(5);
+        assertThat(capped.skipped()).anyMatch(s -> s.startsWith("3 more source files"));
+    }
+
+    @Test
+    void neverUnpacksIgnoredFolders() throws IOException {
+        // 50 MB of zeros compresses to ~50 KB; inside node_modules/ it must not even be decompressed.
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try (ZipOutputStream zos = new ZipOutputStream(out)) {
+            zos.putNextEntry(new ZipEntry("app/node_modules/huge/index.js"));
+            byte[] zeros = new byte[1 << 20];
+            for (int i = 0; i < 50; i++) {
+                zos.write(zeros);
+            }
+            zos.closeEntry();
+            zos.putNextEntry(new ZipEntry("app/src/App.java"));
+            zos.write("class App {}".getBytes(StandardCharsets.UTF_8));
+            zos.closeEntry();
+        }
+        long start = System.nanoTime();
+        var result = importer.read(new ByteArrayInputStream(out.toByteArray()));
+        assertThat(result.files()).extracting(ZipProjectImporter.ImportedFile::path).containsExactly("App.java");
+        assertThat(java.time.Duration.ofNanos(System.nanoTime() - start)).isLessThan(java.time.Duration.ofSeconds(2));
     }
 
     @Test
     void rejectsGarbage() {
-        var result = importer.read(new ByteArrayInputStream("definitely not a zip".getBytes(StandardCharsets.UTF_8)));
-        assertThat(result.files()).isEmpty();
+        assertThatThrownBy(() -> importer.read(new ByteArrayInputStream("definitely not a zip".getBytes(StandardCharsets.UTF_8))))
+                .isInstanceOf(ApiException.class).hasMessageContaining("not a valid .zip");
     }
 
     @Test

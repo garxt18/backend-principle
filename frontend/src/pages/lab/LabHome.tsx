@@ -119,10 +119,6 @@ function Upload() {
       toast('Please choose a .zip file', 'error');
       return;
     }
-    if (f.size > 5 * 1024 * 1024) {
-      toast('The zip is larger than 5 MB - remove target/, build/, .next/ and node_modules/ first', 'error');
-      return;
-    }
     setFile(f);
     if (!name) setName(f.name.replace(/\.zip$/i, ''));
   };
@@ -151,7 +147,7 @@ function Upload() {
       >
         {file ? <FileArchive size={30} /> : <UploadCloud size={30} />}
         <div style={{ fontWeight: 600, color: 'var(--text)' }}>{file ? file.name : 'Drop your project .zip here'}</div>
-        <div className="small">{file ? `${(file.size / 1024).toFixed(0)} KB · click to change` : 'or click to browse · max 5 MB'}</div>
+        <div className="small">{file ? `${sizeLabel(file.size)} · click to change` : 'or click to browse · any size'}</div>
         <input ref={input} type="file" accept=".zip,application/zip" hidden onChange={(e) => pick(e.target.files?.[0])} />
       </div>
       <Field label="Project name"><input className="input" value={name} maxLength={120} onChange={(e) => setName(e.target.value)} required placeholder="e.g. My E-Commerce API" /></Field>
@@ -159,9 +155,14 @@ function Upload() {
       {skipped.length > 0 && <div className="alert alert-info small">Skipped: {skipped.join(', ')}</div>}
       <Button type="submit" variant="primary" disabled={!file} loading={upload.isPending}>Upload & analyse</Button>
       <p className="tiny subtle">
-        Tip: on GitHub use Code → Download ZIP. Java, Kotlin, XML, YAML, properties, SQL, Prisma, Dockerfile, JS/TS/TSX, CSS and Markdown files are imported;
-        target/, build/, .git/, node_modules/, .next/ and lockfiles are skipped automatically. Next.js projects are detected from next.config or package.json.
+        Any size is fine: target/, build/, .git/, node_modules/, .next/, images and lockfiles inside the zip are skipped without being unpacked,
+        so only your source code counts. Tip: on GitHub use Code → Download ZIP. Java, Kotlin, XML, YAML, properties, SQL, Prisma, Dockerfile, JS/TS/TSX, CSS and Markdown files are imported;
+        Next.js projects are detected from next.config or package.json.
       </p>
     </form>
   );
+}
+
+function sizeLabel(bytes: number) {
+  return bytes >= 1024 * 1024 ? `${(bytes / 1024 / 1024).toFixed(1)} MB` : `${Math.max(1, Math.round(bytes / 1024))} KB`;
 }

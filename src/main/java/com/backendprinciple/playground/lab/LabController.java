@@ -72,8 +72,19 @@ public class LabController {
         if (file.isEmpty()) {
             throw ApiException.badRequest("Choose a .zip file to upload");
         }
-        var imported = importer.read(file.getInputStream());
+        var imported = read(file);
         return lab.importProject(me.id(), name, description, imported);
+    }
+
+    /** Moves the multipart temp file to our own temp file (no copy through memory, whatever its size). */
+    private ZipProjectImporter.ImportResult read(MultipartFile file) throws IOException {
+        java.nio.file.Path tmp = java.nio.file.Files.createTempFile("lab-upload-", ".zip");
+        try {
+            file.transferTo(tmp);
+            return importer.read(tmp);
+        } finally {
+            java.nio.file.Files.deleteIfExists(tmp);
+        }
     }
 
     /** Download your progress as a zip to continue on your own computer. */
@@ -94,7 +105,7 @@ public class LabController {
         if (file.isEmpty()) {
             throw ApiException.badRequest("Choose the .zip of your rebuild folder");
         }
-        return sync.sync(me.id(), id, importer.read(file.getInputStream()).files());
+        return sync.sync(me.id(), id, read(file).files());
     }
 
     @GetMapping("/projects/{id}")

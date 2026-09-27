@@ -21,15 +21,24 @@ public enum ProjectStack {
         return label;
     }
 
-    /** A package.json that depends on "next" (or a next.config file) makes it a Next.js project. */
+    /**
+     * The manifest closest to the project root decides: a root pom.xml / build.gradle makes it Spring even if a
+     * Next.js app sits deeper inside (e.g. a template under src/main/resources), and a root package.json that
+     * depends on "next" (or a next.config file) makes it Next.js. On a tie, Spring wins.
+     */
     public static ProjectStack detect(List<ImportedFile> files) {
+        int springDepth = Integer.MAX_VALUE;
+        int nextDepth = Integer.MAX_VALUE;
         for (ImportedFile f : files) {
             String name = FileClassifier.fileName(f.path());
-            if (name.startsWith("next.config.")
+            int depth = (int) f.path().chars().filter(c -> c == '/').count();
+            if (name.equals("pom.xml") || name.startsWith("build.gradle")) {
+                springDepth = Math.min(springDepth, depth);
+            } else if (name.startsWith("next.config.")
                     || name.equals("package.json") && NEXT_DEPENDENCY.matcher(f.content()).find()) {
-                return NEXTJS;
+                nextDepth = Math.min(nextDepth, depth);
             }
         }
-        return SPRING;
+        return nextDepth < springDepth ? NEXTJS : SPRING;
     }
 }

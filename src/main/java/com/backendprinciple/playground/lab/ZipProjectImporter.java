@@ -4,6 +4,9 @@ import com.backendprinciple.playground.common.error.ApiException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CodingErrorAction;
 import java.nio.charset.StandardCharsets;
@@ -13,16 +16,17 @@ import java.util.List;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
-import java.util.zip.ZipInputStream;
+import java.util.zip.ZipFile;
 import org.springframework.stereotype.Component;
 
 /**
- * Reads an uploaded .zip of a project fully in memory - nothing is ever written to disk.
+ * Reads an uploaded .zip of a project. The zip is spooled to a temp file (deleted right after) so its
+ * size does not matter; only the source files we keep are decompressed, into memory.
  *
  * <p>Defences, because uploads are hostile until proven otherwise:
  * <ul>
- *   <li>Zip bomb: we count the bytes we actually decompress and stop at a hard limit, instead of
- *       trusting the sizes written in the zip header.</li>
+ *   <li>Zip bomb: skipped entries are never decompressed, and for kept ones we count the bytes we
+ *       actually decompress and stop at a hard limit, instead of trusting the sizes in the zip header.</li>
  *   <li>Zip slip: entry names with "..", absolute paths or backslashes are rejected.</li>
  *   <li>Binary/huge files and build output (target/, node_modules/, .git/ ...) are skipped.</li>
  * </ul>
@@ -50,42 +54,69 @@ public class ZipProjectImporter {
     public record ImportResult(List<ImportedFile> files, List<String> skipped) {
     }
 
+    /** Spools the upload to a temp file first: see {@link #read(Path)} for why. */
     public ImportResult read(InputStream zipStream) {
+        Path tmp = null;
+        try {
+            tmp = Files.createTempFile("lab-upload-", ".zip");
+            Files.copy(zipStream, tmp, StandardCopyOption.REPLACE_EXISTING);
+            return read(tmp);
+        } catch (IOException e) {
+            throw ApiException.badRequest("Could not read the uploaded file");
+        } finally {
+            deleteQuietly(tmp);
+        }
+    }
+
+    /**
+     * There is no limit on the size of the .zip itself: a real project zip is mostly node_modules/, .git/,
+     * build output and images, and none of that is ever decompressed. {@link ZipFile} reads the zip's index
+     * (central directory) and we only open the entries we keep - source files, each capped at
+     * max-file-bytes. What is stored is capped by max-files-per-project and max-total-bytes; past those the
+     * remaining files are skipped (and reported), the import itself still succeeds.
+     */
+    public ImportResult read(Path zipPath) {
         List<ImportedFile> files = new ArrayList<>();
         List<String> skipped = new ArrayList<>();
+        int overLimit = 0;
         long totalBytes = 0;
-        try (ZipInputStream zip = new ZipInputStream(zipStream, StandardCharsets.UTF_8)) {
-            ZipEntry entry;
-            while ((entry = zip.getNextEntry()) != null) {
+        try (ZipFile zip = new ZipFile(zipPath.toFile(), StandardCharsets.UTF_8)) {
+            var entries = zip.entries();
+            while (entries.hasMoreElements()) {
+                ZipEntry entry = entries.nextElement();
                 if (entry.isDirectory()) {
                     continue;
                 }
                 String path = sanitize(entry.getName());
                 if (path == null) {
-                    skipped.add(entry.getName() + " (unsafe path)");
+                    report(skipped, entry.getName() + " (unsafe path)");
                     continue;
                 }
                 if (isIgnored(path) || !FileClassifier.isSupported(path)) {
                     continue;
                 }
-                if (files.size() >= props.maxFilesPerProject()) {
-                    skipped.add(path + " (file limit reached)");
+                if (files.size() >= props.maxFilesPerProject() || totalBytes >= props.maxTotalBytes()) {
+                    overLimit++;
                     continue;
                 }
-                byte[] bytes = readLimited(zip, props.maxFileBytes());
+                byte[] bytes;
+                try (InputStream in = zip.getInputStream(entry)) {
+                    bytes = readLimited(in, props.maxFileBytes());
+                }
                 if (bytes == null) {
-                    skipped.add(path + " (larger than " + props.maxFileBytes() / 1000 + " KB)");
+                    report(skipped, path + " (larger than " + props.maxFileBytes() / 1000 + " KB)");
                     continue;
                 }
-                totalBytes += bytes.length;
-                if (totalBytes > props.maxTotalBytes()) {
-                    throw ApiException.badRequest("The project is too large once unzipped");
+                if (totalBytes + bytes.length > props.maxTotalBytes()) {
+                    overLimit++;
+                    continue;
                 }
                 String text = decodeUtf8(bytes);
                 if (text == null || text.indexOf('\0') >= 0) {
-                    skipped.add(path + " (not a UTF-8 text file)");
+                    report(skipped, path + " (not a UTF-8 text file)");
                     continue;
                 }
+                totalBytes += bytes.length;
                 files.add(new ImportedFile(path, normalizeNewlines(text)));
             }
         } catch (ZipException e) {
@@ -93,7 +124,30 @@ public class ZipProjectImporter {
         } catch (IOException e) {
             throw ApiException.badRequest("Could not read the uploaded file");
         }
+        if (overLimit > 0) {
+            skipped.add(overLimit + " more source file" + (overLimit == 1 ? "" : "s") + " (project limit of "
+                    + props.maxFilesPerProject() + " files / " + props.maxTotalBytes() / 1_000_000 + " MB of code reached)");
+        }
         return new ImportResult(stripCommonRoot(files), skipped);
+    }
+
+    private static final int MAX_REPORTED = 50;
+
+    /** Keeps the "skipped" list readable (and the response small) for zips with thousands of odd entries. */
+    private static void report(List<String> skipped, String reason) {
+        if (skipped.size() < MAX_REPORTED) {
+            skipped.add(reason);
+        }
+    }
+
+    private static void deleteQuietly(Path path) {
+        if (path != null) {
+            try {
+                Files.deleteIfExists(path);
+            } catch (IOException ignored) {
+                // temp dir is cleaned by the OS eventually
+            }
+        }
     }
 
     /** Returns the bytes, or null if the entry is bigger than {@code limit} (we stop reading early). */

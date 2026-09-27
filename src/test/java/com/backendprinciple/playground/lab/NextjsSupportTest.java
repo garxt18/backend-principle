@@ -34,6 +34,13 @@ class NextjsSupportTest {
         assertThat(ProjectStack.detect(List.of(new ImportedFile("pom.xml", "<project/>"),
                 new ImportedFile("frontend/package.json", "{ \"dependencies\": { \"react\": \"19.0.0\" } }"))))
                 .isEqualTo(ProjectStack.SPRING);
+        // A Spring project that carries a Next.js app deeper inside stays Spring - the root manifest decides.
+        assertThat(ProjectStack.detect(List.of(new ImportedFile("pom.xml", "<project/>"),
+                new ImportedFile("src/main/resources/lab-templates/next-app/next.config.ts", "export default {};"))))
+                .isEqualTo(ProjectStack.SPRING);
+        assertThat(ProjectStack.detect(List.of(new ImportedFile("next.config.ts", "export default {};"),
+                new ImportedFile("tools/legacy/pom.xml", "<project/>"))))
+                .isEqualTo(ProjectStack.NEXTJS);
     }
 
     @Test

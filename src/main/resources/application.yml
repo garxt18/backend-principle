@@ -32,8 +32,10 @@ spring:
       fail-on-null-for-primitives: false
   servlet:
     multipart:
-      max-file-size: ${LAB_MAX_UPLOAD:5MB}
-      max-request-size: ${LAB_MAX_UPLOAD:5MB}
+      # No limit on the uploaded .zip: node_modules/, .git/, build output and images inside it are never
+      # unpacked (see ZipProjectImporter). What is stored is capped by app.lab.* below.
+      max-file-size: ${LAB_MAX_UPLOAD:-1}
+      max-request-size: ${LAB_MAX_UPLOAD:-1}
   cache:
     type: caffeine
     caffeine:
@@ -76,9 +78,9 @@ app:
     api-per-minute: ${APP_API_RATE:300}
   lab:
     max-projects-per-user: ${LAB_MAX_PROJECTS:15}
-    max-files-per-project: ${LAB_MAX_FILES:400}
+    max-files-per-project: ${LAB_MAX_FILES:1000}
     max-file-bytes: ${LAB_MAX_FILE_BYTES:200000}
-    max-total-bytes: ${LAB_MAX_TOTAL_BYTES:8000000}
+    max-total-bytes: ${LAB_MAX_TOTAL_BYTES:20000000}
 
 management:
   endpoints:
