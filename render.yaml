@@ -23,6 +23,8 @@ services:
         value: "true"
       - key: LOG_FORMAT
         value: ecs
+      - key: API_DOCS_ENABLED        # no public Swagger UI / OpenAPI JSON in production
+        value: "false"
       - key: JAVA_OPTS               # small-memory JVM: 512 MB instance
         value: "-XX:MaxRAMPercentage=70 -XX:+UseSerialGC -XX:TieredStopAtLevel=1 -XX:+ExitOnOutOfMemoryError"
       - key: GOOGLE_CLIENT_ID        # optional "Continue with Google" - see docs/DEPLOYMENT.md

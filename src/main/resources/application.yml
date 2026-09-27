@@ -104,7 +104,10 @@ logging:
     com.backendprinciple: INFO
 
 springdoc:
+  # Handy while learning (http://localhost:8080/swagger-ui.html); render.yaml turns it off in production.
   swagger-ui:
     path: /swagger-ui.html
+    enabled: ${API_DOCS_ENABLED:true}
   api-docs:
     path: /v3/api-docs
+    enabled: ${API_DOCS_ENABLED:true}
